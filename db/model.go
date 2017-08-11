@@ -18,7 +18,7 @@ type MessageResponse struct {
 }
 
 type Template struct {
-	ID             string
+	Id             string
 	Content        string
 	TimeOfResponse time.Time
 }
