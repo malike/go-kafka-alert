@@ -9,3 +9,8 @@ type EventForMessage interface {
 
 	SendMessage() db.MessageResponse
 }
+
+
+func CheckChannel(event db.Event,channel string) bool{
+	return false
+}

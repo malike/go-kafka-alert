@@ -1,6 +1,9 @@
 package service
 
-import "st.malike.go.kafka.alert/db"
+import (
+	"st.malike.go.kafka.alert/db"
+	"errors"
+)
 
 type EventForEmail struct {
 	DefaultEmail   string
@@ -8,6 +11,10 @@ type EventForEmail struct {
 }
 
 func (event EventForEmail) ParseTemplate() (db.Message, error) {
+	channelSupported := CheckChannel(event.TriggeredEvent,"EMAIL")
+	if !channelSupported{
+		return nil, errors.New("Email channel not supported")
+	}
 	message := db.Message{}
 	message.Content = "<html><body></body>Sample Email</html>"
 	return message, nil
