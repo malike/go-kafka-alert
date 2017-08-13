@@ -2,6 +2,10 @@ package db
 
 import "time"
 
+type Event struct {
+	Channel []string
+}
+
 type Message struct {
 	Id          string
 	ReferenceId string

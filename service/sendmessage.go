@@ -1,8 +1,11 @@
 package service
 
-import "st.malike.go.kafka.alert/db"
+import (
+	"st.malike.go.kafka.alert/db"
+)
 
-type SendMessage interface {
+type EventForMessage interface {
+	ParseTemplate() (db.Message, error)
 
-	SendMessage(message db.Message) db.MessageResponse
+	SendMessage() db.MessageResponse
 }

@@ -1,3 +1,6 @@
-package alert
+package main
 
 
+func main(){
+
+}
