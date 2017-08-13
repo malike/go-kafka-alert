@@ -3,7 +3,12 @@ package db
 import "time"
 
 type Event struct {
-	Channel []string
+	EventId     string
+	Channel     []string
+	Recipient   []string
+	EventType   string
+	Description string
+	DateCreated time.Time
 }
 
 type Message struct {

@@ -11,8 +11,8 @@ type EventForSMS struct {
 }
 
 func (event EventForSMS) ParseTemplate() (db.Message, error) {
-	channelSupported := CheckChannel(event.TriggeredEvent,"SMS")
-	if !channelSupported{
+	channelSupported := CheckChannel(event.TriggeredEvent, "SMS")
+	if !channelSupported {
 		return nil, errors.New("SMS channel not supported")
 	}
 	message := db.Message{}

@@ -11,8 +11,8 @@ type EventForEmail struct {
 }
 
 func (event EventForEmail) ParseTemplate() (db.Message, error) {
-	channelSupported := CheckChannel(event.TriggeredEvent,"EMAIL")
-	if !channelSupported{
+	channelSupported := CheckChannel(event.TriggeredEvent, "EMAIL")
+	if !channelSupported {
 		return nil, errors.New("Email channel not supported")
 	}
 	message := db.Message{}

@@ -2,9 +2,6 @@ package service
 
 import "st.malike.go.kafka.alert/db"
 
-
-
-
 func sendmessage(event EventForMessage) {
 
 	msg, err := event.ParseTemplate()
@@ -14,7 +11,7 @@ func sendmessage(event EventForMessage) {
 
 		response := event.SendMessage()
 		//index response
-		db.UpdateResponse(msg,response)
+		db.UpdateResponse(msg, response)
 
 	}
 

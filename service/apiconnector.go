@@ -10,8 +10,8 @@ type EventForAPI struct {
 }
 
 func (event EventForAPI) ParseTemplate() (db.Message, error) {
-	channelSupported := CheckChannel(event.TriggeredEvent,"API")
-	if !channelSupported{
+	channelSupported := CheckChannel(event.TriggeredEvent, "API")
+	if !channelSupported {
 		return nil, errors.New("API channel not supported")
 	}
 	message := db.Message{}
