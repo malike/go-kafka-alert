@@ -6,7 +6,6 @@ func TestProcessEvent(t *testing.T) {
 
 }
 
-
 func BenchmarkProcessEvent(b *testing.B) {
 
 }
