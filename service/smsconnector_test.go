@@ -34,9 +34,10 @@ func TestParseTemplateInvalidChannel(t *testing.T) {
 }
 
 func TestParseTemplateInvalidRecipient(t *testing.T) {
+	fakeEvent.Recipient = []string{}
 	_, err := EventForSMS{fakeEvent}.ParseTemplate()
 	if err != nil {
-		t.Log("Success. Channel Not supported")
+		t.Log("Success. Recipient Unknown")
 	}
 }
 
