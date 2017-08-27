@@ -1,8 +1,7 @@
 package db
 
-import (
+import
 	"time"
-)
 
 type Event struct {
 	EventId     string

@@ -2,7 +2,7 @@ package service
 
 import "go-kafka-alert/db"
 
-func sendmessage(event EventForMessage) {
+func ProcessEvent(event EventForMessage) {
 
 	messages, err := event.ParseTemplate()
 	if err != nil {

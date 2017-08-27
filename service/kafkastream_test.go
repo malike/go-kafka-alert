@@ -2,6 +2,11 @@ package service
 
 import "testing"
 
-func TestSendmessage(t *testing.T) {
+func TestProcessEvent(t *testing.T) {
+
+}
+
+
+func BenchmarkProcessEvent(b *testing.B) {
 
 }

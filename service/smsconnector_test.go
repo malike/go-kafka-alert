@@ -41,6 +41,14 @@ func TestParseTemplateInvalidRecipient(t *testing.T) {
 }
 
 func TestSendMessage(t *testing.T) {
+	if testing.Short(){
+		t.Skip("Testing is running in short mode")
+	}
+
+
+}
+
+func BenchmarkSendMessage(b *testing.B) {
 
 }
 

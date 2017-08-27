@@ -7,3 +7,7 @@ func IndexMessage(message Message) bool {
 func UpdateResponse(message Message, response MessageResponse) bool {
 	return false
 }
+
+func GetTemplate(templateId string) Template {
+	return Template{}
+}
