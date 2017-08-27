@@ -2,41 +2,41 @@ package service
 
 import (
 	"testing"
-	"time"
 	"go-kafka-alert/db"
 )
 
-type FakeEventForSMS struct {
-	Message db.Message
-	Err     error
-}
-
-func (event FakeEventForSMS) ParseTemplate() (db.Message, error) {
-	var message db.Message
-	if event.Err != nil {
-		return message, event.Err
-	}
-	return event.Message, nil
-}
-
-func (event FakeEventForSMS) SendMessage() db.MessageResponse {
-	return db.MessageResponse{Response:"SUCCESS", TimeOfResponse:time.Now()}
+var fakeRecipient = "233201234567"
+var fakeEvent = db.Event{
+	Recipient: []string{fakeRecipient},
+	Channel: map[string]bool{
+		"SMS": true,
+	},
 }
 
 func TestParseTemplate(t *testing.T) {
-	f := FakeEventForSMS{
-		Message: db.Message{
-			Id          : "",
-			ReferenceId : "",
-			AlertId     : "",
-			Content     : "",
-			Recipient   : "",
-			ApiResponse : db.MessageResponse{},
-			DateCreated : time.Now()},
-		Err: nil,
+	result, err := EventForSMS{fakeEvent}.ParseTemplate()
+	if err != nil {
+		t.Errorf("Test failed. Result unexpected")
 	}
-	if f.Err != nil {
-		 t.Errorf("Test failed. Result unexpected")
+	if result[0].Content != ("Sample SMS " + fakeRecipient) {
+		t.Errorf("Test failed. Result unexpected")
+	}
+}
+
+func TestParseTemplateInvalidChannel(t *testing.T) {
+	fakeEvent.Channel = map[string]bool{
+		"EMAIL" : true,
+	}
+	_, err := EventForSMS{fakeEvent}.ParseTemplate()
+	if err != nil {
+		t.Log("Success. Channel Not supported")
+	}
+}
+
+func TestParseTemplateInvalidRecipient(t *testing.T) {
+	_, err := EventForSMS{fakeEvent}.ParseTemplate()
+	if err != nil {
+		t.Log("Success. Channel Not supported")
 	}
 }
 

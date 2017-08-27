@@ -3,23 +3,39 @@ package service
 import (
 	"errors"
 	"go-kafka-alert/db"
+	"time"
+	"strconv"
 )
 
 type EventForSMS struct {
-	DefaultPhoneNumber string
-	TriggeredEvent     db.Event
+	TriggeredEvent db.Event
 }
 
-func (event EventForSMS) ParseTemplate() (db.Message, error) {
-	var message db.Message
+func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
+	var messages []db.Message
 	channelSupported := CheckChannel(event.TriggeredEvent, "SMS")
 	if !channelSupported {
-		return message, errors.New("SMS channel not supported")
+		return messages, errors.New("SMS channel not supported")
 	}
-	message = db.Message{}
-	message.Content = "Sample SMS"
-	return message, nil
+	numOfRecipient := len(event.TriggeredEvent.Recipient)
+	if numOfRecipient <= 0 {
+		return messages, errors.New("No recipients found")
+	}
+	messages = make([]db.Message, numOfRecipient)
+	var messageContent = "Sample SMS"
 
+	//generate individual messages for each recipient
+	for i, rep := range event.TriggeredEvent.Recipient {
+		dateCreated := time.Now()
+		message := db.Message{}
+		message.AlertId = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
+		message.Content = messageContent + " " + rep //temp
+		message.Recipient = rep
+		message.DateCreated = dateCreated
+		message.ReferenceId = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
+		messages[i] = message
+	}
+	return messages, nil
 }
 
 func (event EventForSMS) SendMessage() db.MessageResponse {
