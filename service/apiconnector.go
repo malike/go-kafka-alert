@@ -1,8 +1,8 @@
 package service
 
 import (
-	"st.malike.go.kafka.alert/db"
 	"errors"
+	"go-kafka-alert/db"
 )
 
 type EventForAPI struct {
@@ -10,15 +10,16 @@ type EventForAPI struct {
 }
 
 func (event EventForAPI) ParseTemplate() (db.Message, error) {
+	var message db.Message
 	channelSupported := CheckChannel(event.TriggeredEvent, "API")
 	if !channelSupported {
-		return nil, errors.New("API channel not supported")
+		return message, errors.New("API channel not supported")
 	}
-	message := db.Message{}
+	message = db.Message{}
 	message.Content = "Sample API Webhook"
 	return message, nil
 }
 
 func (event EventForAPI) SendMessage() db.MessageResponse {
-	return nil
+	return db.MessageResponse{}
 }

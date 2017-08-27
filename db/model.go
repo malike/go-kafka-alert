@@ -1,10 +1,12 @@
 package db
 
-import "time"
+import (
+	"time"
+)
 
 type Event struct {
 	EventId     string
-	Channel     []string
+	Channel     map[string]bool
 	Recipient   []string
 	EventType   string
 	Description string
@@ -31,3 +33,4 @@ type Template struct {
 	Content        string
 	TimeOfResponse time.Time
 }
+

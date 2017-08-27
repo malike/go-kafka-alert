@@ -1,6 +1,6 @@
 package service
 
-import "st.malike.go.kafka.alert/db"
+import "go-kafka-alert/db"
 
 func sendmessage(event EventForMessage) {
 

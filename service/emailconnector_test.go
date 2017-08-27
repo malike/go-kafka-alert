@@ -1,9 +1,6 @@
 package service
 
 import (
-	"st.malike.go.kafka.alert/db"
-	"errors"
-	"github.com/elastic/beats/metricbeat/module/kubernetes/event"
 	"testing"
 )
 

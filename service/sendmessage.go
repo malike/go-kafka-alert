@@ -1,6 +1,6 @@
 package service
 
-import "st.malike.go.kafka.alert/db"
+import "go-kafka-alert/db"
 
 type EventForMessage interface {
 	ParseTemplate() (db.Message, error)
@@ -9,5 +9,5 @@ type EventForMessage interface {
 }
 
 func CheckChannel(event db.Event, channel string) bool {
-	return false
+	return event.Channel[channel]
 }
