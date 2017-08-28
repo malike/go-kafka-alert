@@ -5,6 +5,7 @@ import (
 	"go-kafka-alert/db"
 	"time"
 	"strconv"
+	"regexp"
 )
 
 type EventForSMS struct {
@@ -21,24 +22,30 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 	if numOfRecipient <= 0 {
 		return messages, errors.New("No recipients found")
 	}
-	messages = make([]db.Message, numOfRecipient)
 	var messageContent = ParseTemplateForMessage(event.TriggeredEvent, "SMS")
 
 	//generate individual messages for each recipient
-	for i, rep := range event.TriggeredEvent.Recipient {
-		dateCreated := time.Now()
-		message := db.Message{}
-		message.AlertId = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
-		message.Content = messageContent + " " + rep //temp
-		message.Recipient = rep
-		message.DateCreated = dateCreated
-		message.ReferenceId = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
-		messages[i] = message
+	for _, rep := range event.TriggeredEvent.Recipient {
+		if validatePhone(rep) {
+			dateCreated := time.Now()
+			message := db.Message{}
+			message.AlertId = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
+			message.Content = messageContent + " " + rep //temp
+			message.Recipient = rep
+			message.DateCreated = dateCreated
+			message.ReferenceId = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
+			messages = append(messages, message)
+		}
 	}
 	return messages, nil
 }
 
 func (event EventForSMS) SendMessage() db.MessageResponse {
 	return db.MessageResponse{}
+}
+
+func validatePhone(phone string) bool{
+	re:=regexp.MustCompile("[0-9]+")
+	return re.MatchString(phone)
 }
 
