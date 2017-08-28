@@ -44,8 +44,8 @@ func (event EventForSMS) SendMessage() db.MessageResponse {
 	return db.MessageResponse{}
 }
 
-func validatePhone(phone string) bool{
-	re:=regexp.MustCompile("[0-9]+")
+func validatePhone(phone string) bool {
+	re := regexp.MustCompile("[0-9]+")
 	return re.MatchString(phone)
 }
 

@@ -42,7 +42,7 @@ func TestParseTemplateInvalidRecipient(t *testing.T) {
 	}
 }
 
-func TestParseAllMessages(t *testing.T){
+func TestParseTemplateForAllMessages(t *testing.T) {
 	fakeEvent.Recipient = []string{
 		fakeRecipient,
 		"233241234567",
@@ -52,12 +52,13 @@ func TestParseAllMessages(t *testing.T){
 	if err != nil {
 		t.Error("Messages not generated")
 	}
-	if len(msg)!=len(fakeEvent.Recipient){
-		t.Error("Messages not generated for all recipients")
+	if len(msg) != len(fakeEvent.Recipient) {
+		t.Error(fmt.Printf("Messages not generated for all recipients. Expected %d ," +
+			" Got  %d",len(fakeEvent.Recipient),len(msg)))
 	}
 
 }
-func TestParseAllMessagesExceptInvalidRecipients(t *testing.T){
+func TestParseTemplateAllMessagesExceptInvalidRecipients(t *testing.T) {
 	fakeEvent.Recipient = []string{
 		fakeRecipient,
 		"st.malike@gmail.com",
@@ -67,9 +68,9 @@ func TestParseAllMessagesExceptInvalidRecipients(t *testing.T){
 	if err != nil {
 		t.Error("Messages not generated")
 	}
-	if len(msg)!=(len(fakeEvent.Recipient)-1){
+	if len(msg) != (len(fakeEvent.Recipient) - 1) {
 		t.Error(fmt.Printf("Messages not generated for all recipients, Expected %d Got %d",
-			(len(fakeEvent.Recipient)-1),len(msg)))
+			(len(fakeEvent.Recipient) - 1), len(msg)))
 	}
 
 }
