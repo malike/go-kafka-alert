@@ -48,9 +48,12 @@ func TestParseTemplateForAllMessages(t *testing.T) {
 		"233241234567",
 		"233271234567",
 	}
+	fakeEvent.Channel = map[string]bool{
+		"SMS": true,
+	}
 	msg, err := EventForSMS{fakeEvent}.ParseTemplate()
 	if err != nil {
-		t.Error("Messages not generated")
+		t.Error("Messages not generated ",err)
 	}
 	if len(msg) != len(fakeEvent.Recipient) {
 		t.Error(fmt.Printf("Messages not generated for all recipients. Expected %d ," +
@@ -58,11 +61,15 @@ func TestParseTemplateForAllMessages(t *testing.T) {
 	}
 
 }
+
 func TestParseTemplateAllMessagesExceptInvalidRecipients(t *testing.T) {
 	fakeEvent.Recipient = []string{
 		fakeRecipient,
 		"st.malike@gmail.com",
 		"233271234567",
+	}
+	fakeEvent.Channel = map[string]bool{
+		"SMS": true,
 	}
 	msg, err := EventForSMS{fakeEvent}.ParseTemplate()
 	if err != nil {
