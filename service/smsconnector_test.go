@@ -4,6 +4,8 @@ import (
 	"testing"
 	"go-kafka-alert/db"
 	"fmt"
+	"net/http"
+	"strconv"
 )
 
 var fakeRecipient = "233201234567"
@@ -85,6 +87,24 @@ func TestParseTemplateAllMessagesExceptInvalidRecipients(t *testing.T) {
 func TestSendMessage(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Testing is running in short mode")
+	}
+	fakeEvent.Recipient = []string{
+		fakeRecipient,
+	}
+	fakeEvent.Channel = map[string]bool{
+		"SMS": true,
+	}
+	smsEvent := EventForSMS{fakeEvent}
+	msg, err := smsEvent.ParseTemplate()
+	if err != nil {
+		t.Error("Messages not generated")
+	}
+	if msg == nil {
+		t.Error("Messages not generated")
+	}
+	smsResponse := smsEvent.SendMessage(msg[0])
+	if smsResponse.Status != strconv.Itoa(http.StatusOK) {
+		t.Error(fmt.Printf("Message not sent , Expected 200 Got %s",smsResponse.Status))
 	}
 
 }
