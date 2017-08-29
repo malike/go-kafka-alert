@@ -5,7 +5,7 @@ import "go-kafka-alert/db"
 type EventForMessage interface {
 	ParseTemplate() ([]db.Message, error)
 
-	SendMessage() db.MessageResponse
+	SendMessage(message db.Message) db.MessageResponse
 }
 
 func CheckChannel(event db.Event, channel string) bool {

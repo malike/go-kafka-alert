@@ -18,6 +18,6 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 	return message, nil
 }
 
-func (event EventForEmail) SendMessage() db.MessageResponse {
+func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 	return db.MessageResponse{};
 }

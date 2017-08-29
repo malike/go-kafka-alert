@@ -18,6 +18,6 @@ func (event EventForAPI) ParseTemplate() ([]db.Message, error) {
 	return message, nil
 }
 
-func (event EventForAPI) SendMessage() db.MessageResponse {
+func (event EventForAPI) SendMessage(message db.Message) db.MessageResponse {
 	return db.MessageResponse{}
 }

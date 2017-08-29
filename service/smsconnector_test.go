@@ -53,11 +53,11 @@ func TestParseTemplateForAllMessages(t *testing.T) {
 	}
 	msg, err := EventForSMS{fakeEvent}.ParseTemplate()
 	if err != nil {
-		t.Error("Messages not generated ",err)
+		t.Error("Messages not generated ", err)
 	}
 	if len(msg) != len(fakeEvent.Recipient) {
 		t.Error(fmt.Printf("Messages not generated for all recipients. Expected %d ," +
-			" Got  %d",len(fakeEvent.Recipient),len(msg)))
+			" Got  %d", len(fakeEvent.Recipient), len(msg)))
 	}
 
 }

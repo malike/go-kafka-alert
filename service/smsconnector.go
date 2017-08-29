@@ -6,6 +6,8 @@ import (
 	"time"
 	"strconv"
 	"regexp"
+	"github.com/sfreiberg/gotwilio"
+	"go-kafka-alert/util"
 )
 
 type EventForSMS struct {
@@ -40,8 +42,18 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 	return messages, nil
 }
 
-func (event EventForSMS) SendMessage() db.MessageResponse {
-	return db.MessageResponse{}
+func (event EventForSMS) SendMessage(message db.Message) db.MessageResponse {
+	var response = db.MessageResponse{}
+	twilio := gotwilio.NewTwilioClient(util.Configuration{}.TwilioAccountId, util.Configuration{}.TwilioAuthToken)
+	smsResponse,error := twilio.SendSMS(util.Configuration{}.SMSSenderName, message.Recipient, message.Content, "", "")
+	if error != nil{
+		response.Response=error.Message
+		response.TimeOfResponse = time.Now()
+		return response
+	}
+	response.Response = smsResponse.Body
+	response.TimeOfResponse = smsResponse.DateSent
+	return response
 }
 
 func validatePhone(phone string) bool {
