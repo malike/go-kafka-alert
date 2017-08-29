@@ -24,6 +24,7 @@ type Message struct {
 
 type MessageResponse struct {
 	Response       string
+	Status         string
 	TimeOfResponse time.Time
 }
 

@@ -1,10 +1,8 @@
 package util
 
-
-
-type Configuration struct{
+type Configuration struct {
 	TwilioAccountId string
 	TwilioAuthToken string
-	SMSSenderName string
+	SMSSenderName   string
 }
 

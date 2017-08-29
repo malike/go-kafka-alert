@@ -10,7 +10,7 @@ func ProcessEvent(event EventForMessage) {
 			//index message
 			db.IndexMessage(msg)
 
-			response := event.SendMessage()
+			response := event.SendMessage(msg)
 			//index response
 			db.UpdateResponse(msg, response)
 

@@ -45,14 +45,20 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 func (event EventForSMS) SendMessage(message db.Message) db.MessageResponse {
 	var response = db.MessageResponse{}
 	twilio := gotwilio.NewTwilioClient(util.Configuration{}.TwilioAccountId, util.Configuration{}.TwilioAuthToken)
-	smsResponse,error := twilio.SendSMS(util.Configuration{}.SMSSenderName, message.Recipient, message.Content, "", "")
-	if error != nil{
-		response.Response=error.Message
+	smsResponse, smsEx, _ := twilio.SendSMS(util.Configuration{}.SMSSenderName, message.Recipient, message.Content, "", "")
+	if smsEx != nil {
+		response.Response = smsEx.Message
+		response.Status = strconv.Itoa(smsEx.Status)
 		response.TimeOfResponse = time.Now()
 		return response
 	}
+	timeSent,err := smsResponse.DateSentAsTime()
+	if err !=nil{
+		timeSent = time.Now()
+	}
 	response.Response = smsResponse.Body
-	response.TimeOfResponse = smsResponse.DateSent
+	response.Status = smsResponse.Status
+	response.TimeOfResponse =timeSent
 	return response
 }
 
