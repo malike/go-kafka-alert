@@ -9,8 +9,8 @@ const (
 )
 
 type Configuration struct {
-	TwilioAccountId string `12345`
-	TwilioAuthToken string `12345`
+	TwilioAccountId string `AC4c60a77191ec8a4874cacb4a762825fe`
+	TwilioAuthToken string `e10bbe44af82170eeeb3dacb0d7947a0`
 	SMSSenderName   string `Malike`
 }
 
