@@ -4,8 +4,8 @@ import (
 	"testing"
 	"go-kafka-alert/db"
 	"fmt"
-	"net/http"
-	"strconv"
+	"go-kafka-alert/util"
+	"time"
 )
 
 var fakeRecipient = "233201234567"
@@ -89,7 +89,7 @@ func TestSendMessage(t *testing.T) {
 		t.Skip("Testing is running in short mode")
 	}
 	fakeEvent.Recipient = []string{
-		fakeRecipient,
+		"+233208358615",
 	}
 	fakeEvent.Channel = map[string]bool{
 		"SMS": true,
@@ -103,8 +103,28 @@ func TestSendMessage(t *testing.T) {
 		t.Error("Messages not generated")
 	}
 	smsResponse := smsEvent.SendMessage(msg[0])
-	if smsResponse.Status != strconv.Itoa(http.StatusOK) {
-		t.Error(fmt.Printf("Message not sent , Expected 200 Got %s",smsResponse.Status))
+	if smsResponse.Status != "queued" {
+		t.Error(fmt.Printf("Message not sent , Expected 'queued'. Got %s", smsResponse.Status))
+	}
+
+}
+
+func TestSendMessageWithNil(t *testing.T) {
+	msg := db.Message{}
+	smsEvent := EventForSMS{fakeEvent}
+	smsResponse := smsEvent.SendMessage(msg)
+	if smsResponse.Status != util.FAILED {
+		t.Error("Empty message was sent.")
+	}
+
+}
+
+func TestSendMessageWithContentEmpty(t *testing.T) {
+	msg := db.Message{AlertId:"1234",Content:"",DateCreated:time.Now(),Recipient:"+233201234567"}
+	smsEvent := EventForSMS{fakeEvent}
+	smsResponse := smsEvent.SendMessage(msg)
+	if smsResponse.Status == "queued" {
+		t.Error("Empty message should fail.")
 	}
 
 }

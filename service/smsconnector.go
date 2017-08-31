@@ -44,21 +44,27 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 
 func (event EventForSMS) SendMessage(message db.Message) db.MessageResponse {
 	var response = db.MessageResponse{}
-	twilio := gotwilio.NewTwilioClient(util.Configuration{}.TwilioAccountId, util.Configuration{}.TwilioAuthToken)
-	smsResponse, smsEx, _ := twilio.SendSMS(util.Configuration{}.SMSSenderName, message.Recipient, message.Content, "", "")
+	if (db.Message{}) == message {
+		return db.MessageResponse{Status:util.FAILED,Response:"MESSAGE EMPTY", TimeOfResponse: time.Now()}
+	}
+	if message.Content == "" {
+		return db.MessageResponse{Status:util.FAILED,Response:"MESSAGE HAS NO CONTENT", TimeOfResponse: time.Now()}
+	}
+	twilio := gotwilio.NewTwilioClient("ACef8ae57d42de4e591ddad07ed6a7a51c", "72040ff97fef55194ab7ad18376ce3dc")
+	smsResponse, smsEx, _ := twilio.SendSMS("+15005550006", message.Recipient, message.Content, "", "")
 	if smsEx != nil {
 		response.Response = smsEx.Message
 		response.Status = strconv.Itoa(smsEx.Status)
 		response.TimeOfResponse = time.Now()
 		return response
 	}
-	timeSent,err := smsResponse.DateSentAsTime()
-	if err !=nil{
+	timeSent, err := smsResponse.DateSentAsTime()
+	if err != nil {
 		timeSent = time.Now()
 	}
 	response.Response = smsResponse.Body
 	response.Status = smsResponse.Status
-	response.TimeOfResponse =timeSent
+	response.TimeOfResponse = timeSent
 	return response
 }
 
