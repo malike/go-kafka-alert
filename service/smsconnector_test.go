@@ -21,7 +21,7 @@ func TestParseTemplate(t *testing.T) {
 	if err != nil {
 		t.Errorf("Test failed. Result unexpected")
 	}
-	if result[0].Content != ("Sample SMS " + fakeRecipient) {
+	if result[0].Content == "" {
 		t.Errorf("Test failed. Result unexpected")
 	}
 }
@@ -120,7 +120,7 @@ func TestSendMessageWithNil(t *testing.T) {
 }
 
 func TestSendMessageWithContentEmpty(t *testing.T) {
-	msg := db.Message{AlertId:"1234",Content:"",DateCreated:time.Now(),Recipient:"+233201234567"}
+	msg := db.Message{AlertId:"1234", Content:"", DateCreated:time.Now(), Recipient:"+233201234567"}
 	smsEvent := EventForSMS{fakeEvent}
 	smsResponse := smsEvent.SendMessage(msg)
 	if smsResponse.Status == "queued" {
@@ -129,7 +129,22 @@ func TestSendMessageWithContentEmpty(t *testing.T) {
 
 }
 
+func BenchmarkParseTemplateForMessage(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		EventForSMS{fakeEvent}.ParseTemplate()
+	}
+}
 func BenchmarkSendMessage(b *testing.B) {
-
+	for i := 0; i < b.N; i++ {
+		fakeEvent.Recipient = []string{
+			"+233208358615",
+		}
+		fakeEvent.Channel = map[string]bool{
+			"SMS": true,
+		}
+		smsEvent := EventForSMS{fakeEvent}
+		msg, _ := smsEvent.ParseTemplate()
+		smsEvent.SendMessage(msg[0])
+	}
 }
 

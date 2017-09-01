@@ -36,6 +36,7 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 			message.Recipient = rep
 			message.DateCreated = dateCreated
 			message.ReferenceId = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
+			message.Id = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
 			messages = append(messages, message)
 		}
 	}
@@ -45,12 +46,12 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 func (event EventForSMS) SendMessage(message db.Message) db.MessageResponse {
 	var response = db.MessageResponse{}
 	if (db.Message{}) == message {
-		return db.MessageResponse{Status:util.FAILED,Response:"MESSAGE EMPTY", TimeOfResponse: time.Now()}
+		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE EMPTY", TimeOfResponse: time.Now()}
 	}
 	if message.Content == "" {
-		return db.MessageResponse{Status:util.FAILED,Response:"MESSAGE HAS NO CONTENT", TimeOfResponse: time.Now()}
+		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE HAS NO CONTENT", TimeOfResponse: time.Now()}
 	}
-	twilio := gotwilio.NewTwilioClient("", "")
+	twilio := gotwilio.NewTwilioClient("ACef8ae57d42de4e591ddad07ed6a7a51c", "72040ff97fef55194ab7ad18376ce3dc")
 	smsResponse, smsEx, _ := twilio.SendSMS("+15005550006", message.Recipient, message.Content, "", "")
 	if smsEx != nil {
 		response.Response = smsEx.Message
