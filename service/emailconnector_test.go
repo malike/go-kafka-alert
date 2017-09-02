@@ -4,8 +4,6 @@ import (
 	"testing"
 	"go-kafka-alert/db"
 	"fmt"
-	"time"
-	"go-kafka-alert/util"
 )
 
 var fakeEmailRecipient = "st.malike@gmail.com"
