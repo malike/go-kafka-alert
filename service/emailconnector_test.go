@@ -30,7 +30,7 @@ func TestParseTemplateForAllMessagesEmail(t *testing.T) {
 	fakeEmailEvent.Recipient = []string{
 		fakeRecipient,
 		"st.malike@yahoo.com",
-		"st.malike@mymail.com",
+		"st.malike@outlook.com",
 	}
 	fakeEmailEvent.Channel = map[string]bool{
 		"EMAIL": true,
@@ -65,4 +65,11 @@ func TestParseTemplateAllMessagesExceptInvalidRecipientsEmail(t *testing.T) {
 
 }
 
+func TestParseTemplateInvalidRecipientEmail(t *testing.T) {
+	fakeEmailEvent.Recipient = []string{}
+	_, err := EventForEmail{fakeEmailEvent}.ParseTemplate()
+	if err == nil {
+		t.Error("Error. Recipient Unknown")
+	}
+}
 

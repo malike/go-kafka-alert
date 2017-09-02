@@ -51,26 +51,28 @@ func (event EventForSMS) SendMessage(message db.Message) db.MessageResponse {
 	if message.Content == "" {
 		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE HAS NO CONTENT", TimeOfResponse: time.Now()}
 	}
-	twilio := gotwilio.NewTwilioClient("ACef8ae57d42de4e591ddad07ed6a7a51c", "72040ff97fef55194ab7ad18376ce3dc")
-	smsResponse, smsEx, _ := twilio.SendSMS("+15005550006", message.Recipient, message.Content, "", "")
+	twilio := gotwilio.NewTwilioClient(util.Configuration{}.TwilioAccountId, util.Configuration{}.TwilioAuthToken)
+	twilioSmsResponse, smsEx, _ := twilio.SendSMS("+15005550006", message.Recipient, message.Content, "", "")
 	if smsEx != nil {
 		response.Response = smsEx.Message
-		response.Status = strconv.Itoa(smsEx.Status)
+		response.APIStatus = strconv.Itoa(smsEx.Status)
+		response.Status = util.SUCCESS
 		response.TimeOfResponse = time.Now()
 		return response
 	}
-	timeSent, err := smsResponse.DateSentAsTime()
+	timeSent, err := twilioSmsResponse.DateSentAsTime()
 	if err != nil {
 		timeSent = time.Now()
 	}
-	response.Response = smsResponse.Body
-	response.Status = smsResponse.Status
+	response.Response = twilioSmsResponse.Body
+	response.APIStatus = strconv.Itoa(smsEx.Status)
+	response.Status = util.FAILED
 	response.TimeOfResponse = timeSent
 	return response
 }
 
 func validatePhone(phone string) bool {
-	re := regexp.MustCompile("[0-9]+")
+	re := regexp.MustCompile("[0-9]+") //temporal regex
 	return re.MatchString(phone)
 }
 

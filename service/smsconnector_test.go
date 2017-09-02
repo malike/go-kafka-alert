@@ -31,16 +31,16 @@ func TestParseTemplateInvalidChannel(t *testing.T) {
 		"EMAIL" : true,
 	}
 	_, err := EventForSMS{fakeEvent}.ParseTemplate()
-	if err != nil {
-		t.Log("Success. Channel Not supported")
+	if err == nil {
+		t.Error("Error. Channel Not supported")
 	}
 }
 
 func TestParseTemplateInvalidRecipient(t *testing.T) {
 	fakeEvent.Recipient = []string{}
 	_, err := EventForSMS{fakeEvent}.ParseTemplate()
-	if err != nil {
-		t.Log("Success. Recipient Unknown")
+	if err == nil {
+		t.Error("Error. Recipient Unknown")
 	}
 }
 
@@ -86,7 +86,7 @@ func TestParseTemplateAllMessagesExceptInvalidRecipients(t *testing.T) {
 
 func TestSendMessage(t *testing.T) {
 	if testing.Short() {
-		t.Skip("Testing is running in short mode")
+		t.Skip("Test doesn't run short mode")
 	}
 	fakeEvent.Recipient = []string{
 		"+233208358615",
@@ -103,8 +103,8 @@ func TestSendMessage(t *testing.T) {
 		t.Error("Messages not generated")
 	}
 	smsResponse := smsEvent.SendMessage(msg[0])
-	if smsResponse.Status != "queued" {
-		t.Error(fmt.Printf("Message not sent , Expected 'queued'. Got %s", smsResponse.Status))
+	if smsResponse.Status != util.SUCCESS {
+		t.Error(fmt.Printf("Message not sent , Expected 'SUCCESS'. Got %s", smsResponse.Status))
 	}
 
 }
@@ -123,7 +123,7 @@ func TestSendMessageWithContentEmpty(t *testing.T) {
 	msg := db.Message{AlertId:"1234", Content:"", DateCreated:time.Now(), Recipient:"+233201234567"}
 	smsEvent := EventForSMS{fakeEvent}
 	smsResponse := smsEvent.SendMessage(msg)
-	if smsResponse.Status == "queued" {
+	if smsResponse.Status == util.SUCCESS {
 		t.Error("Empty message should fail.")
 	}
 
@@ -135,6 +135,9 @@ func BenchmarkParseTemplateForMessage(b *testing.B) {
 	}
 }
 func BenchmarkSendMessage(b *testing.B) {
+	if testing.Short() {
+		b.Skip("Test doesn't run short mode")
+	}
 	for i := 0; i < b.N; i++ {
 		fakeEvent.Recipient = []string{
 			"+233208358615",

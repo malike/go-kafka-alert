@@ -10,5 +10,9 @@ type Configuration struct {
 	TwilioAccountId string
 	TwilioAuthToken string
 	SMSSenderName   string
+	EmailHost string
+	EmailSender string
+	AuthName string
+	Password string
 }
 
