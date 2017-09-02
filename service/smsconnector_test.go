@@ -140,7 +140,7 @@ func BenchmarkSendMessage(b *testing.B) {
 	}
 	for i := 0; i < b.N; i++ {
 		fakeEvent.Recipient = []string{
-			"+233208358615",
+			"+233201234567",
 		}
 		fakeEvent.Channel = map[string]bool{
 			"SMS": true,

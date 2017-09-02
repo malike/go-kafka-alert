@@ -4,6 +4,8 @@ import (
 	"testing"
 	"go-kafka-alert/db"
 	"fmt"
+	"time"
+	"go-kafka-alert/util"
 )
 
 var fakeEmailRecipient = "st.malike@gmail.com"
@@ -28,7 +30,7 @@ func TestParseTemplateInvalidChannelEmail(t *testing.T) {
 
 func TestParseTemplateForAllMessagesEmail(t *testing.T) {
 	fakeEmailEvent.Recipient = []string{
-		fakeRecipient,
+		fakeEmailRecipient,
 		"st.malike@yahoo.com",
 		"st.malike@outlook.com",
 	}
@@ -73,3 +75,12 @@ func TestParseTemplateInvalidRecipientEmail(t *testing.T) {
 	}
 }
 
+func TestParseTemplateEmail(t *testing.T) {
+	result, err := EventForEmail{fakeEmailEvent}.ParseTemplate()
+	if err != nil {
+		t.Errorf("Test failed. Result unexpected")
+	}
+	if result[0].Content == "" {
+		t.Errorf("Test failed. Result unexpected")
+	}
+}
