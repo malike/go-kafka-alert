@@ -74,11 +74,14 @@ func TestParseTemplateInvalidRecipientEmail(t *testing.T) {
 }
 
 func TestParseTemplateEmail(t *testing.T) {
+	fakeEmailEvent.Recipient = []string{
+		fakeEmailRecipient,
+	}
 	result, err := EventForEmail{fakeEmailEvent}.ParseTemplate()
 	if err != nil {
-		t.Errorf("Test failed. Result unexpected")
+		t.Errorf("Test failed. Result unexpected "+err.Error())
 	}
-	if result[0].Content == "" {
+	if result == nil || result[0].Content == "" {
 		t.Errorf("Test failed. Result unexpected")
 	}
 }
