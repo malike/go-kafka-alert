@@ -24,9 +24,9 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 	if numOfRecipient <= 0 {
 		return messages, errors.New("No recipients found")
 	}
-	emailContent := ParseTemplateForMessage(event.TriggeredEvent,"EMAIL")
+	emailContent := ParseTemplateForMessage(event.TriggeredEvent, "EMAIL")
 	//parse each mail separately because it may vary by recipient
-	for  _ ,em := range event.TriggeredEvent.Recipient{
+	for _, em := range event.TriggeredEvent.Recipient {
 		if validateEmail(em) {
 			dateCreated := time.Now()
 			message := db.Message{}
@@ -44,12 +44,16 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 }
 
 func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
-	auth := smtp.PlainAuth(util.Configuration{}.EmailSender, util.Configuration{}.AuthName,
+	if message.Content == "" {
+		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE EMPTY", TimeOfResponse: time.Now()}
+	}
+
+	auth := smtp.PlainAuth(util.NewConfiguration().EmailSender, util.Configuration{}.AuthName,
 		util.Configuration{}.Password, util.Configuration{}.EmailHost)
 
-	err := smtp.SendMail(util.Configuration{}.EmailHost, auth,
+	err := smtp.SendMail(util.NewConfiguration().EmailHost, auth,
 		util.Configuration{}.EmailSender, []string{message.Recipient}, messageToByte(message))
-	if err ==nil{
+	if err == nil {
 		emailResponse := db.MessageResponse{}
 		emailResponse.Response = "SENT"
 		emailResponse.Status = util.SUCCESS
@@ -58,12 +62,12 @@ func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 	return db.MessageResponse{};
 }
 
-func attachFile() db.Message{
+func attachFile() db.Message {
 	return db.Message{}
 }
 
-func messageToByte(message db.Message) []byte{
- return []byte{}
+func messageToByte(message db.Message) []byte {
+	return []byte{}
 }
 
 func validateEmail(email string) bool {

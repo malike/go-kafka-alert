@@ -10,9 +10,14 @@ type Configuration struct {
 	TwilioAccountId string
 	TwilioAuthToken string
 	SMSSenderName   string
-	EmailHost string
-	EmailSender string
-	AuthName string
-	Password string
+	EmailHost       string
+	EmailSender     string
+	AuthName        string
+	Password        string
+}
+
+func NewConfiguration() *Configuration {
+	conf := new(Configuration)
+	return conf
 }
 

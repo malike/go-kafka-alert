@@ -4,6 +4,8 @@ import (
 	"testing"
 	"go-kafka-alert/db"
 	"fmt"
+	"time"
+	"go-kafka-alert/util"
 )
 
 var fakeEmailRecipient = "st.malike@gmail.com"
@@ -14,7 +16,6 @@ var fakeEmailEvent = db.Event{
 	},
 }
 
-
 func TestParseTemplateInvalidChannelEmail(t *testing.T) {
 	fakeEmailEvent.Channel = map[string]bool{
 		"SMS" : true,
@@ -24,7 +25,6 @@ func TestParseTemplateInvalidChannelEmail(t *testing.T) {
 		t.Log("Success. Channel Not supported")
 	}
 }
-
 
 func TestParseTemplateForAllMessagesEmail(t *testing.T) {
 	fakeEmailEvent.Recipient = []string{
@@ -79,9 +79,77 @@ func TestParseTemplateEmail(t *testing.T) {
 	}
 	result, err := EventForEmail{fakeEmailEvent}.ParseTemplate()
 	if err != nil {
-		t.Errorf("Test failed. Result unexpected "+err.Error())
+		t.Errorf("Test failed. Result unexpected " + err.Error())
 	}
 	if result == nil || result[0].Content == "" {
 		t.Errorf("Test failed. Result unexpected")
+	}
+}
+
+func TestSendMessageWithNilEmail(t *testing.T) {
+	msg := db.Message{}
+	emailEvent := EventForEmail{fakeEmailEvent}
+	response := emailEvent.SendMessage(msg)
+	if response.Status != util.FAILED {
+		t.Error("Empty message was sent.")
+	}
+
+}
+
+func TestSendMessageWithContentEmptyEmail(t *testing.T) {
+	msg := db.Message{AlertId:"1234", Content:"", DateCreated:time.Now(), Recipient:"+233201234567"}
+	emailEvent := EventForEmail{fakeEmailEvent}
+	emResponse := emailEvent.SendMessage(msg)
+	if emResponse.Status != util.FAILED {
+		t.Error("Empty message should fail.")
+	}
+
+}
+
+func TestSendMessageEmail(t *testing.T) {
+	if testing.Short() {
+		t.Skip("Test doesn't run short mode")
+	}
+	fakeEmailEvent.Recipient = []string{
+		fakeEmailRecipient,
+	}
+	fakeEmailEvent.Channel = map[string]bool{
+		"EMAIL": true,
+	}
+	emailEvent := EventForEmail{fakeEmailEvent}
+	msg, err := emailEvent.ParseTemplate()
+	if err != nil {
+		t.Error("Messages not generated")
+	}
+	if msg == nil {
+		t.Error("Messages not generated")
+	}
+	emailResponse := emailEvent.SendMessage(msg[0])
+	if emailResponse.Status != util.SUCCESS {
+		t.Error(fmt.Printf("Message not sent , Expected 'SUCCESS'. Got %s", emailResponse.Status))
+	}
+
+}
+
+func BenchmarkParseTemplateForMessageEmail(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		EventForEmail{fakeEmailEvent}.ParseTemplate()
+	}
+}
+
+func BenchmarkSendMessageEmail(b *testing.B) {
+	if (testing.Short()) {
+		b.Skip("Test is running in short mode");
+	}
+	for i := 0; i < b.N; i++ {
+		fakeEmailEvent.Recipient = []string{
+			"+233208358615",
+		}
+		fakeEmailEvent.Channel = map[string]bool{
+			"SMS": true,
+		}
+		smsEvent := EventForEmail{fakeEmailEvent}
+		msg, _ := smsEvent.ParseTemplate()
+		smsEvent.SendMessage(msg[0])
 	}
 }
