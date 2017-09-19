@@ -143,13 +143,13 @@ func BenchmarkSendMessageEmail(b *testing.B) {
 	}
 	for i := 0; i < b.N; i++ {
 		fakeEmailEvent.Recipient = []string{
-			"+233208358615",
+			fakeEmailRecipient,
 		}
 		fakeEmailEvent.Channel = map[string]bool{
-			"SMS": true,
+			"EMAIL": true,
 		}
-		smsEvent := EventForEmail{fakeEmailEvent}
-		msg, _ := smsEvent.ParseTemplate()
-		smsEvent.SendMessage(msg[0])
+		emailEvent := EventForEmail{fakeEmailEvent}
+		msg, _ := emailEvent.ParseTemplate()
+		emailEvent.SendMessage(msg[0])
 	}
 }
