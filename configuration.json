@@ -1,5 +1,10 @@
 {
   "twilioAccountId": "",
   "twilioAuthToken": "",
-  "smsSender": "+15005550006"
+  "smsSender": "+15005550006",
+  "smtpServerHost": "",
+  "smtpServerPort": "",
+  "emailSender": "",
+  "emailAuthUserName": "",
+  "emailAuthPassword": ""
 }

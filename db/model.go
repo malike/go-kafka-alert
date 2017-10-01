@@ -12,13 +12,14 @@ type Event struct {
 }
 
 type Message struct {
-	Id          string
-	ReferenceId string
-	AlertId     string
-	Content     string
-	Recipient   string
-	ApiResponse MessageResponse
-	DateCreated time.Time
+	Id           string
+	ReferenceId  string
+	AlertId      string
+	Content      string
+	Recipient    string
+	FileAttached string
+	ApiResponse  MessageResponse
+	DateCreated  time.Time
 }
 
 type MessageResponse struct {

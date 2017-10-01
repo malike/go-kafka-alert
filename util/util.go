@@ -1,19 +1,21 @@
 package util
 
 const (
-	SERVER_ERROR = "SERVER_ERROR"
 	SUCCESS = "SUCCESS"
 	FAILED = "FAILED"
 )
+
+type SMTPConfig struct{
+	Host string
+	Port string
+}
 
 type Configuration struct {
 	TwilioAccountId string
 	TwilioAuthToken string
 	SMSSenderName   string
-	EmailHost       string
-	EmailSender     string
-	AuthName        string
-	Password        string
+	SmtpConfig  SMTPConfig
+
 }
 
 func NewConfiguration() *Configuration {
