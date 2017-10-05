@@ -134,6 +134,7 @@ func BenchmarkParseTemplateForMessage(b *testing.B) {
 		EventForSMS{fakeEvent}.ParseTemplate()
 	}
 }
+
 func BenchmarkSendMessage(b *testing.B) {
 	if testing.Short() {
 		b.Skip("Test doesn't run short mode")

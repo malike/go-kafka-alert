@@ -51,7 +51,7 @@ func (event EventForSMS) SendMessage(message db.Message) db.MessageResponse {
 	if message.Content == "" {
 		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE HAS NO CONTENT", TimeOfResponse: time.Now()}
 	}
-	twilio := gotwilio.NewTwilioClient(util.NewConfiguration().TwilioAccountId, util.NewConfiguration().TwilioAuthToken)
+	twilio := gotwilio.NewTwilioClient(util.LoadConfiguration().TwilioAccountId, util.LoadConfiguration().TwilioAuthToken)
 	twilioSmsResponse, smsEx, _ := twilio.SendSMS("+15005550006", message.Recipient, message.Content, "", "")
 	if smsEx != nil {
 		response.Response = smsEx.Message

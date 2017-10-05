@@ -2,7 +2,7 @@
   "twilioAccountId": "",
   "twilioAuthToken": "",
   "smsSender": "+15005550006",
-  "smtpServerHost": "",
+  "smtpServerHost": "malike.smtp.com",
   "smtpServerPort": "",
   "emailSender": "",
   "emailAuthUserName": "",
