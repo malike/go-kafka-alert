@@ -44,16 +44,15 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 }
 
 func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
-	conf,_ := util.LoadConfiguration()
 	if message.Content == "" {
 		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE EMPTY", TimeOfResponse: time.Now()}
 	}
 
-	auth := smtp.PlainAuth(conf.SmtpConfig.EmailSender, conf.SmtpConfig.Username,
-		conf.SmtpConfig.Password, conf.SmtpConfig.Host)
+	auth := smtp.PlainAuth(util.AppConfiguration.SmtpConfig.EmailSender, util.AppConfiguration.SmtpConfig.Username,
+		util.AppConfiguration.SmtpConfig.Password, util.AppConfiguration.SmtpConfig.Host)
 
-	err := smtp.SendMail(conf.SmtpConfig.Host, auth,
-		conf.SmtpConfig.EmailSender, []string{message.Recipient}, messageToByte(message))
+	err := smtp.SendMail(util.AppConfiguration.SmtpConfig.Host, auth,
+		util.AppConfiguration.SmtpConfig.EmailSender, []string{message.Recipient}, messageToByte(message))
 	if err == nil {
 		emailResponse := db.MessageResponse{}
 		emailResponse.Response = "SENT"

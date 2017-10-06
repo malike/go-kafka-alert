@@ -1,7 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"go-kafka-alert/util"
+	"log"
+)
+
 
 func main() {
-	fmt.Println("Starting up Service")
+	if util.AppConfiguration == nil{
+		var err error
+		util.AppConfiguration, err = util.NewConfiguration()
+		if err != nil {
+			log.Fatal("Application can not start without configuration. Error "+err.Error())
+		}
+	}
+	log.Println("Starting up Service")
 }

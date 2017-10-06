@@ -3,7 +3,7 @@ package util
 import "testing"
 
 func TestLoadConfiguration(t *testing.T) {
-	conf,e := LoadConfiguration()
+	conf,e := NewConfiguration()
 	if e !=  nil {
 		t.Errorf("Configuration can't be nil"+e.Error())
 		t.FailNow()

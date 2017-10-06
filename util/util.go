@@ -4,7 +4,9 @@ import (
 	"os"
 	"io/ioutil"
 	"encoding/json"
+	"path/filepath"
 )
+var AppConfiguration, _ = NewConfiguration()
 
 const (
 	SUCCESS = "SUCCESS"
@@ -31,20 +33,27 @@ type Configuration struct {
 	SmtpConfig SMTPConfig `json:"emailConfig"`
 }
 
-func LoadConfiguration() (Configuration,error) {
-	jsonConfig, err := os.Open("../configuration.json")
+func NewConfiguration() (*Configuration,error) {
+	var conf *Configuration = nil
+	var jsonConfig *os.File
+	var err error
+	dir, _ := filepath.Abs("../")
+	jsonConfig, err = os.Open(dir+"/configuration.json")
 	if err != nil {
-		return Configuration{},err
+		dir, _ := filepath.Abs("./")
+		jsonConfig, err = os.Open(dir+"/configuration.json")
+		if err == nil {
+			return conf, err
+		}
 	}
 	defer jsonConfig.Close()
 	byteValue, err := ioutil.ReadAll(jsonConfig)
 	if err != nil{
-		return Configuration{},err
+		return conf,err
 	}
-	var conf Configuration
         er := json.Unmarshal(byteValue, &conf)
 	if er != nil{
-		return Configuration{},er
+		return conf,er
 	}
 	return conf,nil
 }

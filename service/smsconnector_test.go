@@ -104,7 +104,8 @@ func TestSendMessage(t *testing.T) {
 	}
 	smsResponse := smsEvent.SendMessage(msg[0])
 	if smsResponse.Status != util.SUCCESS {
-		t.Error(fmt.Printf("Message not sent , Expected 'SUCCESS'. Got %s", smsResponse.Status))
+		t.Error(fmt.Printf("Message not sent , Expected 'SUCCESS'. Got '%s'. Error '%s'",
+			smsResponse.Status,smsResponse.Response))
 	}
 
 }
