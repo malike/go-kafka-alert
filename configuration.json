@@ -1,10 +1,12 @@
-{
-  "twilioAccountId": "",
-  "twilioAuthToken": "",
-  "smsSender": "+15005550006",
-  "smtpServerHost": "malike.smtp.com",
-  "smtpServerPort": "",
-  "emailSender": "",
-  "emailAuthUserName": "",
-  "emailAuthPassword": ""
-}
+{"smsConfig" : {
+  "twilioAccountId": "Malike",
+  "twilioAuthToken": "Malike",
+  "smsSender": "+15005550006"
+},
+  "emailConfig" : {
+    "smtpServerHost": "malike.smtp.com",
+    "smtpServerPort": "Malike",
+    "emailSender": "Malike",
+    "emailAuthUserName": "Malike",
+    "emailAuthPassword": "Malike"
+  }}

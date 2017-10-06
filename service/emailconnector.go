@@ -44,22 +44,23 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 }
 
 func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
+	conf,_ := util.LoadConfiguration()
 	if message.Content == "" {
 		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE EMPTY", TimeOfResponse: time.Now()}
 	}
 
-	auth := smtp.PlainAuth(util.LoadConfiguration().SmtpConfig.EmailSender, util.Configuration{}.SmtpConfig.Username,
-		util.Configuration{}.SmtpConfig.Password, util.Configuration{}.SmtpConfig.Host)
+	auth := smtp.PlainAuth(conf.SmtpConfig.EmailSender, conf.SmtpConfig.Username,
+		conf.SmtpConfig.Password, conf.SmtpConfig.Host)
 
-	err := smtp.SendMail(util.LoadConfiguration().SmtpConfig.Host, auth,
-		util.Configuration{}.SmtpConfig.EmailSender, []string{message.Recipient}, messageToByte(message))
+	err := smtp.SendMail(conf.SmtpConfig.Host, auth,
+		conf.SmtpConfig.EmailSender, []string{message.Recipient}, messageToByte(message))
 	if err == nil {
 		emailResponse := db.MessageResponse{}
 		emailResponse.Response = "SENT"
 		emailResponse.Status = util.SUCCESS
 		emailResponse.TimeOfResponse = time.Now()
 	}
-	return db.MessageResponse{};
+	return db.MessageResponse{}
 }
 
 func attachFile() db.Message {

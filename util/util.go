@@ -2,7 +2,6 @@ package util
 
 import (
 	"os"
-	"fmt"
 	"io/ioutil"
 	"encoding/json"
 )
@@ -13,34 +12,39 @@ const (
 )
 
 type SMTPConfig struct {
-	Host string "json:'smtpServerHost'"
-        Port string "json:'smtpServerHost'"
-        Username string "json:'smtpServerHost'"
-        Password string "json:'smtpServerHost'"
-        EmailSender string "json:'smtpServerHost'"
+	Host string `json:"smtpServerHost"`
+        Port string `json:"smtpServerPort"`
+        Username string `json:"emailAuthUserName"`
+        Password string `json:"emailAuthPassword"`
+        EmailSender string `json:"emailSender"`
 }
 
 type SMSConfig struct {
-	UserName string "json:'smtpServerHost'"
-        Password   string "json:'smtpServerHost'"
-        SenderName string "json:'smtpServerHost'"
-        URL        string "json:'smtpServerHost'"
+	UserName string `json:"twilioAccountId"`
+        Password   string `json:"twilioAuthToken"`
+        SenderName string `json:"smsSender"`
 }
 
 
 type Configuration struct {
-	SmsConfig  SMSConfig
-	SmtpConfig SMTPConfig
+	SmsConfig  SMSConfig `json:"smsConfig"`
+	SmtpConfig SMTPConfig `json:"emailConfig"`
 }
 
-func LoadConfiguration() Configuration {
-	jsonConfig, err := os.Open("configuration.json")
+func LoadConfiguration() (Configuration,error) {
+	jsonConfig, err := os.Open("../configuration.json")
 	if err != nil {
-		fmt.Println(err)
+		return Configuration{},err
 	}
 	defer jsonConfig.Close()
-	byteValue, _ := ioutil.ReadAll(jsonConfig)
-	conf := new(Configuration)
-        json.Unmarshal(byteValue, &conf)
-	return conf
+	byteValue, err := ioutil.ReadAll(jsonConfig)
+	if err != nil{
+		return Configuration{},err
+	}
+	var conf Configuration
+        er := json.Unmarshal(byteValue, &conf)
+	if er != nil{
+		return Configuration{},er
+	}
+	return conf,nil
 }

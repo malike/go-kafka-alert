@@ -44,6 +44,7 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 }
 
 func (event EventForSMS) SendMessage(message db.Message) db.MessageResponse {
+	conf,_ := util.LoadConfiguration()
 	var response = db.MessageResponse{}
 	if (db.Message{}) == message {
 		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE EMPTY", TimeOfResponse: time.Now()}
@@ -51,8 +52,8 @@ func (event EventForSMS) SendMessage(message db.Message) db.MessageResponse {
 	if message.Content == "" {
 		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE HAS NO CONTENT", TimeOfResponse: time.Now()}
 	}
-	twilio := gotwilio.NewTwilioClient(util.LoadConfiguration().TwilioAccountId, util.LoadConfiguration().TwilioAuthToken)
-	twilioSmsResponse, smsEx, _ := twilio.SendSMS("+15005550006", message.Recipient, message.Content, "", "")
+	twilio := gotwilio.NewTwilioClient(conf.SmsConfig.UserName, conf.SmsConfig.Password)
+	twilioSmsResponse, smsEx, _ := twilio.SendSMS(conf.SmsConfig.SenderName, message.Recipient, message.Content, "", "")
 	if smsEx != nil {
 		response.Response = smsEx.Message
 		response.APIStatus = strconv.Itoa(smsEx.Status)
