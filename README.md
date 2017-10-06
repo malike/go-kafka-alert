@@ -1,9 +1,11 @@
 # go-kafka-alert
 A Go application that feeds of data from Apache Kafka to send SMS,EMAIL or connects via webhook.
 
-This _also_ works with [elasticsearch kafka watch](https://github.com/malike/elasticsearch-kafka-watch). A custom watcher for ElasticSearch which send data to Apache Kafka once there's a _hit_
+It can  be used as is for just notification based of events on Apache Kafka or used as
 
-This would work with [elasticsearch report engine](https://github.com/malike/elasticsearch-report-engine) to send scheduled reports as PDF,HTML or CSV.
+1. Custom Elastic Watcher : Where it would work with [elasticsearch kafka watch](https://github.com/malike/elasticsearch-kafka-watch) to send notification once there's _hit_
+
+2. Report Ops : Uses [elasticsearch report engine](https://github.com/malike/elasticsearch-report-engine) to send scheduled reports as PDF,HTML or CSV by email.
 
 
 
