@@ -14,7 +14,3 @@ func TestLoadConfiguration(t *testing.T) {
 	}
 	t.Log("Email Sender available as "+conf.SmtpConfig.EmailSender)
 }
-
-//func BenchmarkLoadConfiguration(b *testing.B) {
-//
-//}
