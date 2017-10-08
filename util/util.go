@@ -15,10 +15,12 @@ const (
 
 type SMTPConfig struct {
 	Host string `json:"smtpServerHost"`
-        Port string `json:"smtpServerPort"`
+        Port int `json:"smtpServerPort"`
         Username string `json:"emailAuthUserName"`
         Password string `json:"emailAuthPassword"`
+        EmailFrom string `json:"emailFrom"`
         EmailSender string `json:"emailSender"`
+        TLS bool `json:"tls"`
 }
 
 type SMSConfig struct {

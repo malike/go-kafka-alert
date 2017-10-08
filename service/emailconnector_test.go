@@ -106,31 +106,32 @@ func TestSendMessageWithContentEmptyEmail(t *testing.T) {
 
 }
 
-//
-//func TestSendMessageEmail(t *testing.T) {
-//	if testing.Short() {
-//		t.Skip("Test doesn't run short mode")
-//	}
-//	fakeEmailEvent.Recipient = []string{
-//		fakeEmailRecipient,
-//	}
-//	fakeEmailEvent.Channel = map[string]bool{
-//		"EMAIL": true,
-//	}
-//	emailEvent := EventForEmail{fakeEmailEvent}
-//	msg, err := emailEvent.ParseTemplate()
-//	if err != nil {
-//		t.Error("Messages not generated")
-//	}
-//	if msg == nil {
-//		t.Error("Messages not generated")
-//	}
-//	emailResponse := emailEvent.SendMessage(msg[0])
-//	if emailResponse.Status != util.SUCCESS {
-//		t.Error(fmt.Printf("Message not sent , Expected 'SUCCESS'. Got %s", emailResponse.Status))
-//	}
-//
-//}
+
+func TestSendMessageEmail(t *testing.T) {
+	if testing.Short() {
+		t.Skip("Test doesn't run short mode")
+	}
+	fakeEmailEvent.Recipient = []string{
+		fakeEmailRecipient,
+	}
+	fakeEmailEvent.Channel = map[string]bool{
+		"EMAIL": true,
+	}
+	emailEvent := EventForEmail{fakeEmailEvent}
+	msg, err := emailEvent.ParseTemplate()
+	if err != nil {
+		t.Error("Messages not generated")
+	}
+	if msg == nil {
+		t.Error("Messages not generated")
+		t.FailNow()
+	}
+	emailResponse := emailEvent.SendMessage(msg[0])
+	if emailResponse.Status != util.SUCCESS {
+		t.Error(fmt.Printf("Message not sent , Expected 'SUCCESS'. Got '%s'. Error : %s",
+			emailResponse.Status,emailResponse.Response))
+	}
+}
 
 func BenchmarkParseTemplateForMessageEmail(b *testing.B) {
 	for i := 0; i < b.N; i++ {

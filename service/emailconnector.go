@@ -6,9 +6,11 @@ import (
 	"time"
 	"strconv"
 	"github.com/smancke/mailck"
-	"net/smtp"
 	"go-kafka-alert/util"
+	"gopkg.in/gomail.v2"
 )
+
+
 
 type EventForEmail struct {
 	TriggeredEvent db.Event
@@ -48,26 +50,53 @@ func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE EMPTY", TimeOfResponse: time.Now()}
 	}
 
-	auth := smtp.PlainAuth(util.AppConfiguration.SmtpConfig.EmailSender, util.AppConfiguration.SmtpConfig.Username,
-		util.AppConfiguration.SmtpConfig.Password, util.AppConfiguration.SmtpConfig.Host)
+	emailResponse := db.MessageResponse{}
+	m := gomail.NewMessage()
 
-	err := smtp.SendMail(util.AppConfiguration.SmtpConfig.Host, auth,
-		util.AppConfiguration.SmtpConfig.EmailSender, []string{message.Recipient}, messageToByte(message))
-	if err == nil {
-		emailResponse := db.MessageResponse{}
+	d := gomail.NewDialer(util.AppConfiguration.SmtpConfig.Host,
+		util.AppConfiguration.SmtpConfig.Port,
+		util.AppConfiguration.SmtpConfig.Username,
+		util.AppConfiguration.SmtpConfig.Password)
+
+	s, err := d.Dial()
+	if err != nil{
+		emailResponse.Response = err.Error()
+		emailResponse.Status = util.FAILED
+		emailResponse.TimeOfResponse = time.Now()
+		return emailResponse
+	}
+
+
+	m.SetHeader("From", util.AppConfiguration.SmtpConfig.EmailFrom)
+	m.SetAddressHeader("To", message.Recipient,message.Recipient)
+	m.SetHeader("Subject", "Hello!!")
+	m.SetBody("text/html", message.Content)
+	m.Attach("/Users/cindarella/Downloads/20160124110953.jpg")
+
+
+	er := gomail.Send(s, m)
+
+	if  er != nil {
+		emailResponse.Response = er.Error()
+		emailResponse.Status = util.FAILED
+		emailResponse.TimeOfResponse = time.Now()
+	} else {
 		emailResponse.Response = "SENT"
 		emailResponse.Status = util.SUCCESS
 		emailResponse.TimeOfResponse = time.Now()
 	}
-	return db.MessageResponse{}
+	m.Reset()
+	return emailResponse
 }
+
+
 
 func attachFile() db.Message {
 	return db.Message{}
 }
 
 func messageToByte(message db.Message) []byte {
-	return []byte{}
+	return []byte(message.Content)
 }
 
 func validateEmail(email string) bool {

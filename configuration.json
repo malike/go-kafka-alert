@@ -4,9 +4,11 @@
   "smsSender": "+15005550006"
 },
   "emailConfig" : {
-    "smtpServerHost": "malike.smtp.com",
-    "smtpServerPort": "Malike",
-    "emailSender": "Malike",
-    "emailAuthUserName": "Malike",
-    "emailAuthPassword": "Malike"
+    "smtpServerHost": "smtp.gmail.com",
+    "tls": true,
+    "smtpServerPort": 465,
+    "emailSender": "Sender",
+    "emailFrom": "youreamail@gmail.com",
+    "emailAuthUserName": "youreamail@gmail.com",
+    "emailAuthPassword": "xxxxxx"
   }}
