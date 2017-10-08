@@ -4,6 +4,7 @@ import "time"
 
 type Event struct {
 	EventId     string
+	Subject     string
 	Channel     map[string]bool
 	Recipient   []string
 	EventType   string
@@ -15,6 +16,7 @@ type Message struct {
 	Id           string
 	ReferenceId  string
 	AlertId      string
+	Subject      string
 	Content      string
 	Recipient    string
 	FileAttached string

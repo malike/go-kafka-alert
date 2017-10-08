@@ -33,6 +33,7 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 			dateCreated := time.Now()
 			message := db.Message{}
 			message.Recipient = em
+			message.Subject = event.TriggeredEvent.Subject
 			message.DateCreated = dateCreated
 			message.AlertId = event.TriggeredEvent.EventId + "_EMAIL_" + em
 			message.Content = emailContent
@@ -69,14 +70,13 @@ func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 
 	m.SetHeader("From", util.AppConfiguration.SmtpConfig.EmailFrom)
 	m.SetAddressHeader("To", message.Recipient,message.Recipient)
-	m.SetHeader("Subject", "Hello!!")
+	m.SetHeader("Subject", message.Subject)
 	m.SetBody("text/html", message.Content)
-	m.Attach("/Users/cindarella/Downloads/20160124110953.jpg")
+if message.FileAttached != ""{
+		m.Attach(message.FileAttached)
+	}
 
-
-	er := gomail.Send(s, m)
-
-	if  er != nil {
+	if er := gomail.Send(s, m); er != nil {
 		emailResponse.Response = er.Error()
 		emailResponse.Status = util.FAILED
 		emailResponse.TimeOfResponse = time.Now()
@@ -85,19 +85,9 @@ func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 		emailResponse.Status = util.SUCCESS
 		emailResponse.TimeOfResponse = time.Now()
 	}
-	m.Reset()
 	return emailResponse
 }
 
-
-
-func attachFile() db.Message {
-	return db.Message{}
-}
-
-func messageToByte(message db.Message) []byte {
-	return []byte(message.Content)
-}
 
 func validateEmail(email string) bool {
 	return mailck.CheckSyntax(email)

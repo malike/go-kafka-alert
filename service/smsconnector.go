@@ -32,6 +32,7 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 			dateCreated := time.Now()
 			message := db.Message{}
 			message.AlertId = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
+			message.Subject = event.TriggeredEvent.Subject
 			message.Content = messageContent + " " + rep //temp
 			message.Recipient = rep
 			message.DateCreated = dateCreated
