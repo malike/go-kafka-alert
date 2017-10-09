@@ -1,6 +1,8 @@
 package service
 
-import "go-kafka-alert/db"
+import (
+	"go-kafka-alert/db"
+)
 
 type EventForMessage interface {
 	ParseTemplate() ([]db.Message, error)
