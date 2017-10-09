@@ -17,38 +17,38 @@ Connects via Twilio to send sms messages
 
 
 #### Email
-
+<br/>
 
 
 #### API (Webhook)
-
+<br/>
 
 
 # Setup
 
 #### Use Case 1 : Notification Service
+<br/>
 
-
-#### Use Case 2 : Custom Watche For ElasticSearch
-
+#### Use Case 2 : Custom Watcher For ElasticSearch
+<br/>
 
 #### Use Case 3 : Scheduled Reports
 
-  i. Without Attachments
-  
-  ii.With Attachements
-  
+   **i. Without Attachments**
+    <br/>
+   **ii.With Attachements**
+    <br/>
   
 # Download
-
+<br/>
 
 # Contribute
-
+<br/>
 
 # Code of Conduct
+<br/>
 
 # License
-
   
 
 
