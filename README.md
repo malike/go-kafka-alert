@@ -34,10 +34,12 @@ Connects via Twilio to send sms messages
 
 #### Use Case 3 : Scheduled Reports
 
-   **i. Without Attachments**
+   **i. Without Attachment**
     <br/>
-   **ii.With Attachements**
+
+   **ii.With Attachment**
     <br/>
+
   
 # Download
 <br/>
