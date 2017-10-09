@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"path/filepath"
 )
+
 var AppConfiguration, _ = NewConfiguration()
 
 const (
@@ -14,48 +15,47 @@ const (
 )
 
 type SMTPConfig struct {
-	Host string `json:"smtpServerHost"`
-        Port int `json:"smtpServerPort"`
-        Username string `json:"emailAuthUserName"`
-        Password string `json:"emailAuthPassword"`
-        EmailFrom string `json:"emailFrom"`
-        EmailSender string `json:"emailSender"`
-        TLS bool `json:"tls"`
+	Host        string `json:"smtpServerHost"`
+	Port        int `json:"smtpServerPort"`
+	Username    string `json:"emailAuthUserName"`
+	Password    string `json:"emailAuthPassword"`
+	EmailFrom   string `json:"emailFrom"`
+	EmailSender string `json:"emailSender"`
+	TLS         bool `json:"tls"`
 }
 
 type SMSConfig struct {
-	UserName string `json:"twilioAccountId"`
-        Password   string `json:"twilioAuthToken"`
-        SenderName string `json:"smsSender"`
+	UserName   string `json:"twilioAccountId"`
+	Password   string `json:"twilioAuthToken"`
+	SenderName string `json:"smsSender"`
 }
-
 
 type Configuration struct {
 	SmsConfig  SMSConfig `json:"smsConfig"`
 	SmtpConfig SMTPConfig `json:"emailConfig"`
 }
 
-func NewConfiguration() (*Configuration,error) {
+func NewConfiguration() (*Configuration, error) {
 	var conf *Configuration = nil
 	var jsonConfig *os.File
 	var err error
 	dir, _ := filepath.Abs("../")
-	jsonConfig, err = os.Open(dir+"/configuration.json")
+	jsonConfig, err = os.Open(dir + "/configuration.json")
 	if err != nil {
 		dir, _ := filepath.Abs("./")
-		jsonConfig, err = os.Open(dir+"/configuration.json")
+		jsonConfig, err = os.Open(dir + "/configuration.json")
 		if err == nil {
 			return conf, err
 		}
 	}
 	defer jsonConfig.Close()
 	byteValue, err := ioutil.ReadAll(jsonConfig)
-	if err != nil{
-		return conf,err
+	if err != nil {
+		return conf, err
 	}
-        er := json.Unmarshal(byteValue, &conf)
-	if er != nil{
-		return conf,er
+	er := json.Unmarshal(byteValue, &conf)
+	if er != nil {
+		return conf, er
 	}
-	return conf,nil
+	return conf, nil
 }

@@ -6,23 +6,22 @@ import (
 
 func EventProcessorForChannel(event db.Event) {
 
-	if CheckChannel(event,"SMS"){
-		smsChannel  := EventForSMS{event}
+	if CheckChannel(event, "SMS") {
+		smsChannel := EventForSMS{event}
 		ProcessEvent(smsChannel)
 	}
-	if CheckChannel(event,"EMAIL"){
-		emailChannel  := EventForEmail{event}
+	if CheckChannel(event, "EMAIL") {
+		emailChannel := EventForEmail{event}
 		ProcessEvent(emailChannel)
 
 	}
-	if CheckChannel(event,"API"){
-		apiChannel  := EventForAPI{event}
-		ProcessEvent(apiChannel	)
+	if CheckChannel(event, "API") {
+		apiChannel := EventForAPI{event}
+		ProcessEvent(apiChannel)
 	}
 }
 
-
-func ProcessEvent(eventForMessage EventForMessage){
+func ProcessEvent(eventForMessage EventForMessage) {
 
 	messages, err := eventForMessage.ParseTemplate()
 	if err != nil {
@@ -36,6 +35,5 @@ func ProcessEvent(eventForMessage EventForMessage){
 
 		}
 	}
-
 
 }

@@ -1,9 +1,10 @@
-{"smsConfig" : {
-  "twilioAccountId": "Malike",
-  "twilioAuthToken": "Malike",
-  "smsSender": "+15005550006"
-},
-  "emailConfig" : {
+{
+  "smsConfig": {
+    "twilioAccountId": "Malike",
+    "twilioAuthToken": "Malike",
+    "smsSender": "+15005550006"
+  },
+  "emailConfig": {
     "smtpServerHost": "smtp.gmail.com",
     "tls": true,
     "smtpServerPort": 465,
@@ -11,4 +12,5 @@
     "emailFrom": "youreamail@gmail.com",
     "emailAuthUserName": "youreamail@gmail.com",
     "emailAuthPassword": "xxxxxx"
-  }}
+  }
+}

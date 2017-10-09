@@ -52,8 +52,8 @@ func (event EventForSMS) SendMessage(message db.Message) db.MessageResponse {
 	if message.Content == "" {
 		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE HAS NO CONTENT", TimeOfResponse: time.Now()}
 	}
-	if util.AppConfiguration.SmsConfig.UserName == "" ||util.AppConfiguration.SmsConfig.Password =="" ||
-		util.AppConfiguration.SmsConfig.SenderName == ""{
+	if util.AppConfiguration.SmsConfig.UserName == "" || util.AppConfiguration.SmsConfig.Password == "" ||
+		util.AppConfiguration.SmsConfig.SenderName == "" {
 		return db.MessageResponse{Status:util.FAILED, Response:"SMS Config not available", TimeOfResponse: time.Now()}
 	}
 	twilio := gotwilio.NewTwilioClient(util.AppConfiguration.SmsConfig.UserName, util.AppConfiguration.SmsConfig.Password)

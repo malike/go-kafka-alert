@@ -106,7 +106,6 @@ func TestSendMessageWithContentEmptyEmail(t *testing.T) {
 
 }
 
-
 func TestSendMessageEmail(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Test doesn't run short mode")
@@ -129,7 +128,7 @@ func TestSendMessageEmail(t *testing.T) {
 	emailResponse := emailEvent.SendMessage(msg[0])
 	if emailResponse.Status != util.SUCCESS {
 		t.Error(fmt.Printf("Message not sent , Expected 'SUCCESS'. Got '%s'. Error : %s",
-			emailResponse.Status,emailResponse.Response))
+			emailResponse.Status, emailResponse.Response))
 	}
 }
 

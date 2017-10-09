@@ -10,8 +10,6 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
-
-
 type EventForEmail struct {
 	TriggeredEvent db.Event
 }
@@ -60,19 +58,18 @@ func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 		util.AppConfiguration.SmtpConfig.Password)
 
 	s, err := d.Dial()
-	if err != nil{
+	if err != nil {
 		emailResponse.Response = err.Error()
 		emailResponse.Status = util.FAILED
 		emailResponse.TimeOfResponse = time.Now()
 		return emailResponse
 	}
 
-
 	m.SetHeader("From", util.AppConfiguration.SmtpConfig.EmailFrom)
-	m.SetAddressHeader("To", message.Recipient,message.Recipient)
+	m.SetAddressHeader("To", message.Recipient, message.Recipient)
 	m.SetHeader("Subject", message.Subject)
 	m.SetBody("text/html", message.Content)
-if message.FileAttached != ""{
+	if message.FileAttached != "" {
 		m.Attach(message.FileAttached)
 	}
 
@@ -87,7 +84,6 @@ if message.FileAttached != ""{
 	}
 	return emailResponse
 }
-
 
 func validateEmail(email string) bool {
 	return mailck.CheckSyntax(email)
