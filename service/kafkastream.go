@@ -27,11 +27,11 @@ func ProcessEvent(eventForMessage EventForMessage) {
 	if err != nil {
 		for _, msg := range messages {
 			//index message
-			db.IndexMessage(msg)
+			msg.IndexMessage()
 
 			response := eventForMessage.SendMessage(msg)
 			//index response
-			db.UpdateResponse(msg, response)
+			msg.UpdateResponse(response)
 
 		}
 	}

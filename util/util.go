@@ -30,7 +30,17 @@ type SMSConfig struct {
 	SenderName string `json:"smsSender"`
 }
 
+type DBConfig struct {
+	MongoHost       string `json:"mongoHost"`
+	MongoPort       int `json:"mongoPort"`
+	MongoDBUsername string `json:"mongoDBUsername"`
+	MongoDBPassword string `json:"mongoDBPassword"`
+	MongoDB         string `json:"mongoDB"`
+	Collection      string `json:"collection"`
+}
+
 type Configuration struct {
+	DbConfig   DBConfig `json:"dbConfig"`
 	SmsConfig  SMSConfig `json:"smsConfig"`
 	SmtpConfig SMTPConfig `json:"emailConfig"`
 }

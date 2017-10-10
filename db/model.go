@@ -1,6 +1,9 @@
 package db
 
-import "time"
+import (
+	"time"
+	"gopkg.in/mgo.v2/bson"
+)
 
 type Event struct {
 	EventId     string
@@ -13,7 +16,8 @@ type Event struct {
 }
 
 type Message struct {
-	Id           string
+
+	Id           bson.ObjectId `bson:"_id,omitempty"`
 	ReferenceId  string
 	AlertId      string
 	Subject      string

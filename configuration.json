@@ -12,5 +12,13 @@
     "emailFrom": "youreamail@gmail.com",
     "emailAuthUserName": "youreamail@gmail.com",
     "emailAuthPassword": "xxxxxx"
+  },
+  "dbConfig": {
+    "mongoHost": "localhost",
+    "mongoPort": 27017,
+    "mongoDBUsername": "",
+    "mongoDBPassword": "",
+    "mongoDB": "go_kafka_alert",
+    "collection": "message"
   }
 }
