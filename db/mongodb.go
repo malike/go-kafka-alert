@@ -19,15 +19,15 @@ func (message *Message) IndexMessage() error {
 	return er
 }
 
-func (message Message) FindMessage(Id string) (Message,error){
+func (message Message) FindMessage(Id string) (Message, error) {
 	var msg Message
 	var err error
 	collection, err := dialdb()
 	if err != nil {
-		return msg,err
+		return msg, err
 	}
 	err = collection.FindId(bson.ObjectIdHex(Id)).One(&msg)
-	return msg,err
+	return msg, err
 }
 
 func (Message *Message) UpdateResponse(response MessageResponse) bool {

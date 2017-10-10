@@ -16,13 +16,13 @@ var msg = Message{
 }
 
 func TestIndexMessage(t *testing.T) {
-	err:=msg.IndexMessage()
-	if err !=nil{
-		t.Fatal("Error saving message "+err.Error())
+	err := msg.IndexMessage()
+	if err != nil {
+		t.Fatal("Error saving message " + err.Error())
 		t.FailNow()
 	}
-	message,_:= msg.FindMessage(msg.Id)
-	if message.Subject != msg.Subject{
+	message, _ := msg.FindMessage(msg.Id)
+	if message.Subject != msg.Subject {
 		t.Fatal("Error saving and finding message ")
 		t.FailNow()
 	}

@@ -16,8 +16,7 @@ type Event struct {
 }
 
 type Message struct {
-
-	Id           bson.ObjectId `bson:"_id,omitempty"`
+	Id           string
 	ReferenceId  string
 	AlertId      string
 	Subject      string
