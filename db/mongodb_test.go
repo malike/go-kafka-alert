@@ -6,7 +6,7 @@ import (
 )
 
 var msg = Message{
-	Id :"1234",
+	_Id :"1234",
 	ReferenceId:"1234",
 	Content:"Sample Message",
 	AlertId:"Test1234",
@@ -21,9 +21,9 @@ func TestIndexMessage(t *testing.T) {
 		t.Fatal("Error saving message " + err.Error())
 		t.FailNow()
 	}
-	message, _ := msg.FindMessage(msg.Id)
+	message, _ := msg.FindMessage(msg._Id)
 	if message.Subject != msg.Subject {
-		t.Fatal("Error saving and finding message ")
+		t.Fatal("Error finding message ")
 		t.FailNow()
 	}
 }
