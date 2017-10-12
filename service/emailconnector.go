@@ -32,6 +32,7 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 			message := db.Message{}
 			message.Recipient = em
 			message.Subject = event.TriggeredEvent.Subject
+			message.Reference = event.TriggeredEvent.EventId
 			message.DateCreated = dateCreated
 			message.AlertId = event.TriggeredEvent.EventId + "_EMAIL_" + em
 			message.Content = emailContent

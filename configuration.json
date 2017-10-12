@@ -20,5 +20,14 @@
     "mongoDBPassword": "",
     "mongoDB": "go_kafka_alert",
     "collection": "message"
-  }
+  },
+  "templates":[
+    {
+      "id":"",
+      "content":""
+    },{
+      "id":"",
+      "content":""
+    }
+  ]
 }

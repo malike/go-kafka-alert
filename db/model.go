@@ -18,26 +18,21 @@ type Event struct {
 
 type Message struct {
 	_Id             bson.ObjectId `bson:"_id,omitempty"`
-	MessageId       string
-	AlertId         string
-	Subject         string
-	Content         string
-	Recipient       string
-	FileAttached    string
-	MessageResponse MessageResponse
-	DateCreated     time.Time
+	MessageId       string `bson:"messageId,omitempty"`
+	Reference       string `bson:"reference,omitempty"`
+	AlertId         string `bson:"alertId,omitempty"`
+	Subject         string `bson:"subject,omitempty"`
+	Content         string `bson:"content,omitempty"`
+	Recipient       string `bson:"recipient,omitempty"`
+	FileAttached    string `bson:"fileAttached,omitempty"`
+	MessageResponse MessageResponse `bson:"messageResponse,omitempty"`
+	DateCreated     time.Time `bson:"dateCreated,omitempty"`
 }
 
 type MessageResponse struct {
-	Response       string
-	Status         string
-	APIStatus      string
-	TimeOfResponse time.Time
-}
-
-type Template struct {
-	Id             string
-	Content        string
-	TimeOfResponse time.Time
+	Response       string `bson:"response,omitempty"`
+	Status         string `bson:"status,omitempty"`
+	APIStatus      string `bson:"apiStatus,omitempty"`
+	TimeOfResponse time.Time `bson:"timeOfResponse,omitempty"`
 }
 

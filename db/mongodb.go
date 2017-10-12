@@ -7,6 +7,12 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+const (
+	MESSAGE_ID = "messageId"
+	MESSAGE_REFERENCE = "reference"
+	MESSAGE_RESPONSE = "messageResponse"
+)
+
 var db, _ = dialDB()
 
 func (message *Message) IndexMessage() error {
@@ -16,20 +22,20 @@ func (message *Message) IndexMessage() error {
 
 func (message Message) FindMessage(Id string) (Message, error) {
 	var msg Message
-	err := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{"messageid":Id}).One(&msg)
+	err := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_ID:Id}).One(&msg)
 	return msg, err
 }
 
 func (message *Message) RemoveMessage(Id string) bool {
-	if err := db.C(util.AppConfiguration.DbConfig.Collection).Remove(bson.M{"messageid":Id}); err != nil {
+	if err := db.C(util.AppConfiguration.DbConfig.Collection).Remove(bson.M{MESSAGE_ID:Id}); err != nil {
 		return false
 	}
 	return true
 }
 func (message *Message) UpdateResponse(Id string, response MessageResponse) (Message, error) {
 	var msg Message
-	err := db.C(util.AppConfiguration.DbConfig.Collection).Update(bson.M{"messageid":Id},
-		bson.M{"$set":bson.M{"messageresponse": response}})
+	err := db.C(util.AppConfiguration.DbConfig.Collection).Update(bson.M{MESSAGE_ID:Id},
+		bson.M{"$set":bson.M{MESSAGE_RESPONSE: response}})
 	if err != nil {
 		return msg, err
 	}
@@ -37,9 +43,21 @@ func (message *Message) UpdateResponse(Id string, response MessageResponse) (Mes
 	return msg, err
 }
 
-func GetTemplate(templateId string) Template {
-	return Template{}
+func FindAllMessagesByReference(reference string) ([]Message, error) {
+	var msgs []Message
+	err := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_REFERENCE:reference}).All(&msgs)
+	return msgs, err
 }
+
+func CountAllMessagesByReference(reference string) int {
+	size, _ := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_REFERENCE:reference}).Count()
+	return size
+}
+
+func RemoveAllMessagesByReference(reference string) {
+	db.C(util.AppConfiguration.DbConfig.Collection).RemoveAll(bson.M{MESSAGE_REFERENCE:reference})
+}
+
 
 func dialDB() (*mgo.Database, error) {
 	var db *mgo.Database
