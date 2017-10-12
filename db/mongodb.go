@@ -16,12 +16,25 @@ func (message *Message) IndexMessage() error {
 
 func (message Message) FindMessage(Id string) (Message, error) {
 	var msg Message
-	err := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{"_id":Id}).One(&msg)
+	err := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{"messageid":Id}).One(&msg)
 	return msg, err
 }
 
-func (Message *Message) UpdateResponse(response MessageResponse) bool {
-	return false
+func (message *Message) RemoveMessage(Id string) bool {
+	if err := db.C(util.AppConfiguration.DbConfig.Collection).Remove(bson.M{"messageid":Id}); err != nil {
+		return false
+	}
+	return true
+}
+func (message *Message) UpdateResponse(Id string, response MessageResponse) (Message, error) {
+	var msg Message
+	err := db.C(util.AppConfiguration.DbConfig.Collection).Update(bson.M{"messageid":Id},
+		bson.M{"$set":bson.M{"messageresponse": response}})
+	if err != nil {
+		return msg, err
+	}
+	msg.MessageResponse = response
+	return msg, err
 }
 
 func GetTemplate(templateId string) Template {
@@ -42,6 +55,14 @@ func dialDB() (*mgo.Database, error) {
 	if err != nil {
 		return db, err
 	}
+	index := mgo.Index{
+		Key:        []string{"messageid"},
+		Unique:     true,
+		DropDups:   true,
+		Background: true,
+		Sparse:     true,
+	}
 	db = session.DB(util.AppConfiguration.DbConfig.MongoDB)
+	db.C(util.AppConfiguration.DbConfig.Collection).EnsureIndex(index)
 	return db, err
 }

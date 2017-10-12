@@ -35,8 +35,7 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 			message.DateCreated = dateCreated
 			message.AlertId = event.TriggeredEvent.EventId + "_EMAIL_" + em
 			message.Content = emailContent
-			message.ReferenceId = strconv.Itoa(dateCreated.Nanosecond()) + em + event.TriggeredEvent.EventId
-			message.Id = strconv.Itoa(dateCreated.Nanosecond()) + em + event.TriggeredEvent.EventId
+			message.MessageId = strconv.Itoa(dateCreated.Nanosecond()) + em + event.TriggeredEvent.EventId
 			messages = append(messages, message)
 		}
 	}

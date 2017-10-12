@@ -31,7 +31,7 @@ func ProcessEvent(eventForMessage EventForMessage) {
 
 			response := eventForMessage.SendMessage(msg)
 			//index response
-			msg.UpdateResponse(response)
+			msg.UpdateResponse(msg.MessageId,response)
 
 		}
 	}

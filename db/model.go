@@ -2,6 +2,8 @@ package db
 
 import (
 	"time"
+
+	"gopkg.in/mgo.v2/bson"
 )
 
 type Event struct {
@@ -15,15 +17,15 @@ type Event struct {
 }
 
 type Message struct {
-	_Id           string
-	ReferenceId  string
-	AlertId      string
-	Subject      string
-	Content      string
-	Recipient    string
-	FileAttached string
-	ApiResponse  MessageResponse
-	DateCreated  time.Time
+	_Id             bson.ObjectId `bson:"_id,omitempty"`
+	MessageId       string
+	AlertId         string
+	Subject         string
+	Content         string
+	Recipient       string
+	FileAttached    string
+	MessageResponse MessageResponse
+	DateCreated     time.Time
 }
 
 type MessageResponse struct {

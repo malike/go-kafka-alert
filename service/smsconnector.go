@@ -36,8 +36,7 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 			message.Content = messageContent + " " + rep //temp
 			message.Recipient = rep
 			message.DateCreated = dateCreated
-			message.ReferenceId = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
-			message.Id = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
+			message.MessageId = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
 			messages = append(messages, message)
 		}
 	}
