@@ -13,10 +13,7 @@ const (
 	SUCCESS = "SUCCESS"
 	FAILED = "FAILED"
 )
-type Template struct {
-	Id          string `bson:"_id,omitempty"`
-	Content     string `bson:"content,omitempty"`
-}
+
 type SMTPConfig struct {
 	Host        string `json:"smtpServerHost"`
 	Port        int `json:"smtpServerPort"`
@@ -46,7 +43,7 @@ type Configuration struct {
 	DbConfig   DBConfig `json:"dbConfig"`
 	SmsConfig  SMSConfig `json:"smsConfig"`
 	SmtpConfig SMTPConfig `json:"emailConfig"`
-	Templates map[string]Template `json:"template"`
+	Templates  map[string]string `json:"templates"`
 }
 
 func NewConfiguration() (*Configuration, error) {
@@ -72,4 +69,8 @@ func NewConfiguration() (*Configuration, error) {
 		return conf, er
 	}
 	return conf, nil
+}
+
+func (config *Configuration) GetTemplate(templateId string) string {
+	return AppConfiguration.Templates[templateId]
 }

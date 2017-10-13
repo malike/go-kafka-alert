@@ -44,7 +44,7 @@ func (message *Message) UpdateResponse(Id string, response MessageResponse) (Mes
 }
 
 func FindAllMessagesByReference(reference string) ([]Message, error) {
-	var msgs []Message
+	var msgs []Message //add limit and sort
 	err := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_REFERENCE:reference}).All(&msgs)
 	return msgs, err
 }
@@ -57,7 +57,6 @@ func CountAllMessagesByReference(reference string) int {
 func RemoveAllMessagesByReference(reference string) {
 	db.C(util.AppConfiguration.DbConfig.Collection).RemoveAll(bson.M{MESSAGE_REFERENCE:reference})
 }
-
 
 func dialDB() (*mgo.Database, error) {
 	var db *mgo.Database

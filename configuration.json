@@ -21,13 +21,11 @@
     "mongoDB": "go_kafka_alert",
     "collection": "message"
   },
-  "templates":[
-    {
-      "id":"",
-      "content":""
-    },{
-      "id":"",
-      "content":""
-    }
-  ]
+  "templates": {
+    "DEFAULT": "Hello {name}, This is a notification for {eventId}",
+    "SUBSCRIPTION_SMS": "Hello {name}, Thanks for susbscribing for {service}",
+    "SUBSCRIPTION_EMAIL": "<html><head></head><body> Hello {name}, Thanks for subscribing for {service} </body></html>",
+    "REPORTATTACHED_EMAIL": "<html><head></head><body> Hello {name}, Find attached report for {service} </body></html>",
+    "REPORTEMBEDED_EMAIL": "{content}"
+  }
 }
