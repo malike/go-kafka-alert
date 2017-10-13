@@ -25,6 +25,11 @@ Connects via Twilio to send sms messages
 
 # Setup
 
+#### Configuration 
+
+<br/>
+
+
 #### Use Case 1 : Notification Service
 <br/>
 
@@ -43,14 +48,18 @@ Connects via Twilio to send sms messages
 # Download
 <br/>
 
-# Contribute
-<br/>
+## Contribute
 
-# Code of Conduct
-<br/>
+Contributions are always welcome!
+Please read the [contribution guidelines](CONTRIBUTING.md) first.
 
-# License
-  
+## Code of Conduct
+
+Please read [this](CODE_OF_CONDUCT.md).
+
+## License
+
+[GNU General Public License v3.0](https://github.com/malike/go-kafka-alert/blob/master/LICENSE)
 
 
 
