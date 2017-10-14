@@ -22,10 +22,9 @@
     "collection": "message"
   },
   "templates": {
-    "DEFAULT": "Hello {name}, This is a notification for {eventId}",
-    "SUBSCRIPTION_SMS": "Hello {name}, Thanks for susbscribing for {service}",
-    "SUBSCRIPTION_EMAIL": "<html><head></head><body> Hello {name}, Thanks for subscribing for {service} </body></html>",
-    "REPORTATTACHED_EMAIL": "<html><head></head><body> Hello {name}, Find attached report for {service} </body></html>",
-    "REPORTEMBEDED_EMAIL": "{content}"
+    "SUBSCRIPTION_SMS": "Hello {{.UnmappedData.Name}}, Thanks for subscribing for {{.UnmappedData.ItemName}}",
+    "SUBSCRIPTION_EMAIL": "<html><head></head><body> Hello {{.UnmappedData.Name}}, Thanks for subscribing for {{.UnmappedData.ItemName}} </body></html>",
+    "REPORTATTACHED_EMAIL": "<html><head></head><body> Hello {{.UnmappedData.Name}}, Find attached report for {{.UnmappedData.ItemName}} </body></html>",
+    "REPORTEMBEDED_EMAIL": "{{.UnmappedData.Content}}"
   }
 }

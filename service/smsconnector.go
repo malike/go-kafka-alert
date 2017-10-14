@@ -24,7 +24,7 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 	if numOfRecipient <= 0 {
 		return messages, errors.New("No recipients found")
 	}
-	var messageContent = ParseTemplateForMessage(event.TriggeredEvent, "SMS")
+	var messageContent,_ = ParseTemplateForMessage(event.TriggeredEvent, "SMS")
 
 	//generate individual messages for each recipient
 	for _, rep := range event.TriggeredEvent.Recipient {

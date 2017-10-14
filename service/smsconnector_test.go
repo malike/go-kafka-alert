@@ -130,7 +130,7 @@ func TestSendMessageWithContentEmpty(t *testing.T) {
 
 }
 
-func BenchmarkParseTemplateForMessage(b *testing.B) {
+func BenchmarkParseTemplateForMessageSMS(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		EventForSMS{fakeEvent}.ParseTemplate()
 	}
