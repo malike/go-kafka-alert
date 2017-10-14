@@ -22,8 +22,8 @@
     "collection": "message"
   },
   "templates": {
-    "SUBSCRIPTION_SMS": "Hello {{.UnmappedData.Name}}, Thanks for subscribing for {{.UnmappedData.ItemName}}",
-    "SUBSCRIPTION_EMAIL": "<html><head></head><body> Hello {{.UnmappedData.Name}}, Thanks for subscribing for {{.UnmappedData.ItemName}} </body></html>",
+    "SUBSCRIPTION_SMS": "Hello {{.UnmappedData.Name}}, Thanks for subscribing to {{.UnmappedData.ItemName}}",
+    "SUBSCRIPTION_EMAIL": "<html><head></head><body> Hello {{.UnmappedData.Name}}, Thanks for subscribing to {{.UnmappedData.ItemName}} </body></html>",
     "REPORTATTACHED_EMAIL": "<html><head></head><body> Hello {{.UnmappedData.Name}}, Find attached report for {{.UnmappedData.ItemName}} </body></html>",
     "REPORTEMBEDED_EMAIL": "{{.UnmappedData.Content}}"
   }

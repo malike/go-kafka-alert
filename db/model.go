@@ -6,14 +6,14 @@ import (
 )
 
 type Event struct {
-	EventId     string
-	Subject     string
-	Channel     map[string]bool
-	Recipient   []string
-	UnmappedData   map[string]string
-	EventType   string
-	Description string
-	DateCreated time.Time
+	EventId      string
+	Subject      string
+	Channel      map[string]bool
+	Recipient    []string
+	UnmappedData map[string]string
+	EventType    string
+	Description  string
+	DateCreated  time.Time
 }
 
 type Message struct {

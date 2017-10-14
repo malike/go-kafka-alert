@@ -24,7 +24,7 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 	if numOfRecipient <= 0 {
 		return messages, errors.New("No recipients found")
 	}
-	emailContent,_ := ParseTemplateForMessage(event.TriggeredEvent, "EMAIL")
+	emailContent, _ := ParseTemplateForMessage(event.TriggeredEvent, "EMAIL")
 	//parse each mail separately because it may vary by recipient
 	for _, em := range event.TriggeredEvent.Recipient {
 		if validateEmail(em) {
