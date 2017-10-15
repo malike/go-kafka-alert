@@ -27,7 +27,7 @@ Connects via Twilio to send sms messages
 
 #### Configuration 
 
-A sample configuration file to get app running. 
+The app is meant to be a light-weight application.  Find a sample configuration file,which is kept in memory, to get app running:
 
 
     {
