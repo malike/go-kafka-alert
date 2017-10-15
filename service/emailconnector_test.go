@@ -11,6 +11,10 @@ import (
 var fakeEmailRecipient = "st.malike@gmail.com"
 var fakeEmailEvent = db.Event{
 	EventId:"SUBSCRIPTION",
+	UnmappedData:map[string]string{
+		"Name":"Malike",
+		"ItemName":"Monthly Delivery of Awesomeness",
+	},
 	Recipient: []string{fakeEmailRecipient},
 	Channel: map[string]bool{
 		"EMAIL": true,
