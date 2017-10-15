@@ -96,7 +96,10 @@ These are the messaging templates configured for all the alert types. Follow [th
 
   
 # Download
-<br/>
+| Version  |
+| -------- |
+| [0.1-Prelease Tag]()   |
+
 
 ## Contribute
 
