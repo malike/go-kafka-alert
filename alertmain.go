@@ -2,16 +2,17 @@ package main
 
 import (
 	"go-kafka-alert/util"
-	"log"
+	"flag"
+	"strconv"
 )
 
 func main() {
-	if util.AppConfiguration == nil {
-		var err error
-		util.AppConfiguration, err = util.NewConfiguration()
-		if err != nil {
-			log.Fatal("Application can not start without configuration. Error " + err.Error())
-		}
-	}
-	log.Println("Starting up Service")
+
+	logLevel := flag.String("loglevel", "error", "Possible options warn,trace,error,info")
+	flag.Parse()
+	util.SetLogLevel(util.LOG_LEVEL(logLevel))
+	util.Trace.Println("Starting up Service with Log level '" + *logLevel + "'")
+	util.NewConfiguration()
+	util.Trace.Println("Configuration file loaded successfully with '" +
+		strconv.Itoa(len(util.AppConfiguration.Templates)) + "' templates")
 }

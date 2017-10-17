@@ -59,6 +59,7 @@ func RemoveAllMessagesByReference(reference string) {
 }
 
 func dialDB() (*mgo.Database, error) {
+	util.NewConfiguration()
 	var db *mgo.Database
 	_, err := mgo.Dial(util.AppConfiguration.DbConfig.MongoHost)
 	mongoDialInfo := &mgo.DialInfo{
@@ -73,7 +74,7 @@ func dialDB() (*mgo.Database, error) {
 		return db, err
 	}
 	index := mgo.Index{
-		Key:        []string{"messageid"},
+		Key:        []string{MESSAGE_ID},
 		Unique:     true,
 		DropDups:   true,
 		Background: true,
