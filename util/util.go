@@ -66,7 +66,7 @@ type Configuration struct {
 }
 
 func SetLogLevel(logLvl *string) {
-	f, err := os.OpenFile("log.txt", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+	f, err := os.OpenFile("go_kafka_alert.log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("Error opening log file: %s", err.Error())
 	}
