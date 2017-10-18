@@ -93,7 +93,7 @@ These are the messaging templates configured for all the alert types. Follow [th
    **i. Embedded Reports**
     <br/>
 
-   **ii. CSV/PDF Attachment Reports**
+   **ii. CSV/PDF Attached Reports**
     <br/>
 
   
