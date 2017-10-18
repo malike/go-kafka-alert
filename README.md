@@ -90,10 +90,10 @@ These are the messaging templates configured for all the alert types. Follow [th
 
 #### Use Case 3 : Scheduled Reports For ElasticSearch Data
 
-   **i. Without Attachment**
+   **i. Embedded Reports**
     <br/>
 
-   **ii.With Attachment**
+   **ii. CSV/PDF Attachment Reports**
     <br/>
 
   
