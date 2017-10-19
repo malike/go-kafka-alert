@@ -30,36 +30,38 @@ Connects via Twilio to send sms messages
 The app is meant to be a light-weight application.  Find a sample configuration file,which is kept in memory, to get app running:
 
 
-    {
-      "smsConfig": {
-        "twilioAccountId": "Malike",
-        "twilioAuthToken": "Malike",
-        "smsSender": "+15005550006"
-      },
-      "emailConfig": {
-        "smtpServerHost": "smtp.gmail.com",
-        "tls": true,
-        "smtpServerPort": 465,
-        "emailSender": "Sender",
-        "emailFrom": "youreamail@gmail.com",
-        "emailAuthUserName": "youreamail@gmail.com",
-        "emailAuthPassword": "xxxxxx"
-      },
-      "dbConfig": {
-        "mongoHost": "localhost",
-        "mongoPort": 27017,
-        "mongoDBUsername": "",
-        "mongoDBPassword": "",
-        "mongoDB": "go_kafka_alert",
-        "collection": "message"
-      },
-      "templates": {
-        "SUBSCRIPTION_SMS": "Hello {{.UnmappedData.Name}}, Thanks for subscribing to {{.UnmappedData.ItemName}}",
-        "SUBSCRIPTION_EMAIL": "<html><head></head><body> Hello {{.UnmappedData.Name}}, Thanks for subscribing to {{.UnmappedData.ItemName}} </body></html>",
-        "REPORTATTACHED_EMAIL": "<html><head></head><body> Hello {{.UnmappedData.Name}}, Find attached report for {{.UnmappedData.ItemName}} </body></html>",
-        "REPORTEMBEDED_EMAIL": "{{.UnmappedData.Content}}"
-      }
-    }
+            {
+          "smsConfig": {
+            "twilioAccountId": "Malike",
+            "twilioAuthToken": "Malike",
+            "smsSender": "+15005550006"
+          },
+          "emailConfig": {
+            "smtpServerHost": "smtp.gmail.com",
+            "tls": true,
+            "smtpServerPort": 465,
+            "emailSender": "Sender",
+            "emailFrom": "youreamail@gmail.com",
+            "emailAuthUserName": "youreamail@gmail.com",
+            "emailAuthPassword": "xxxxxx"
+          },
+          "dbConfig": {
+            "mongoHost": "localhost",
+            "mongoPort": 27017,
+            "mongoDBUsername": "",
+            "mongoDBPassword": "",
+            "mongoDB": "go_kafka_alert",
+            "collection": "message"
+          },
+          "templates": {
+            "APPFLAG_SMS": "User {{.UnmappedData.UserName}} has failed to execute service {{.UnmappedData.ServiceName}} {{.UnmappedData.FailureCount}} times in the past {{.UnmappedData.FailureDuration}} minutes",
+            "SERVICEHEALTH_SMS": "Service {{.UnmappedData.ServiceName}} has failed execution {{.UnmappedData.FailureCount}} in the past {{.UnmappedData.FailureDuration}} minutes",
+            "SUBSCRIPTION_SMS": "Hello {{.UnmappedData.Name}}, Thanks for subscribing to {{.UnmappedData.ItemName}}",
+            "SUBSCRIPTION_EMAIL": "<html><head></head><body> Hello {{.UnmappedData.Name}}, Thanks for subscribing to {{.UnmappedData.ItemName}} </body></html>",
+            "REPORTATTACHED_EMAIL": "<html><head></head><body> Hello {{.UnmappedData.Name}}, Find attached report for {{.UnmappedData.ItemName}} </body></html>",
+            "REPORTEMBEDED_EMAIL": "{{.UnmappedData.Content}}"
+          }
+        }
 
 <br/>
 
@@ -88,10 +90,10 @@ These are the messaging templates configured for all the alert types. Follow [th
 
 #### Use Case 3 : Scheduled Reports For ElasticSearch Data
 
-   **i. Without Attachment**
+   **i. Embedded Reports**
     <br/>
 
-   **ii.With Attachment**
+   **ii. CSV/PDF Attached Reports**
     <br/>
 
   
