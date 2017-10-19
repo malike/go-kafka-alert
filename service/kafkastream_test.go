@@ -18,7 +18,6 @@ func TestProcessEvent(t *testing.T) {
 
 }
 
-
 func TestEventProcessorForChannel(t *testing.T) {
 
 }
@@ -28,7 +27,6 @@ func BenchmarkGetEventFromKafkaStream(b *testing.B) {
 		GetEventFromKafkaStream()
 	}
 }
-
 
 func BenchmarkProcessEventForSMS(b *testing.B) {
 	for i := 0; i < b.N; i++ {

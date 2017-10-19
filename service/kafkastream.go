@@ -4,9 +4,9 @@ import (
 	"go-kafka-alert/db"
 )
 
-
-func GetEventFromKafkaStream() ([]db.Event){
-events := db.Event{}
+func
+GetEventFromKafkaStream() ([]db.Event) {
+	events := []db.Event{}
 	return events
 }
 
@@ -26,7 +26,6 @@ func EventProcessorForChannel(event db.Event) {
 		ProcessEvent(apiChannel)
 	}
 }
-
 
 func ProcessEvent(eventForMessage EventForMessage) {
 
