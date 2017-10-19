@@ -5,8 +5,9 @@ import (
 )
 
 
-func GetEventFromKafkaStream(){
-
+func GetEventFromKafkaStream() ([]db.Event){
+events := db.Event{}
+	return events
 }
 
 func EventProcessorForChannel(event db.Event) {

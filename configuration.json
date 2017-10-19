@@ -1,4 +1,5 @@
 {
+  "workers":4,
   "smsConfig": {
     "twilioAccountId": "Malike",
     "twilioAuthToken": "Malike",

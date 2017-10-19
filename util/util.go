@@ -59,6 +59,7 @@ type DBConfig struct {
 }
 
 type Configuration struct {
+	Workers   int `json:"workers"`
 	DbConfig   DBConfig `json:"dbConfig"`
 	SmsConfig  SMSConfig `json:"smsConfig"`
 	SmtpConfig SMTPConfig `json:"emailConfig"`

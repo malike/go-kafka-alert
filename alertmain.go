@@ -4,7 +4,10 @@ import (
 	"go-kafka-alert/util"
 	"flag"
 	"strconv"
+	"sync"
 )
+
+var wg sync.WaitGroup
 
 func main() {
 
@@ -14,5 +17,6 @@ func main() {
 	util.Trace.Println("Starting up Service with Log level '" + *logLevel + "'")
 	util.NewConfiguration()
 	util.Trace.Println("Configuration file loaded successfully with '" +
-		strconv.Itoa(len(util.AppConfiguration.Templates)) + "' templates")
+		strconv.Itoa(len(util.AppConfiguration.Templates)) + "' templates and " +
+		strconv.Itoa(util.AppConfiguration.Workers) +" workers processing events")
 }
