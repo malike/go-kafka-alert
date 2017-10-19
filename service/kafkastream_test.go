@@ -10,13 +10,25 @@ var eventSMS = EventForSMS{event}
 var eventEmail = EventForEmail{event}
 var eventAPI = EventForAPI{event}
 
+func TestGetEventFromKafkaStream(t *testing.T) {
+
+}
+
 func TestProcessEvent(t *testing.T) {
 
 }
 
+
 func TestEventProcessorForChannel(t *testing.T) {
 
 }
+
+func BenchmarkGetEventFromKafkaStream(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		GetEventFromKafkaStream()
+	}
+}
+
 
 func BenchmarkProcessEventForSMS(b *testing.B) {
 	for i := 0; i < b.N; i++ {

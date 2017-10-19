@@ -4,6 +4,11 @@ import (
 	"go-kafka-alert/db"
 )
 
+
+func GetEventFromKafkaStream(){
+
+}
+
 func EventProcessorForChannel(event db.Event) {
 
 	if CheckChannel(event, "SMS") {
@@ -20,6 +25,7 @@ func EventProcessorForChannel(event db.Event) {
 		ProcessEvent(apiChannel)
 	}
 }
+
 
 func ProcessEvent(eventForMessage EventForMessage) {
 
