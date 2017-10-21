@@ -116,7 +116,6 @@ func NewConfiguration() {
 		fmt.Println("Error parsing json configuration file " + err.Error())
 		return
 	}
-	fmt.Println("Setting configuration")
 	return
 }
 

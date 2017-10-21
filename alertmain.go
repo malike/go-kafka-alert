@@ -5,6 +5,7 @@ import (
 	"flag"
 	"strconv"
 	"sync"
+	"go-kafka-alert/service"
 )
 
 var wg sync.WaitGroup
@@ -18,5 +19,15 @@ func main() {
 	util.NewConfiguration()
 	util.Trace.Println("Configuration file loaded successfully with '" +
 		strconv.Itoa(len(util.AppConfiguration.Templates)) + "' templates and " +
-		strconv.Itoa(util.AppConfiguration.Workers) +" workers processing events")
+		strconv.Itoa(util.AppConfiguration.Workers) + " workers processing events")
+	for {
+		events := service.GetEventFromKafkaStream()
+		util.Info.Println("Processing events ....")
+		if len(events) > 0 {
+			util.Info.Println("Processing " + strconv.Itoa(len(events)) + " events")
+			for _, event := range events {
+				service.EventProcessorForChannel(event)
+			}
+		}
+	}
 }
