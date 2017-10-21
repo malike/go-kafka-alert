@@ -69,6 +69,11 @@ func SetLogLevel(logLevel string) {
 	if err != nil {
 		log.Fatalf("Error opening log file: %s", err.Error())
 	}
+	if !AppConfiguration.Log{
+		initLog(ioutil.Discard, ioutil.Discard, ioutil.Discard, ioutil.Discard,
+			false)
+		return
+	}
 	switch strings.ToUpper(logLevel) {
 	case TRACE:
 		initLog(f, f, f, f, true)
