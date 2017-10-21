@@ -10,6 +10,11 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
+var smtpDialer = gomail.NewDialer(util.AppConfiguration.SmtpConfig.Host,
+	util.AppConfiguration.SmtpConfig.Port,
+	util.AppConfiguration.SmtpConfig.Username,
+	util.AppConfiguration.SmtpConfig.Password)
+
 type EventForEmail struct {
 	TriggeredEvent db.Event
 }
@@ -38,6 +43,8 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 			message.Content = emailContent
 			message.MessageId = strconv.Itoa(dateCreated.Nanosecond()) + em + event.TriggeredEvent.EventId
 			messages = append(messages, message)
+		} else {
+			util.Error.Println("Email address not valid ['" + em + "']")
 		}
 	}
 
@@ -46,19 +53,16 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 
 func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 	if message.Content == "" {
+		util.Error.Println("Sending  Failed. Message body empty")
 		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE EMPTY", TimeOfResponse: time.Now()}
 	}
 
 	emailResponse := db.MessageResponse{}
 	m := gomail.NewMessage()
 
-	d := gomail.NewDialer(util.AppConfiguration.SmtpConfig.Host,
-		util.AppConfiguration.SmtpConfig.Port,
-		util.AppConfiguration.SmtpConfig.Username,
-		util.AppConfiguration.SmtpConfig.Password)
-
-	s, err := d.Dial()
+	s, err := smtpDialer.Dial()
 	if err != nil {
+		util.Error.Println("Error sending email " + err.Error())
 		emailResponse.Response = err.Error()
 		emailResponse.Status = util.FAILED
 		emailResponse.TimeOfResponse = time.Now()
@@ -73,14 +77,17 @@ func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 		m.Attach(message.FileAttached)
 	}
 
-	if er := gomail.Send(s, m); er != nil {
+	er := gomail.Send(s, m);
+	if er != nil {
 		emailResponse.Response = er.Error()
 		emailResponse.Status = util.FAILED
 		emailResponse.TimeOfResponse = time.Now()
+		util.Error.Println("Error sending email " + err.Error())
 	} else {
 		emailResponse.Response = "SENT"
 		emailResponse.Status = util.SUCCESS
 		emailResponse.TimeOfResponse = time.Now()
+		util.Info.Println("Email sent to  ['" + message.Recipient + "']")
 	}
 	return emailResponse
 }

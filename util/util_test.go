@@ -7,6 +7,7 @@ import (
 
 func TestLoadConfiguration(t *testing.T) {
 	NewConfiguration()
+	LogLevel = "INFO"
 	if AppConfiguration.SmtpConfig.EmailSender == "" {
 		t.Errorf("Required configuration not loaded ")
 		t.FailNow()

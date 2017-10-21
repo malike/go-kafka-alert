@@ -1,5 +1,7 @@
 {
   "workers": 4,
+  "logFileLocation": "/var/log",
+  "log":true,
   "smsConfig": {
     "twilioAccountId": "Malike",
     "twilioAuthToken": "Malike",

@@ -14,9 +14,6 @@ import (
 const (
 	SUCCESS = "SUCCESS"
 	FAILED = "FAILED"
-)
-
-const (
 	TRACE = "TRACE"
 	ERROR = "ERROR"
 	WARNING = "WARNING"
@@ -29,9 +26,8 @@ var (
 	Info *log.Logger
 	Warning *log.Logger
 	Trace *log.Logger
+	LogLevel string = "ERROR" //default config
 )
-
-type LOG_LEVEL *string
 
 type SMTPConfig struct {
 	Host        string `json:"smtpServerHost"`
@@ -59,19 +55,20 @@ type DBConfig struct {
 }
 
 type Configuration struct {
-	Workers    int `json:"workers"`
-	DbConfig   DBConfig `json:"dbConfig"`
-	SmsConfig  SMSConfig `json:"smsConfig"`
-	SmtpConfig SMTPConfig `json:"emailConfig"`
-	Templates  map[string]string `json:"templates"`
+	Workers         int `json:"workers"`
+	LogFileLocation string `json:"logFileLocation"`
+	Log bool `json:"log"`
+	DbConfig        DBConfig `json:"dbConfig"`
+	SmsConfig       SMSConfig `json:"smsConfig"`
+	SmtpConfig      SMTPConfig `json:"emailConfig"`
+	Templates       map[string]string `json:"templates"`
 }
 
-func SetLogLevel(logLvl *string) {
-	f, err := os.OpenFile("go_kafka_alert.log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+func SetLogLevel(logLevel string) {
+	f, err := os.OpenFile(AppConfiguration.LogFileLocation + "/go_kafka_alert.log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("Error opening log file: %s", err.Error())
 	}
-	logLevel := *logLvl
 	switch strings.ToUpper(logLevel) {
 	case TRACE:
 		initLog(f, f, f, f, true)
@@ -116,6 +113,7 @@ func NewConfiguration() {
 		fmt.Println("Error parsing json configuration file " + err.Error())
 		return
 	}
+	SetLogLevel(LogLevel)
 	return
 }
 

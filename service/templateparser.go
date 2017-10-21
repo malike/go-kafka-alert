@@ -11,6 +11,7 @@ func ParseTemplateForMessage(event db.Event, channel string) (string, error) {
 	var parse string
 	temp := util.AppConfiguration.Templates[event.EventId + "_" + channel]
 	if len(temp) == 0 {
+		util.Trace.Println("Template not available. Sending description of event as content")
 		return event.Description, nil
 	}
 	t := template.New("Template")
@@ -25,4 +26,3 @@ func ParseTemplateForMessage(event db.Event, channel string) (string, error) {
 	}
 	return tpl.String(), err
 }
-

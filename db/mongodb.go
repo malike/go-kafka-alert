@@ -16,13 +16,19 @@ const (
 var db, _ = dialDB()
 
 func (message *Message) IndexMessage() error {
-	er := db.C(util.AppConfiguration.DbConfig.Collection).Insert(message)
+	var er error
+	if er = db.C(util.AppConfiguration.DbConfig.Collection).Insert(message); er != nil {
+		util.Error.Println("Error indexing message " + er.Error())
+	}
 	return er
 }
 
 func (message Message) FindMessage(Id string) (Message, error) {
 	var msg Message
-	err := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_ID:Id}).One(&msg)
+	var err error
+	if err := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_ID:Id}).One(&msg); err != nil {
+		util.Error.Println("Error finding message by Id : " + Id + err.Error())
+	}
 	return msg, err
 }
 
@@ -37,6 +43,7 @@ func (message *Message) UpdateResponse(Id string, response MessageResponse) (Mes
 	err := db.C(util.AppConfiguration.DbConfig.Collection).Update(bson.M{MESSAGE_ID:Id},
 		bson.M{"$set":bson.M{MESSAGE_RESPONSE: response}})
 	if err != nil {
+		util.Error.Println("Error updating message " + err.Error())
 		return msg, err
 	}
 	msg.MessageResponse = response
@@ -45,7 +52,11 @@ func (message *Message) UpdateResponse(Id string, response MessageResponse) (Mes
 
 func FindAllMessagesByReference(reference string) ([]Message, error) {
 	var msgs []Message //add limit and sort
-	err := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_REFERENCE:reference}).All(&msgs)
+	var err error
+	if err = db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_REFERENCE:reference}).All(&msgs);
+		err != nil {
+		util.Error.Println("Error finding message by reference " + err.Error())
+	}
 	return msgs, err
 }
 
@@ -71,6 +82,7 @@ func dialDB() (*mgo.Database, error) {
 	}
 	session, err := mgo.DialWithInfo(mongoDialInfo)
 	if err != nil {
+		util.Error.Println("Error connecting to database " + err.Error())
 		return db, err
 	}
 	index := mgo.Index{

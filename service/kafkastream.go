@@ -13,18 +13,18 @@ GetEventFromKafkaStream() ([]db.Event) {
 
 func EventProcessorForChannel(event db.Event) {
 	if CheckChannel(event, "SMS") {
-		util.Info.Print("Processing "+event.EventId.+" for SMS")
+		util.Info.Print("Processing " + event.EventId + " for SMS")
 		smsChannel := EventForSMS{event}
 		ProcessEvent(smsChannel)
 	}
 	if CheckChannel(event, "EMAIL") {
-		util.Info.Print("Processing "+event.EventId.+" for EMAIL")
+		util.Info.Print("Processing " + event.EventId + " for EMAIL")
 		emailChannel := EventForEmail{event}
 		ProcessEvent(emailChannel)
 
 	}
 	if CheckChannel(event, "API") {
-		util.Info.Print("Processing "+event.EventId.+" for API")
+		util.Info.Print("Processing " + event.EventId + " for API")
 		apiChannel := EventForAPI{event}
 		ProcessEvent(apiChannel)
 	}
