@@ -29,9 +29,10 @@ func main() {
 			//if event is enough for one worker, let it handle it
 			if len(events) <= util.AppConfiguration.Workers {
 				util.Info.Println("Distributing " + strconv.Itoa(len(events)) + " worker of the month")
-
+				wg.Add(1)
 				go service.EventProcessorForChannel(events)
 			} else {
+				wg.Add(util.AppConfiguration.Workers)
 				batchSize := len(events) /util.AppConfiguration.Workers
 				util.Info.Println("Distributing '" + strconv.Itoa(len(events)) + "' events for '" +
 					strconv.Itoa(util.AppConfiguration.Workers) +
@@ -43,6 +44,7 @@ func main() {
 					go service.EventProcessorForChannel(events)
 				}
 			}
+			wg.Wait()
 		}
 	}
 }
