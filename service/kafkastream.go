@@ -5,33 +5,33 @@ import (
 	"go-kafka-alert/util"
 )
 
-func
-GetEventFromKafkaStream() ([]db.Event) {
+func GetEventFromKafkaStream() ([]db.Event) {
 	events := []db.Event{}
 	return events
 }
 
-func EventProcessorForChannel(event db.Event) {
-	if CheckChannel(event, "SMS") {
-		util.Info.Print("Processing " + event.EventId + " for SMS")
-		smsChannel := EventForSMS{event}
-		ProcessEvent(smsChannel)
-	}
-	if CheckChannel(event, "EMAIL") {
-		util.Info.Print("Processing " + event.EventId + " for EMAIL")
-		emailChannel := EventForEmail{event}
-		ProcessEvent(emailChannel)
+func EventProcessorForChannel(events []db.Event) {
+	for _, event := range events {
+		if CheckChannel(event, "SMS") {
+			util.Info.Print("Processing " + event.EventId + " for SMS")
+			smsChannel := EventForSMS{event}
+			ProcessEvent(smsChannel)
+		}
+		if CheckChannel(event, "EMAIL") {
+			util.Info.Print("Processing " + event.EventId + " for EMAIL")
+			emailChannel := EventForEmail{event}
+			ProcessEvent(emailChannel)
 
-	}
-	if CheckChannel(event, "API") {
-		util.Info.Print("Processing " + event.EventId + " for API")
-		apiChannel := EventForAPI{event}
-		ProcessEvent(apiChannel)
+		}
+		if CheckChannel(event, "API") {
+			util.Info.Print("Processing " + event.EventId + " for API")
+			apiChannel := EventForAPI{event}
+			ProcessEvent(apiChannel)
+		}
 	}
 }
 
 func ProcessEvent(eventForMessage EventForMessage) {
-
 	messages, err := eventForMessage.ParseTemplate()
 	if err != nil {
 		for _, msg := range messages {

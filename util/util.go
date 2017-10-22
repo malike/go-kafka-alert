@@ -57,7 +57,7 @@ type DBConfig struct {
 type Configuration struct {
 	Workers         int `json:"workers"`
 	LogFileLocation string `json:"logFileLocation"`
-	Log bool `json:"log"`
+	Log             bool `json:"log"`
 	DbConfig        DBConfig `json:"dbConfig"`
 	SmsConfig       SMSConfig `json:"smsConfig"`
 	SmtpConfig      SMTPConfig `json:"emailConfig"`
@@ -69,7 +69,7 @@ func SetLogLevel(logLevel string) {
 	if err != nil {
 		log.Fatalf("Error opening log file: %s", err.Error())
 	}
-	if !AppConfiguration.Log{
+	if !AppConfiguration.Log {
 		initLog(ioutil.Discard, ioutil.Discard, ioutil.Discard, ioutil.Discard,
 			false)
 		return
