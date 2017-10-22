@@ -32,11 +32,14 @@ func main() {
 
 				go service.EventProcessorForChannel(events)
 			} else {
-				util.Info.Println("Distributing " + strconv.Itoa(len(events)) + " events for " +
-					strconv.Itoa(util.AppConfiguration.Workers) + " workers")
+				batchSize := len(events) /util.AppConfiguration.Workers
+				util.Info.Println("Distributing '" + strconv.Itoa(len(events)) + "' events for '" +
+					strconv.Itoa(util.AppConfiguration.Workers) +
+					"' workers '"+strconv.Itoa(batchSize)+"' each.")
 
 				//..else share
 				for i := 1; i < util.AppConfiguration.Workers; i++ {
+					//slice events ..using batchSize
 					go service.EventProcessorForChannel(events)
 				}
 			}

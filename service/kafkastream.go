@@ -21,7 +21,6 @@ func EventProcessorForChannel(events []db.Event) {
 			util.Info.Print("Processing " + event.EventId + " for EMAIL")
 			emailChannel := EventForEmail{event}
 			ProcessEvent(emailChannel)
-
 		}
 		if CheckChannel(event, "API") {
 			util.Info.Print("Processing " + event.EventId + " for API")
