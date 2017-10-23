@@ -44,7 +44,7 @@ func main() {
 				eventBatch := []db.Event{}
 				for i := 1; i < util.AppConfiguration.Workers; i++ {
 					//slice events ..using batchSize
-					if currentPointer + batchSize >= len(events) {
+					if i == util.AppConfiguration.Workers {
 						eventBatch = events[currentPointer:]
 					} else {
 						eventBatch = events[currentPointer:batchSize]
