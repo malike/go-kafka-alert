@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"sync"
 	"go-kafka-alert/service"
+	"go-kafka-alert/db"
 )
 
 var wg sync.WaitGroup
@@ -39,10 +40,17 @@ func main() {
 					"' workers '" + strconv.Itoa(batchSize) + "' each.")
 
 				//..else share
+				currentPointer := 0
+				eventBatch := []db.Event{}
 				for i := 1; i < util.AppConfiguration.Workers; i++ {
 					//slice events ..using batchSize
-					eventBatch := events
-					go service.EventProcessorForChannel(events)
+					if currentPointer + batchSize >= len(events) {
+						eventBatch = events[currentPointer:]
+					} else {
+						eventBatch = events[currentPointer:batchSize]
+					}
+					go service.EventProcessorForChannel(eventBatch)
+					currentPointer += batchSize
 				}
 			}
 			wg.Wait()
