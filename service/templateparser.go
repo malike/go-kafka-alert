@@ -17,11 +17,13 @@ func ParseTemplateForMessage(event db.Event, channel string) (string, error) {
 	t := template.New("Template")
 	t, err := t.Parse(temp)
 	if err != nil {
+		util.Error.Println("Error parsing template. Event dropped. Reason: "+err.Error())
 		return parse, err
 	}
 	var tpl bytes.Buffer
 	err = t.Execute(&tpl, event)
 	if err != nil {
+		util.Error.Println("Error parsing template. Event dropped. Reason: "+err.Error())
 		return parse, err
 	}
 	return tpl.String(), err
