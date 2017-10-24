@@ -10,7 +10,8 @@ import (
 
 var fakeRecipient = "233201234567"
 var fakeEvent = db.Event{
-	EventId:"SUBSCRIPTION",
+	EventId:"eventid123456",
+	EventType:"SUBSCRIPTION",
 	UnmappedData:map[string]string{
 		"Name":"Malike",
 		"ItemName":"Monthly Delivery of Awesomeness",

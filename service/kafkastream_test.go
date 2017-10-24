@@ -46,6 +46,6 @@ func BenchmarkProcessEventForAPI(b *testing.B) {
 
 func BenchmarkEventProcessorForChannel(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		EventProcessorForChannel(event)
+		EventProcessorForChannel([]db.Event{event})
 	}
 }

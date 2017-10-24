@@ -6,7 +6,8 @@ import (
 )
 
 var fakeTempEvent = db.Event{
-	EventId:"SUBSCRIPTION",
+	EventId:"eventid123456",
+	EventType:"SUBSCRIPTION",
 	Description:"Notification based on subscribing to a service",
 	UnmappedData:map[string]string{
 		"Name":"Malike",
@@ -19,7 +20,7 @@ var fakeTempEvent = db.Event{
 }
 
 func TestParseTemplateForMessage404Template(t *testing.T) {
-	fakeTempEvent.EventId = "DUMMY_SERVICE"
+	fakeTempEvent.EventType = "DUMMY_SERVICE"
 	parsed, err := ParseTemplateForMessage(fakeTempEvent, "SMS")
 	if err != nil {
 		t.Error("Error parsing template " + err.Error())
