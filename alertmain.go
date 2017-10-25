@@ -9,7 +9,7 @@ import (
 	"go-kafka-alert/db"
 )
 
-var wg sync.WaitGroup
+
 
 func main() {
 
@@ -26,6 +26,7 @@ func main() {
 		events := service.GetEventFromKafkaStream()
 
 		if len(events) > 0 {
+			var wg sync.WaitGroup
 
 			//if event is enough for one worker, let it handle it
 			if len(events) <= util.AppConfiguration.Workers {
@@ -54,6 +55,7 @@ func main() {
 				}
 			}
 			wg.Wait()
+			wg.Done()
 		}
 	}
 }

@@ -23,10 +23,12 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 	var messages []db.Message
 	channelSupported := CheckChannel(event.TriggeredEvent, "EMAIL")
 	if !channelSupported {
-		return messages, errors.New("SMS channel not supported")
+		util.Trace.Println("Dropping event ['"+event.TriggeredEvent.EventId+"']. EMAIL channel not supported.")
+		return messages, errors.New("EMAIL channel not supported")
 	}
 	numOfRecipient := len(event.TriggeredEvent.Recipient)
 	if numOfRecipient <= 0 {
+		util.Trace.Println("Dropping event ['"+event.TriggeredEvent.EventId+"']. No recipient found.")
 		return messages, errors.New("No recipients found")
 	}
 	emailContent, _ := ParseTemplateForMessage(event.TriggeredEvent, "EMAIL")
@@ -47,7 +49,6 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 			util.Error.Println("Email address not valid ['" + em + "']")
 		}
 	}
-
 	return messages, nil
 }
 
