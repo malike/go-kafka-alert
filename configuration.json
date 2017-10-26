@@ -1,9 +1,14 @@
 {
   "workers": 4,
-  "bootstrapServers": "",
-  "kafkaTopic": "go-kafka-event-stream",
   "logFileLocation": "/var/log",
-  "log":true,
+  "log": true,
+  "kafkaConfig": {
+    "bootstrapServers": "localhost:2181",
+    "kafkaTopic": "go-kafka-event-stream",
+    "kafkaTopicConfig": "earliest",
+    "kafkaGroupId": "consumerGroupOne",
+    "kafkaTimeout": 5000
+  },
   "smsConfig": {
     "twilioAccountId": "Malike",
     "twilioAuthToken": "Malike",

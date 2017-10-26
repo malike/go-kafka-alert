@@ -18,12 +18,12 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 	var messages []db.Message
 	channelSupported := CheckChannel(event.TriggeredEvent, "SMS")
 	if !channelSupported {
-		util.Trace.Println("Dropping event ['"+event.TriggeredEvent.EventId+"']. SMS channel not supported.")
+		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventId + "']. SMS channel not supported.")
 		return messages, errors.New("SMS channel not supported")
 	}
 	numOfRecipient := len(event.TriggeredEvent.Recipient)
 	if numOfRecipient <= 0 {
-		util.Trace.Println("Dropping event ['"+event.TriggeredEvent.EventId+"']. No recipient found.")
+		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventId + "']. No recipient found.")
 		return messages, errors.New("No recipients found")
 	}
 	var messageContent, _ = ParseTemplateForMessage(event.TriggeredEvent, "SMS")

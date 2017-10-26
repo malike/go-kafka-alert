@@ -9,8 +9,6 @@ import (
 	"go-kafka-alert/db"
 )
 
-
-
 func main() {
 
 	logLevel := flag.String("loglevel", "error", "Possible options warn,trace,error,info")

@@ -45,6 +45,14 @@ type SMSConfig struct {
 	SenderName string `json:"smsSender"`
 }
 
+type KafkaConfig struct {
+	BootstrapServers string `json:"bootstrapServers"`
+	KafkaTopic       string `json:"kafkaTopic"`
+	KafkaTopicConfig string `json:"kafkaTopicConfig"`
+	KafkaGroupId     string `json:"kafkaGroupId"`
+	KafkaTimeout     string `json:"kafkaTimeout"`
+}
+
 type DBConfig struct {
 	MongoHost       string `json:"mongoHost"`
 	MongoPort       int `json:"mongoPort"`
@@ -58,6 +66,7 @@ type Configuration struct {
 	Workers         int `json:"workers"`
 	LogFileLocation string `json:"logFileLocation"`
 	Log             bool `json:"log"`
+	KafkaConfig     KafkaConfig `json:"kafkaConfig"`
 	DbConfig        DBConfig `json:"dbConfig"`
 	SmsConfig       SMSConfig `json:"smsConfig"`
 	SmtpConfig      SMTPConfig `json:"emailConfig"`
