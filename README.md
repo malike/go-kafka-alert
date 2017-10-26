@@ -64,14 +64,16 @@ The app is meant to be a light-weight application.  Find a [sample configuration
                "collection": "message"
              },
              "templates": {
-               "APPFLAG_SMS": "User `{{.UnmappedData.UserName}}` has failed to execute service `{{.UnmappedData.ServiceName}}` `{{.UnmappedData.FailureCount}}` times in the past `{{.UnmappedData.FailureDuration}}` minutes",
-               "SERVICEHEALTH_SMS": "Service {{.UnmappedData.ServiceName}} has failed execution {{.UnmappedData.FailureCount}} in the past `{{.UnmappedData.FailureDuration}}` minutes",
-               "SUBSCRIPTION_SMS": "Hello `{{.UnmappedData.Name}}`, Thanks for subscribing to `{{.UnmappedData.ItemName}}`",
-               "SUBSCRIPTION_EMAIL": "<html><head></head><body> Hello {{.UnmappedData.Name}}, Thanks for subscribing to `{{.UnmappedData.ItemName}}` </body></html>",
-               "REPORTATTACHED_EMAIL": "<html><head></head><body> Hello `{{.UnmappedData.Name}}`, Find attached report for `{{.UnmappedData.ItemName}}` </body></html>",
-               "REPORTEMBEDED_EMAIL": "`{{.UnmappedData.Content}}`"
+               "APPFLAG_SMS": "User {{.UnmappedData.UserName}} has failed to execute service {{.UnmappedData.ServiceName}} {{.UnmappedData.FailureCount}} times in the past {{.UnmappedData.FailureDuration}} minutes",
+               "SERVICEHEALTH_SMS": "Service {{.UnmappedData.ServiceName}} has failed execution {{.UnmappedData.FailureCount}} in the past {{.UnmappedData.FailureDuration}} minutes",
+               "SUBSCRIPTION_SMS": "Hello {{.UnmappedData.Name}}, Thanks for subscribing to {{.UnmappedData.ItemName}}",
+               "SUBSCRIPTION_EMAIL": "<html><head></head><body> Hello {{.UnmappedData.Name}}, Thanks for subscribing to {{.UnmappedData.ItemName}} </body></html>",
+               "REPORTATTACHED_EMAIL": "<html><head></head><body> Hello {{.UnmappedData.Name}}, Find attached report for {{.UnmappedData.ItemName}} </body></html>",
+               "REPORTEMBEDED_EMAIL": "{{.UnmappedData.Content}}"
              }
            }
+
+
 <br/>
 
 **i. kafkaConfig**
@@ -90,7 +92,7 @@ This is where configuration for your [email smtp]() would be. This would enable 
 <br/>
 
 **iv. dbConfig**
-Messages sent out are stored for auditing purposes. Together with the response from twilio or your smtp gateway. This configuration stores them in MongoDB. 
+Messages sent out are stored for auditing purposes. Together with the response from twilio or your smtp gateway. This configuration stores them in MongoDB. Uses [this](gopkg.in/mgo.v2/bson) mongodb library for Go.
 <br/>
 
 **iv. templates**
