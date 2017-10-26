@@ -81,7 +81,7 @@ Messages sent out are stored for auditing purposes. Together with the response f
 <br/>
 
 **iv. templates**
-These are the messaging templates configured for all the alert types. Follow [this](https://gohugo.io/templates/introduction/) to learn how to create your templates. The templates are stored as maps to use *_O(1)_* when finding a template. The key of the map follows this convention _{{EventId}}+"_"+"{{Delivery Channel}}". This means an SMS for EventId, SUBSCRIPTION would be _SUBSCRIPTION_SMS_ 
+These are the messaging templates configured for all the alert types. Follow [this](https://gohugo.io/templates/introduction/) to learn how to create your templates. The templates are stored as maps to use *_O(1)_* when finding a template. The key of the map follows this convention _{{EventType}}+"_"+"{{Delivery Channel}}". This means an SMS for EventId, SUBSCRIPTION would be _SUBSCRIPTION_SMS_ 
 <br/>
 
 
