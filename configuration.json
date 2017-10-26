@@ -1,5 +1,7 @@
 {
   "workers": 4,
+  "bootstrapServers": "",
+  "kafkaTopic": "go-kafka-event-stream",
   "logFileLocation": "/var/log",
   "log":true,
   "smsConfig": {
