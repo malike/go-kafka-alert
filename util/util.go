@@ -50,7 +50,7 @@ type KafkaConfig struct {
 	KafkaTopic       string `json:"kafkaTopic"`
 	KafkaTopicConfig string `json:"kafkaTopicConfig"`
 	KafkaGroupId     string `json:"kafkaGroupId"`
-	KafkaTimeout     string `json:"kafkaTimeout"`
+	KafkaTimeout     int `json:"kafkaTimeout"`
 }
 
 type DBConfig struct {
@@ -74,7 +74,7 @@ type Configuration struct {
 }
 
 func SetLogLevel(logLevel string) {
-	f, err := os.OpenFile(AppConfiguration.LogFileLocation + "/go_kafka_alert.log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+	f, err := os.OpenFile(AppConfiguration.LogFileLocation, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("Error opening log file: %s", err.Error())
 	}
@@ -124,7 +124,7 @@ func NewConfiguration() {
 	}
 	er := json.Unmarshal(byteValue, &AppConfiguration)
 	if er != nil {
-		fmt.Println("Error parsing json configuration file " + err.Error())
+		fmt.Println("Error parsing json configuration file ")
 		return
 	}
 	SetLogLevel(LogLevel)

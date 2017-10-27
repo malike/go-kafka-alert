@@ -7,6 +7,7 @@ import (
 	"sync"
 	"go-kafka-alert/service"
 	"go-kafka-alert/db"
+	"os"
 )
 
 func main() {
@@ -15,13 +16,19 @@ func main() {
 	flag.Parse()
 	util.LogLevel = *logLevel
 	util.NewConfiguration()
+	service.NewKafkaConsumer()
 	util.Trace.Println("Starting up Service with Log level '" + *logLevel + "'")
 	util.Trace.Println("Configuration file loaded successfully with '" +
 		strconv.Itoa(len(util.AppConfiguration.Templates)) + "' templates and " +
 		strconv.Itoa(util.AppConfiguration.Workers) + " workers processing events")
+
+	if service.KafkaConsumer == nil {
+		os.Exit(1)
+		util.Error.Println("Error starting Kafka Consumer ")
+	}
+
 	for {
-		//one extractor
-		events := service.GetEventFromKafkaStream()
+		events, _ := service.GetEventFromKafkaStream()
 
 		if len(events) > 0 {
 			var wg sync.WaitGroup
