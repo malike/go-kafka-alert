@@ -5,6 +5,21 @@ A Go application that feeds of data from Apache Kafka to send SMS,EMAIL or conne
 
 1. **Notification Service** : It can  be used as is for just notification.By reacting to events pushed to Apache Kafka.
 
+           type Event struct {
+                      EventId      string `json:"eventId"`
+                      Subject      string `json:"subject"`
+                      Channel      map[string]bool `json:"channel"`
+                      Recipient    []string `json:"recipient"`
+                      UnmappedData map[string]string `json:"unmappedData"`
+                      EventType    string `json:"eventType"`
+                      Description  string `json:"description"`
+                      DateCreated  time.Time `json:"dateCreated"`
+           }
+
+An event pushed to Apache Kafka would be unmarshalled to the `Event` object. So structure your json string. The `unmappedData`
+data field can be used for _misc_ data.
+
+
 2. **Custom Watcher** : Where it would work with [elasticsearch kafka watch]( https://malike.github.io/elasticsearch-kafka-watch/) to send notification once there's _hit_ in elasticsearch.
 
 3. **Scheduled Reports** : Uses [elasticsearch report engine](http://malike.github.io/elasticsearch-report-engine) to send scheduled reports as PDF,HTML or CSV by email.
@@ -12,7 +27,15 @@ A Go application that feeds of data from Apache Kafka to send SMS,EMAIL or conne
 
 #### SMS
 
-Connects via Twilio to send sms messages
+Connects via Twilio to send sms messages. To make sure your event is processed by the SMS delivery gateway when using this for a **Notification Service** the _channel_ field in your event written to Apache Kafka should be something like this :
+                      
+                      "channel": {
+                        "SMS": true 
+                      }   
+  
+But when using this as a **Custom Watcher**, you don't need to worry about the format since it would be formatted for you. 
+
+The **SMS** channel is not supported when using this for **Scheduled Reports**.
 
 
 #### Email
