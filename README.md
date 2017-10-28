@@ -27,24 +27,53 @@ data field can be used for _misc_ data.
 
 #### SMS
 
-Connects via Twilio to send sms messages. To make sure your event is processed by the SMS delivery gateway when using this for a **Notification Service** the _channel_ field in your event written to Apache Kafka should be something like this :
+Connects via Twilio to send sms messages. To make sure your event is processed by the SMS delivery gateway when using this for a **Notification Service** the _channel_ field in your event written to Apache Kafka should be something like this:
                       
                       "channel": {
                         "SMS": true 
                       }   
   
-But when using this as a **Custom Watcher**, you don't need to worry about the format since it would be formatted for you. 
+But when using this as a **Custom Watcher**, you don't need to worry about the format since it would be formatted for you by [elasticsearch kafka watch]( https://malike.github.io/elasticsearch-kafka-watch/)
 
-The **SMS** channel is not supported when using this for **Scheduled Reports**.
+The *SMS* channel is not supported when using this for **Scheduled Reports**.
 
+| Use as  | Supported |
+| -------- |-----------|
+|  Notification Service        | Yes|
+|  Custom Watcher        | Yes|
+|  Scheduled Reports        | No|
 
 #### Email
+
+
+| Use as  | Supported |
+| -------- |-----------|
+|  Notification Service        | Yes|
+|  Custom Watcher        | Yes|
+|  Scheduled Reports        | Yes|
+
 <br/>
 
 
 #### API (Webhook)
+
+
+| Use as  | Supported |
+| -------- |-----------|
+|  Notification Service        | Yes|
+|  Custom Watcher        | Yes|
+|  Scheduled Reports        | No|
+
 <br/>
 
+
+**NB :** For multiple channels for the same event use this :
+
+                      "channel": {
+                        "SMS": true,
+                        "EMAIL": true,
+                        "API": true 
+                      }
 
 # Setup
 
