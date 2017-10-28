@@ -3,6 +3,8 @@
 
 A Go application that feeds of data from Apache Kafka to send SMS,EMAIL or connects via webhook.
 
+# Use Cases
+
 #### 1. **Use Case 1 : Notification Service** : 
 
 It can  be used as is for just notification.By reacting to events pushed to Apache Kafka.
@@ -36,6 +38,7 @@ Uses [elasticsearch report engine](http://malike.github.io/elasticsearch-report-
    **ii. CSV/PDF Attached Reports**
    <br/>
 
+# Delivery Channels
 
 #### SMS
 
@@ -178,16 +181,16 @@ These are the messaging templates configured for all the alert types. Follow [th
 | [0.1-Prelease Tag]()   |
 
 
-## Contribute
+# Contribute
 
 Contributions are always welcome!
 Please read the [contribution guidelines](CONTRIBUTING.md) first.
 
-## Code of Conduct
+# Code of Conduct
 
 Please read [this](CODE_OF_CONDUCT.md).
 
-## License
+# License
 
 [GNU General Public License v3.0](https://github.com/malike/go-kafka-alert/blob/master/LICENSE)
 
