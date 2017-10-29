@@ -6,14 +6,14 @@ import (
 )
 
 type Event struct {
-	EventId      string
-	Subject      string
-	Channel      map[string]bool
-	Recipient    []string
-	UnmappedData map[string]string
-	EventType    string
-	Description  string
-	DateCreated  time.Time
+	EventId      string `json:"eventId"`
+	Subject      string `json:"subject"`
+	Channel      map[string]bool `json:"channel"`
+	Recipient    []string `json:"recipient"`
+	UnmappedData map[string]string `json:"unmappedData"`
+	EventType    string `json:"eventType"`
+	Description  string `json:"description"`
+	DateCreated  time.Time `json:"dateCreated"`
 }
 
 type Message struct {

@@ -1,6 +1,6 @@
 {
   "workers": 4,
-  "logFileLocation": "/var/log",
+  "logFileLocation": "/var/log/go_kafka_alert.log",
   "log": true,
   "kafkaConfig": {
     "bootstrapServers": "localhost:2181",
@@ -8,6 +8,10 @@
     "kafkaTopicConfig": "earliest",
     "kafkaGroupId": "consumerGroupOne",
     "kafkaTimeout": 5000
+  },
+  "webhookConfig": {
+    "appURL": "http://url.",
+    "appKey": "Malike"
   },
   "smsConfig": {
     "twilioAccountId": "Malike",
@@ -32,6 +36,9 @@
     "collection": "message"
   },
   "templates": {
+    "APPFLAG_API": "User {{.UnmappedData.UserName}} has failed to execute service {{.UnmappedData.ServiceName}} {{.UnmappedData.FailureCount}} times in the past {{.UnmappedData.FailureDuration}} minutes",
+    "SERVICEHEALTH_API": "Service {{.UnmappedData.ServiceName}} has failed execution {{.UnmappedData.FailureCount}} in the past {{.UnmappedData.FailureDuration}} minutes",
+    "SUBSCRIPTION_API": "Hello {{.UnmappedData.Name}}, Thanks for subscribing to {{.UnmappedData.ItemName}}",
     "APPFLAG_SMS": "User {{.UnmappedData.UserName}} has failed to execute service {{.UnmappedData.ServiceName}} {{.UnmappedData.FailureCount}} times in the past {{.UnmappedData.FailureDuration}} minutes",
     "SERVICEHEALTH_SMS": "Service {{.UnmappedData.ServiceName}} has failed execution {{.UnmappedData.FailureCount}} in the past {{.UnmappedData.FailureDuration}} minutes",
     "SUBSCRIPTION_SMS": "Hello {{.UnmappedData.Name}}, Thanks for subscribing to {{.UnmappedData.ItemName}}",

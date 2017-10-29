@@ -10,6 +10,10 @@ var eventSMS = EventForSMS{event}
 var eventEmail = EventForEmail{event}
 var eventAPI = EventForAPI{event}
 
+func TestNewKafkaConsumer(t *testing.T) {
+
+}
+
 func TestGetEventFromKafkaStream(t *testing.T) {
 
 }

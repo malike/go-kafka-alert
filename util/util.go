@@ -136,7 +136,7 @@ func (config *Configuration) GetTemplate(templateId string) string {
 }
 
 func initLog(traceHandle io.Writer, infoHandle io.Writer,
-warningHandle io.Writer, errorHandle io.Writer, isFlag bool) {
+	warningHandle io.Writer, errorHandle io.Writer, isFlag bool) {
 	flag := 0
 	if isFlag {
 		flag = log.Ldate | log.Ltime | log.Lshortfile | log.LstdFlags
