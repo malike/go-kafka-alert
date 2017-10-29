@@ -99,7 +99,7 @@ The app is meant to be a light-weight application.  Find a [sample configuration
 
            {
              "workers": 4,
-             "logFileLocation": "/var/log",
+             "logFileLocation": "/var/log/go_kafka_alert.log",
              "log": true,
              "kafkaConfig": {
                "bootstrapServers": "localhost:2181",
@@ -107,6 +107,10 @@ The app is meant to be a light-weight application.  Find a [sample configuration
                "kafkaTopicConfig": "earliest",
                "kafkaGroupId": "consumerGroupOne",
                "kafkaTimeout": 5000
+             },
+             "webhookConfig": {
+               "appURL": "http://url.",
+               "appKey": "Malike"
              },
              "smsConfig": {
                "twilioAccountId": "Malike",
@@ -131,6 +135,9 @@ The app is meant to be a light-weight application.  Find a [sample configuration
                "collection": "message"
              },
              "templates": {
+               "APPFLAG_API": "User {{.UnmappedData.UserName}} has failed to execute service {{.UnmappedData.ServiceName}} {{.UnmappedData.FailureCount}} times in the past {{.UnmappedData.FailureDuration}} minutes",
+               "SERVICEHEALTH_API": "Service {{.UnmappedData.ServiceName}} has failed execution {{.UnmappedData.FailureCount}} in the past {{.UnmappedData.FailureDuration}} minutes",
+               "SUBSCRIPTION_API": "Hello {{.UnmappedData.Name}}, Thanks for subscribing to {{.UnmappedData.ItemName}}",
                "APPFLAG_SMS": "User {{.UnmappedData.UserName}} has failed to execute service {{.UnmappedData.ServiceName}} {{.UnmappedData.FailureCount}} times in the past {{.UnmappedData.FailureDuration}} minutes",
                "SERVICEHEALTH_SMS": "Service {{.UnmappedData.ServiceName}} has failed execution {{.UnmappedData.FailureCount}} in the past {{.UnmappedData.FailureDuration}} minutes",
                "SUBSCRIPTION_SMS": "Hello {{.UnmappedData.Name}}, Thanks for subscribing to {{.UnmappedData.ItemName}}",
@@ -139,8 +146,6 @@ The app is meant to be a light-weight application.  Find a [sample configuration
                "REPORTEMBEDED_EMAIL": "{{.UnmappedData.Content}}"
              }
            }
-
-
 <br/>
 
 **i. kafkaConfig**
@@ -149,20 +154,24 @@ Example `127.0.0.1:2181,127.0.0.2:2181`.
 For the other [Apache Kafka]() configurations I'm assuming you already know how what they mean. Read the Apache Kafka docs if you want to know more. The project uses the [go kafka library](https://github.com/confluentinc/confluent-kafka-go) by Confluent. 
 <br/>
 
+**ii. webhookConfig**
+<br/>
 
-**ii. smsConfig**
+
+
+**iii. smsConfig**
 This is where configuration for your [twilio account](https://www.twilio.com/) are. This would enable sending SMS notifications. The project uses the [twilio sms config](https://github.com/sfreiberg/gotwilio).
 <br/>
 
-**iii. emailConfig**
+**iv. emailConfig**
 This is where configuration for your [email smtp]() would be. This would enable sending EMAIL notifications. It uses [http://gopkg.in/gomail.v2](http://gopkg.in/gomail.v2)
 <br/>
 
-**iv. dbConfig**
+**v. dbConfig**
 Messages sent out are stored for auditing purposes. Together with the response from twilio or your smtp gateway. This configuration stores them in MongoDB. Uses [this](gopkg.in/mgo.v2/bson) mongodb library for Go.
 <br/>
 
-**iv. templates**
+**vi. templates**
 These are the messaging templates configured for all the alert types. Follow [this](https://gohugo.io/templates/introduction/) to learn how to create your templates. The templates are stored as maps to use *_O(1)_* when finding a template. The key of the map follows this convention `{{EventType}}`+`_`+`{{Delivery Channel}}`. This means an SMS for EventType, SUBSCRIPTION would be `SUBSCRIPTION_SMS` 
 <br/>
 
