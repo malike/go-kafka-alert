@@ -16,15 +16,15 @@ func main() {
 	flag.Parse()
 	util.LogLevel = *logLevel
 	util.NewConfiguration()
-	service.NewKafkaConsumer()
 	util.Trace.Println("Starting up Service with Log level '" + *logLevel + "'")
 	util.Trace.Println("Configuration file loaded successfully with '" +
 		strconv.Itoa(len(util.AppConfiguration.Templates)) + "' templates and " +
 		strconv.Itoa(util.AppConfiguration.Workers) + " workers processing events")
 
+	service.NewKafkaConsumer()
 	if service.KafkaConsumer == nil {
-		os.Exit(1)
 		util.Error.Println("Error starting Kafka Consumer ")
+		os.Exit(1)
 	}
 
 	for {
