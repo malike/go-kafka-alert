@@ -2,6 +2,7 @@ package service
 
 import (
 	"go-kafka-alert/db"
+	"strings"
 )
 
 type EventForMessage interface {
@@ -11,5 +12,5 @@ type EventForMessage interface {
 }
 
 func CheckChannel(event db.Event, channel string) bool {
-	return event.Channel[channel]
+	return event.Channel[strings.ToUpper(channel)]
 }

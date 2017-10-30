@@ -6,13 +6,11 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"encoding/json"
 	"errors"
-	"fmt"
-	"github.com/elastic/beats/metricbeat/module/kubernetes/event"
 	"strconv"
+	"fmt"
 )
 
 var KafkaConsumer *kafka.Consumer
-
 
 func GetEventFromKafkaStream() ([]db.Event, error) {
 	events := []db.Event{}
@@ -50,23 +48,21 @@ func NewKafkaConsumer() {
 		return
 	}
 	kafkaTopic := []string{util.AppConfiguration.KafkaConfig.KafkaTopic}
-	util.Trace.Println("Kafka Consumer created succesfully. Listening on "+util.AppConfiguration.KafkaConfig.KafkaTopic)
+	util.Trace.Println("Kafka Consumer created succesfully. Listening on " + util.AppConfiguration.KafkaConfig.KafkaTopic)
 	err = KafkaConsumer.SubscribeTopics(kafkaTopic, nil)
 
 }
 
 func EventProcessorForChannel(events []db.Event) {
-	if len(events) > 0{
+	if len(events) > 0 {
 		util.Info.Print("Processing " + strconv.Itoa(len(events)))
 		for _, event := range events {
 			if CheckChannel(event, "SMS") {
-				fmt.Println("Events  ...SMS")
 				util.Info.Print("Processing " + event.EventId + " for SMS")
 				smsChannel := EventForSMS{event}
 				ProcessEvent(smsChannel)
 			}
-			if CheckChannel(event, "EMAIL"){
-				fmt.Println("Events  ...EMAIL")
+			if CheckChannel(event, "EMAIL") {
 				util.Info.Print("Processing " + event.EventId + " for EMAIL")
 				emailChannel := EventForEmail{event}
 				ProcessEvent(emailChannel)
@@ -83,6 +79,9 @@ func EventProcessorForChannel(events []db.Event) {
 func ProcessEvent(eventForMessage EventForMessage) {
 	messages, err := eventForMessage.ParseTemplate()
 	if err != nil {
+		util.Info.Print("Error parsing template Error :" + err.Error() + "")
+	} else {
+		fmt.Println("Sending message")
 		for _, msg := range messages {
 			//index message
 			msg.IndexMessage()
