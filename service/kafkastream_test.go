@@ -10,7 +10,7 @@ var event = db.Event{}
 var eventSMS = EventForSMS{event}
 var eventEmail = EventForEmail{event}
 var eventAPI = EventForAPI{event}
-var fakeSteamEvent = db.Event{
+var fakeStreamEvent = db.Event{
 	EventId:"KafkaStream123456",
 	DateCreated:time.Now(),
 	Description:"Subscrption Desc",
@@ -28,25 +28,25 @@ var fakeSteamEvent = db.Event{
 }
 
 func MockGetEventFromKafkaStream() ([]db.Event, error) {
-	return []db.Event{fakeSteamEvent}, nil
+	return []db.Event{fakeStreamEvent}, nil
 }
 
 func TestEventProcessorForChannel(t *testing.T) {
-	db.RemoveAllMessagesByReference(fakeSteamEvent.EventId + "EMAIL")
-	db.RemoveAllMessagesByReference(fakeSteamEvent.EventId + "SMS")
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "EMAIL")
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "SMS")
 
-	fakeEvents, _ := MockGetEventFromKafkaStream()
-	EventProcessorForChannel(fakeEvents)
+	fakeKafkaEvents, _ := MockGetEventFromKafkaStream()
+	EventProcessorForChannel(fakeKafkaEvents)
 
-	emailMsgs, _ := db.FindAllMessagesByReference(fakeSteamEvent.EventId + "EMAIL")
+	emailMsgs, _ := db.FindAllMessagesByReference(fakeStreamEvent.EventId + "EMAIL")
 
-	if CheckChannel(fakeEvents[0],"EMAIL") &&len(emailMsgs) <= 0 {
+	if CheckChannel(fakeKafkaEvents[0], "EMAIL") && len(emailMsgs) <= 0 {
 		t.Error("Error: Email channel not indexed")
 	}
 
-	smsMsgs, _ := db.FindAllMessagesByReference(fakeSteamEvent.EventId + "SMS")
+	smsMsgs, _ := db.FindAllMessagesByReference(fakeStreamEvent.EventId + "SMS")
 
-	if CheckChannel(fakeEvents[0],"SMS") &&len(smsMsgs) <= 0 {
+	if CheckChannel(fakeKafkaEvents[0], "SMS") && len(smsMsgs) <= 0 {
 		t.Error("Error: SMS channel not indexed")
 	}
 }
