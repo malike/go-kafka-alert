@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"errors"
 	"strconv"
-	"fmt"
 )
 
 var KafkaConsumer *kafka.Consumer
@@ -81,7 +80,6 @@ func ProcessEvent(eventForMessage EventForMessage) {
 	if err != nil {
 		util.Info.Print("Error parsing template Error :" + err.Error() + "")
 	} else {
-		fmt.Println("Sending message")
 		for _, msg := range messages {
 			//index message
 			msg.IndexMessage()
