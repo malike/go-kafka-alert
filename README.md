@@ -1,4 +1,6 @@
 
+
+
 # Basic Overview
 
 A Go application that feeds of data from Apache Kafka to send SMS,EMAIL or connects via webhook.
@@ -60,7 +62,7 @@ The *SMS* channel is not supported when using this for **Scheduled Reports**.
 
 #### Email
 
-Connects via SMTP to send emails. To make sure your event is processed by the SMS delivery gateway when using this for a **Notification Service** the _channel_ field in your event written to Apache Kafka should be something like this:
+Connects via SMTP to send emails. To make sure your event is processed by the Email delivery channel when using this for a **Notification Service** the _channel_ field in your event written to Apache Kafka should be something like this:
 
     "channel": {
       "EMAIL": true
@@ -159,15 +161,17 @@ The app is meant to be a light-weight application.  Find a [sample configuration
                "REPORTEMBEDED_EMAIL": "{{.UnmappedData.Content}}"
              }
            }
+
 <br/>
 
 **i. kafkaConfig**
-[Apache Kafka]() configuration. Note you can comma separate the value for `bootstrapServers` nodes if you have multiple nodes. 
+[Apache Kafka](https://kafka.apache.org/) configuration. Note you can comma separate the value for `bootstrapServers` nodes if you have multiple nodes.
 Example `127.0.0.1:2181,127.0.0.2:2181`. 
-For the other [Apache Kafka]() configurations I'm assuming you already know how what they mean. Read the Apache Kafka docs if you want to know more. The project uses the [go kafka library](https://github.com/confluentinc/confluent-kafka-go) by Confluent. 
+For the other [Apache Kafka](https://kafka.apache.org/) configurations I'm assuming you already know how what they mean. Read the Apache Kafka docs if you want to know more. The project uses the [go kafka library](https://github.com/confluentinc/confluent-kafka-go) by Confluent.
 <br/>
 
 **ii. webhookConfig**
+
 <br/>
 
 
@@ -177,7 +181,7 @@ This is where configuration for your [twilio account](https://www.twilio.com/) a
 <br/>
 
 **iv. emailConfig**
-This is where configuration for your [email smtp]() would be. This would enable sending EMAIL notifications. It uses [http://gopkg.in/gomail.v2](http://gopkg.in/gomail.v2)
+This is where configuration for your _email smtp_ would be. This would enable sending EMAIL notifications. It uses [http://gopkg.in/gomail.v2](http://gopkg.in/gomail.v2)
 <br/>
 
 **v. dbConfig**
