@@ -18,6 +18,7 @@ const (
 
 var db, _ = dialDB()
 
+//IndexMessage : Index Message
 func (message *Message) IndexMessage() error {
 	var er error
 	if er = db.C(util.AppConfiguration.DbConfig.Collection).Insert(message); er != nil {
@@ -26,6 +27,7 @@ func (message *Message) IndexMessage() error {
 	return er
 }
 
+//FindMessage : Find Message by ID
 func (message Message) FindMessage(Id string) (Message, error) {
 	var msg Message
 	var err error
@@ -35,12 +37,15 @@ func (message Message) FindMessage(Id string) (Message, error) {
 	return msg, err
 }
 
+//RemoveMessage : Remove Message by ID
 func (message *Message) RemoveMessage(Id string) bool {
 	if err := db.C(util.AppConfiguration.DbConfig.Collection).Remove(bson.M{MESSAGE_ID: Id}); err != nil {
 		return false
 	}
 	return true
 }
+
+//UpdateResponse : Update Message with Response
 func (message *Message) UpdateResponse(Id string, response MessageResponse) (Message, error) {
 	var msg Message
 	err := db.C(util.AppConfiguration.DbConfig.Collection).Update(bson.M{MESSAGE_ID: Id},
@@ -53,6 +58,7 @@ func (message *Message) UpdateResponse(Id string, response MessageResponse) (Mes
 	return msg, err
 }
 
+//FindAllMessagesByReference : Find messages by Reference
 func FindAllMessagesByReference(reference string) ([]Message, error) {
 	var msgs []Message //add limit and sort
 	var err error
@@ -62,11 +68,13 @@ func FindAllMessagesByReference(reference string) ([]Message, error) {
 	return msgs, err
 }
 
+//CountAllMessagesByReference : Count by Reference
 func CountAllMessagesByReference(reference string) int {
 	size, _ := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_REFERENCE: reference}).Count()
 	return size
 }
 
+//RemoveAllMessagesByReference : Remove Messages by Reference
 func RemoveAllMessagesByReference(reference string) {
 	db.C(util.AppConfiguration.DbConfig.Collection).RemoveAll(bson.M{MESSAGE_REFERENCE: reference})
 }
