@@ -7,6 +7,7 @@ import (
 	"text/template"
 )
 
+//ParseTemplateForMessage : Parses Template
 func ParseTemplateForMessage(event db.Event, channel string) (string, error) {
 	var parse string
 	temp := util.AppConfiguration.Templates[event.EventType+"_"+channel]
