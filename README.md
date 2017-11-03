@@ -181,15 +181,15 @@ This is where configuration for your [twilio account](https://www.twilio.com/) a
 <br/>
 
 **iv. emailConfig**
-This is where configuration for your _email smtp_ would be. This would enable sending EMAIL notifications. It uses [http://gopkg.in/gomail.v2](http://gopkg.in/gomail.v2)
+This is where configuration for your _email smtp_ would be. This would enable sending EMAIL notifications. It uses [http://gopkg.in/gomail.v2](https://gopkg.in/gomail.v2)
 <br/>
 
 **v. dbConfig**
-Messages sent out are stored for auditing purposes. Together with the response from twilio or your smtp gateway. This configuration stores them in MongoDB. Uses [this](gopkg.in/mgo.v2/bson) mongodb library for Go.
+Messages sent out are stored for auditing purposes. Together with the response from twilio or your smtp gateway. This configuration stores them in MongoDB. Uses [this](https://gopkg.in/mgo.v2/bson) mongodb library for Go.
 <br/>
 
 **vi. templates**
-These are the messaging templates configured for all the alert types. Follow [this](https://gohugo.io/templates/introduction/) to learn how to create your templates. The templates are stored as maps to give an *_O(1)_* when finding a template. The key of the map follows this convention `{{EventType}}`+`_`+`{{Delivery Channel}}`. This means an SMS for EventType, SUBSCRIPTION would be `SUBSCRIPTION_SMS` 
+These are the messaging templates configured for all the alert types. Follow [this](https://gohugo.io/templates/introduction/) to learn how to create your templates. The templates are stored as maps to give an *_O(1)_* when finding a template. The key of the map follows this convention `"EventType"`+`_`+`"Delivery Channel"`. This means an SMS for EventType, SUBSCRIPTION would be `SUBSCRIPTION_SMS` 
 <br/>
 
 
