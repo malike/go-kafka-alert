@@ -8,9 +8,12 @@ import (
 )
 
 const (
-	MESSAGE_ID        = "messageId" //message Id field in db
+	//MESSAGE_ID : messageId field in db
+	MESSAGE_ID = "messageId"
+	//MESSAGE_REFERENCE : reference field in db
 	MESSAGE_REFERENCE = "reference"
-	MESSAGE_RESPONSE  = "messageResponse"
+	//MESSAGE_RESPONSE : response field in db
+	MESSAGE_RESPONSE = "messageResponse"
 )
 
 var db, _ = dialDB()
