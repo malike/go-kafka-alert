@@ -2,12 +2,12 @@ package service
 
 import (
 	"errors"
-	"go-kafka-alert/db"
-	"time"
-	"strconv"
-	"regexp"
 	"github.com/sfreiberg/gotwilio"
+	"go-kafka-alert/db"
 	"go-kafka-alert/util"
+	"regexp"
+	"strconv"
+	"time"
 )
 
 type EventForSMS struct {
@@ -52,16 +52,16 @@ func (event EventForSMS) SendMessage(message db.Message) db.MessageResponse {
 	var response = db.MessageResponse{}
 	if (db.Message{}) == message {
 		util.Error.Println("Sending  Failed. Message body empty")
-		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE EMPTY", TimeOfResponse: time.Now()}
+		return db.MessageResponse{Status: util.FAILED, Response: "MESSAGE EMPTY", TimeOfResponse: time.Now()}
 	}
 	if message.Content == "" {
 		util.Error.Println("Sending  Failed. Message body empty")
-		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE HAS NO CONTENT", TimeOfResponse: time.Now()}
+		return db.MessageResponse{Status: util.FAILED, Response: "MESSAGE HAS NO CONTENT", TimeOfResponse: time.Now()}
 	}
 	if util.AppConfiguration.SmsConfig.UserName == "" || util.AppConfiguration.SmsConfig.Password == "" ||
 		util.AppConfiguration.SmsConfig.SenderName == "" {
 		util.Error.Println("Sending  Failed. SMS Config not available")
-		return db.MessageResponse{Status:util.FAILED, Response:"SMS Config not available", TimeOfResponse: time.Now()}
+		return db.MessageResponse{Status: util.FAILED, Response: "SMS Config not available", TimeOfResponse: time.Now()}
 	}
 	twilio := gotwilio.NewTwilioClient(util.AppConfiguration.SmsConfig.UserName, util.AppConfiguration.SmsConfig.Password)
 	twilioSmsResponse, smsEx, _ := twilio.SendSMS(util.AppConfiguration.SmsConfig.SenderName, message.Recipient, message.Content, "", "")
@@ -89,4 +89,3 @@ func validatePhone(phone string) bool {
 	re := regexp.MustCompile("[0-9]+") //temporal regex
 	return re.MatchString(phone)
 }
-

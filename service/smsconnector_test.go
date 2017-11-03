@@ -1,20 +1,20 @@
 package service
 
 import (
-	"testing"
-	"go-kafka-alert/db"
 	"fmt"
+	"go-kafka-alert/db"
 	"go-kafka-alert/util"
+	"testing"
 	"time"
 )
 
 var fakeRecipient = "233201234567"
 var fakeEvent = db.Event{
-	EventId:"eventid123456",
-	EventType:"SUBSCRIPTION",
-	UnmappedData:map[string]string{
-		"Name":"Malike",
-		"ItemName":"Monthly Delivery of Awesomeness",
+	EventId:   "eventid123456",
+	EventType: "SUBSCRIPTION",
+	UnmappedData: map[string]string{
+		"Name":     "Malike",
+		"ItemName": "Monthly Delivery of Awesomeness",
 	},
 	Recipient: []string{fakeRecipient},
 	Channel: map[string]bool{
@@ -34,7 +34,7 @@ func TestParseTemplate(t *testing.T) {
 
 func TestParseTemplateInvalidChannel(t *testing.T) {
 	fakeEvent.Channel = map[string]bool{
-		"EMAIL" : true,
+		"EMAIL": true,
 	}
 	_, err := EventForSMS{fakeEvent}.ParseTemplate()
 	if err == nil {
@@ -64,7 +64,7 @@ func TestParseTemplateForAllMessages(t *testing.T) {
 		t.Error("Messages not generated ", err)
 	}
 	if len(msg) != len(fakeEvent.Recipient) {
-		t.Error(fmt.Printf("Messages not generated for all recipients. Expected %d ," +
+		t.Error(fmt.Printf("Messages not generated for all recipients. Expected %d ,"+
 			" Got  %d", len(fakeEvent.Recipient), len(msg)))
 	}
 
@@ -127,7 +127,7 @@ func TestSendMessageWithNil(t *testing.T) {
 }
 
 func TestSendMessageWithContentEmpty(t *testing.T) {
-	msg := db.Message{AlertId:"1234", Content:"", DateCreated:time.Now(), Recipient:"+233201234567"}
+	msg := db.Message{AlertId: "1234", Content: "", DateCreated: time.Now(), Recipient: "+233201234567"}
 	smsEvent := EventForSMS{fakeEvent}
 	smsResponse := smsEvent.SendMessage(msg)
 	if smsResponse.Status == util.SUCCESS {
@@ -158,4 +158,3 @@ func BenchmarkSendMessage(b *testing.B) {
 		smsEvent.SendMessage(msg[0])
 	}
 }
-

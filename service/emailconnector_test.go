@@ -1,20 +1,20 @@
 package service
 
 import (
-	"testing"
-	"go-kafka-alert/db"
 	"fmt"
-	"time"
+	"go-kafka-alert/db"
 	"go-kafka-alert/util"
+	"testing"
+	"time"
 )
 
 var fakeEmailRecipient = "st.malike@gmail.com"
 var fakeEmailEvent = db.Event{
-	EventId:"eventid123456",
-	EventType:"SUBSCRIPTION",
-	UnmappedData:map[string]string{
-		"Name":"Malike",
-		"ItemName":"Monthly Delivery of Awesomeness",
+	EventId:   "eventid123456",
+	EventType: "SUBSCRIPTION",
+	UnmappedData: map[string]string{
+		"Name":     "Malike",
+		"ItemName": "Monthly Delivery of Awesomeness",
 	},
 	Recipient: []string{fakeEmailRecipient},
 	Channel: map[string]bool{
@@ -24,7 +24,7 @@ var fakeEmailEvent = db.Event{
 
 func TestParseTemplateInvalidChannelEmail(t *testing.T) {
 	fakeEmailEvent.Channel = map[string]bool{
-		"SMS" : true,
+		"SMS": true,
 	}
 	_, err := EventForEmail{fakeEmailEvent}.ParseTemplate()
 	if err != nil {
@@ -46,7 +46,7 @@ func TestParseTemplateForAllMessagesEmail(t *testing.T) {
 		t.Error("Messages not generated ", err)
 	}
 	if len(msg) != len(fakeEmailEvent.Recipient) {
-		t.Error(fmt.Printf("Messages not generated for all recipients. Expected %d ," +
+		t.Error(fmt.Printf("Messages not generated for all recipients. Expected %d ,"+
 			" Got  %d", len(fakeEmailEvent.Recipient), len(msg)))
 	}
 }
@@ -103,7 +103,7 @@ func TestSendMessageWithNilEmail(t *testing.T) {
 }
 
 func TestSendMessageWithContentEmptyEmail(t *testing.T) {
-	msg := db.Message{AlertId:"1234", Content:"", DateCreated:time.Now(), Recipient:"+233201234567"}
+	msg := db.Message{AlertId: "1234", Content: "", DateCreated: time.Now(), Recipient: "+233201234567"}
 	emailEvent := EventForEmail{fakeEmailEvent}
 	emResponse := emailEvent.SendMessage(msg)
 	if emResponse.Status != util.FAILED {
@@ -145,8 +145,8 @@ func BenchmarkParseTemplateForMessageEmail(b *testing.B) {
 }
 
 func BenchmarkSendMessageEmail(b *testing.B) {
-	if (testing.Short()) {
-		b.Skip("Test is running in short mode");
+	if testing.Short() {
+		b.Skip("Test is running in short mode")
 	}
 	for i := 0; i < b.N; i++ {
 		fakeEmailEvent.Recipient = []string{

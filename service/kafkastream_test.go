@@ -1,51 +1,50 @@
 package service
 
 import (
-	"testing"
 	"go-kafka-alert/db"
+	"testing"
 	"time"
 )
 
 var fakeStreamEvent = db.Event{
-	EventId:"KafkaStream123456",
-	DateCreated:time.Now(),
-	Description:"Subscrption Desc",
-	EventType:"SUBSCRIPTION",
-	UnmappedData:map[string]string{
-		"Name":"Malike St",
-		"ItemName":"Monthly Delivery of Awesomeness",
+	EventId:     "KafkaStream123456",
+	DateCreated: time.Now(),
+	Description: "Subscrption Desc",
+	EventType:   "SUBSCRIPTION",
+	UnmappedData: map[string]string{
+		"Name":     "Malike St",
+		"ItemName": "Monthly Delivery of Awesomeness",
 	},
-	Recipient: []string{"0201234567","0241234567", "st.malike@gmail.com"},
+	Recipient: []string{"0201234567", "0241234567", "st.malike@gmail.com"},
 	Channel: map[string]bool{
-		"SMS": true,
+		"SMS":   true,
 		"EMAIL": true,
 	},
-	Subject:"Test Subscription from Kafa Stream",
+	Subject: "Test Subscription from Kafa Stream",
 }
 var fakeStreamEventService = db.Event{
-	EventId:"KafkaStream123456",
-	DateCreated:time.Now(),
-	Description:"Metrics on Service A",
-	EventType:"SERVICEHEALTH",
-	UnmappedData:map[string]string{
-		"ServiceName":"Service A",
-		"FailureCount":"4",
-		"FailureDuration":"15 Minutes",
+	EventId:     "KafkaStream123456",
+	DateCreated: time.Now(),
+	Description: "Metrics on Service A",
+	EventType:   "SERVICEHEALTH",
+	UnmappedData: map[string]string{
+		"ServiceName":     "Service A",
+		"FailureCount":    "4",
+		"FailureDuration": "15",
 	},
-	Recipient: []string{"0201234567","0241234567", "st.malike@gmail.com"},
+	Recipient: []string{"0201234567", "0241234567", "st.malike@gmail.com"},
 	Channel: map[string]bool{
-		"SMS": true,
+		"SMS":   true,
 		"EMAIL": true,
 	},
-	Subject:"Service Health Alert [Kafa Stream]",
+	Subject: "Service Health Alert [Kafa Stream]",
 }
 var eventSMS = EventForSMS{fakeStreamEvent}
 var eventEmail = EventForEmail{fakeStreamEvent}
 var eventAPI = EventForAPI{fakeStreamEvent}
 
-
 func MockGetEventFromKafkaStream() ([]db.Event, error) {
-	return []db.Event{fakeStreamEvent,fakeStreamEventService}, nil
+	return []db.Event{fakeStreamEvent, fakeStreamEventService}, nil
 }
 
 func TestEventProcessorForChannel(t *testing.T) {
@@ -95,7 +94,6 @@ func TestProcessEventEmail(t *testing.T) {
 	}
 
 }
-
 
 func BenchmarkProcessEventForSMS(b *testing.B) {
 	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "SMS")

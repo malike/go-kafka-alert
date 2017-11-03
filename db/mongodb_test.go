@@ -1,27 +1,27 @@
 package db
 
 import (
+	"fmt"
+	"strconv"
 	"testing"
 	"time"
-	"strconv"
-	"fmt"
 )
 
 var msg = Message{
-	MessageId :"1234",
-	Content:"Sample Message",
-	AlertId:"Test1234",
-	Subject:"Sample Subject",
-	Recipient:"st.malike@gmail.com",
+	MessageId:   "1234",
+	Content:     "Sample Message",
+	AlertId:     "Test1234",
+	Subject:     "Sample Subject",
+	Recipient:   "st.malike@gmail.com",
 	DateCreated: time.Now(),
 }
 
 var messageIds = []string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}
 
 var messageResponse = MessageResponse{
-	APIStatus:"DELIVERED:123456",
-	Response:"SENT",
-	Status:"SUCCESS",
+	APIStatus:      "DELIVERED:123456",
+	Response:       "SENT",
+	Status:         "SUCCESS",
 	TimeOfResponse: time.Now(),
 }
 

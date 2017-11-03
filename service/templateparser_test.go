@@ -1,17 +1,17 @@
 package service
 
 import (
-	"testing"
 	"go-kafka-alert/db"
+	"testing"
 )
 
 var fakeTempEvent = db.Event{
-	EventId:"eventid123456",
-	EventType:"SUBSCRIPTION",
-	Description:"Notification based on subscribing to a service",
-	UnmappedData:map[string]string{
-		"Name":"Malike",
-		"ItemName":"Monthly Delivery of Awesomeness",
+	EventId:     "eventid123456",
+	EventType:   "SUBSCRIPTION",
+	Description: "Notification based on subscribing to a service",
+	UnmappedData: map[string]string{
+		"Name":     "Malike",
+		"ItemName": "Monthly Delivery of Awesomeness",
 	},
 	Recipient: []string{fakeRecipient},
 	Channel: map[string]bool{

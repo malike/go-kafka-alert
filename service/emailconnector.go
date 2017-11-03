@@ -2,12 +2,12 @@ package service
 
 import (
 	"errors"
-	"go-kafka-alert/db"
-	"time"
-	"strconv"
 	"github.com/smancke/mailck"
+	"go-kafka-alert/db"
 	"go-kafka-alert/util"
 	"gopkg.in/gomail.v2"
+	"strconv"
+	"time"
 )
 
 var smtpDialer = gomail.NewDialer(util.AppConfiguration.SmtpConfig.Host,
@@ -55,7 +55,7 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 	if message.Content == "" {
 		util.Error.Println("Sending  Failed. Message body empty")
-		return db.MessageResponse{Status:util.FAILED, Response:"MESSAGE EMPTY", TimeOfResponse: time.Now()}
+		return db.MessageResponse{Status: util.FAILED, Response: "MESSAGE EMPTY", TimeOfResponse: time.Now()}
 	}
 
 	emailResponse := db.MessageResponse{}
@@ -78,7 +78,7 @@ func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 		m.Attach(message.FileAttached)
 	}
 
-	er := gomail.Send(s, m);
+	er := gomail.Send(s, m)
 	if er != nil {
 		emailResponse.Response = er.Error()
 		emailResponse.Status = util.FAILED
@@ -96,6 +96,3 @@ func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 func validateEmail(email string) bool {
 	return mailck.CheckSyntax(email)
 }
-
-
-

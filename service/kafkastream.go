@@ -1,11 +1,11 @@
 package service
 
 import (
-	"go-kafka-alert/db"
-	"go-kafka-alert/util"
-	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"encoding/json"
 	"errors"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
+	"go-kafka-alert/db"
+	"go-kafka-alert/util"
 	"strconv"
 )
 
@@ -40,8 +40,7 @@ func NewKafkaConsumer() {
 		"session.timeout.ms":              util.AppConfiguration.KafkaConfig.KafkaTimeout,
 		"go.events.channel.enable":        true,
 		"go.application.rebalance.enable": true,
-		"default.topic.config":            kafka.ConfigMap{"auto.offset.reset":
-		util.AppConfiguration.KafkaConfig.KafkaTopicConfig}})
+		"default.topic.config":            kafka.ConfigMap{"auto.offset.reset": util.AppConfiguration.KafkaConfig.KafkaTopicConfig}})
 	if err != nil {
 		util.Error.Println("Error creating consumer : " + err.Error())
 		return

@@ -1,42 +1,42 @@
 package util
 
 import (
-	"os"
-	"io/ioutil"
 	"encoding/json"
-	"path/filepath"
-	"log"
-	"io"
-	"strings"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"log"
+	"os"
+	"path/filepath"
+	"strings"
 )
 
 const (
 	SUCCESS = "SUCCESS"
-	FAILED = "FAILED"
-	TRACE = "TRACE"
-	ERROR = "ERROR"
+	FAILED  = "FAILED"
+	TRACE   = "TRACE"
+	ERROR   = "ERROR"
 	WARNING = "WARNING"
-	INFO = "INFO"
+	INFO    = "INFO"
 )
 
 var (
 	AppConfiguration *Configuration
-	Error *log.Logger
-	Info *log.Logger
-	Warning *log.Logger
-	Trace *log.Logger
-	LogLevel string = "ERROR" //default config
+	Error            *log.Logger
+	Info             *log.Logger
+	Warning          *log.Logger
+	Trace            *log.Logger
+	LogLevel         string = "ERROR" //default config
 )
 
 type SMTPConfig struct {
 	Host        string `json:"smtpServerHost"`
-	Port        int `json:"smtpServerPort"`
+	Port        int    `json:"smtpServerPort"`
 	Username    string `json:"emailAuthUserName"`
 	Password    string `json:"emailAuthPassword"`
 	EmailFrom   string `json:"emailFrom"`
 	EmailSender string `json:"emailSender"`
-	TLS         bool `json:"tls"`
+	TLS         bool   `json:"tls"`
 }
 
 type SMSConfig struct {
@@ -50,12 +50,12 @@ type KafkaConfig struct {
 	KafkaTopic       string `json:"kafkaTopic"`
 	KafkaTopicConfig string `json:"kafkaTopicConfig"`
 	KafkaGroupId     string `json:"kafkaGroupId"`
-	KafkaTimeout     int `json:"kafkaTimeout"`
+	KafkaTimeout     int    `json:"kafkaTimeout"`
 }
 
 type DBConfig struct {
 	MongoHost       string `json:"mongoHost"`
-	MongoPort       int `json:"mongoPort"`
+	MongoPort       int    `json:"mongoPort"`
 	MongoDBUsername string `json:"mongoDBUsername"`
 	MongoDBPassword string `json:"mongoDBPassword"`
 	MongoDB         string `json:"mongoDB"`
@@ -63,18 +63,18 @@ type DBConfig struct {
 }
 
 type Configuration struct {
-	Workers         int `json:"workers"`
-	LogFileLocation string `json:"logFileLocation"`
-	Log             bool `json:"log"`
-	KafkaConfig     KafkaConfig `json:"kafkaConfig"`
-	DbConfig        DBConfig `json:"dbConfig"`
-	SmsConfig       SMSConfig `json:"smsConfig"`
-	SmtpConfig      SMTPConfig `json:"emailConfig"`
+	Workers         int               `json:"workers"`
+	LogFileLocation string            `json:"logFileLocation"`
+	Log             bool              `json:"log"`
+	KafkaConfig     KafkaConfig       `json:"kafkaConfig"`
+	DbConfig        DBConfig          `json:"dbConfig"`
+	SmsConfig       SMSConfig         `json:"smsConfig"`
+	SmtpConfig      SMTPConfig        `json:"emailConfig"`
 	Templates       map[string]string `json:"templates"`
 }
 
 func SetLogLevel(logLevel string) {
-	f, err := os.OpenFile(AppConfiguration.LogFileLocation, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+	f, err := os.OpenFile(AppConfiguration.LogFileLocation, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("Error opening log file: %s", err.Error())
 	}
@@ -136,7 +136,7 @@ func (config *Configuration) GetTemplate(templateId string) string {
 }
 
 func initLog(traceHandle io.Writer, infoHandle io.Writer,
-warningHandle io.Writer, errorHandle io.Writer, isFlag bool) {
+	warningHandle io.Writer, errorHandle io.Writer, isFlag bool) {
 	flag := 0
 	if isFlag {
 		flag = log.Ldate | log.Ltime | log.Lshortfile | log.LstdFlags

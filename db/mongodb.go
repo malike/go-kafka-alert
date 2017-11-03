@@ -1,16 +1,16 @@
 package db
 
 import (
-	"gopkg.in/mgo.v2"
 	"go-kafka-alert/util"
-	"time"
+	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"time"
 )
 
 const (
-	MESSAGE_ID = "messageId"
+	MESSAGE_ID        = "messageId"
 	MESSAGE_REFERENCE = "reference"
-	MESSAGE_RESPONSE = "messageResponse"
+	MESSAGE_RESPONSE  = "messageResponse"
 )
 
 var db, _ = dialDB()
@@ -26,22 +26,22 @@ func (message *Message) IndexMessage() error {
 func (message Message) FindMessage(Id string) (Message, error) {
 	var msg Message
 	var err error
-	if err := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_ID:Id}).One(&msg); err != nil {
+	if err := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_ID: Id}).One(&msg); err != nil {
 		util.Error.Println("Error finding message by Id : " + Id + err.Error())
 	}
 	return msg, err
 }
 
 func (message *Message) RemoveMessage(Id string) bool {
-	if err := db.C(util.AppConfiguration.DbConfig.Collection).Remove(bson.M{MESSAGE_ID:Id}); err != nil {
+	if err := db.C(util.AppConfiguration.DbConfig.Collection).Remove(bson.M{MESSAGE_ID: Id}); err != nil {
 		return false
 	}
 	return true
 }
 func (message *Message) UpdateResponse(Id string, response MessageResponse) (Message, error) {
 	var msg Message
-	err := db.C(util.AppConfiguration.DbConfig.Collection).Update(bson.M{MESSAGE_ID:Id},
-		bson.M{"$set":bson.M{MESSAGE_RESPONSE: response}})
+	err := db.C(util.AppConfiguration.DbConfig.Collection).Update(bson.M{MESSAGE_ID: Id},
+		bson.M{"$set": bson.M{MESSAGE_RESPONSE: response}})
 	if err != nil {
 		util.Error.Println("Error updating message " + err.Error())
 		return msg, err
@@ -53,20 +53,19 @@ func (message *Message) UpdateResponse(Id string, response MessageResponse) (Mes
 func FindAllMessagesByReference(reference string) ([]Message, error) {
 	var msgs []Message //add limit and sort
 	var err error
-	if err = db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_REFERENCE:reference}).All(&msgs);
-		err != nil {
+	if err = db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_REFERENCE: reference}).All(&msgs); err != nil {
 		util.Error.Println("Error finding message by reference " + err.Error())
 	}
 	return msgs, err
 }
 
 func CountAllMessagesByReference(reference string) int {
-	size, _ := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_REFERENCE:reference}).Count()
+	size, _ := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_REFERENCE: reference}).Count()
 	return size
 }
 
 func RemoveAllMessagesByReference(reference string) {
-	db.C(util.AppConfiguration.DbConfig.Collection).RemoveAll(bson.M{MESSAGE_REFERENCE:reference})
+	db.C(util.AppConfiguration.DbConfig.Collection).RemoveAll(bson.M{MESSAGE_REFERENCE: reference})
 }
 
 func dialDB() (*mgo.Database, error) {
