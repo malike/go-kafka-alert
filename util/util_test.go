@@ -18,7 +18,7 @@ func TestLoadConfiguration(t *testing.T) {
 func TestLoadConfigurationWithTemplates(t *testing.T) {
 	NewConfiguration()
 	if len(AppConfiguration.Templates) == 0 {
-		t.Error("Required configuration not loaded. No Templats found ")
+		t.Error("Required configuration not loaded. No Templates found ")
 		t.FailNow()
 	}
 	t.Log(fmt.Print("Templates found '%d' ", len(AppConfiguration.Templates)))
@@ -30,7 +30,7 @@ func TestLoadConfigurationWithTemplates(t *testing.T) {
 func TestConfiguration_GetTemplate(t *testing.T) {
 	NewConfiguration()
 	if len(AppConfiguration.Templates) == 0 {
-		t.Errorf("Required configuration not loaded. No Templats found ")
+		t.Errorf("Required configuration not loaded. No Templates found ")
 		t.FailNow()
 	}
 	var randomTemplateId string

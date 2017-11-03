@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	MESSAGE_ID        = "messageId"
+	MESSAGE_ID        = "messageId" //message Id field in db
 	MESSAGE_REFERENCE = "reference"
 	MESSAGE_RESPONSE  = "messageResponse"
 )

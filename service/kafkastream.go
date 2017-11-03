@@ -46,7 +46,7 @@ func NewKafkaConsumer() {
 		return
 	}
 	kafkaTopic := []string{util.AppConfiguration.KafkaConfig.KafkaTopic}
-	util.Trace.Println("Kafka Consumer created succesfully. Listening on " + util.AppConfiguration.KafkaConfig.KafkaTopic)
+	util.Trace.Println("Kafka Consumer created successfully. Listening on " + util.AppConfiguration.KafkaConfig.KafkaTopic)
 	err = KafkaConsumer.SubscribeTopics(kafkaTopic, nil)
 
 }
