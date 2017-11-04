@@ -26,9 +26,10 @@ var (
 	Info             *log.Logger
 	Warning          *log.Logger
 	Trace            *log.Logger
-	LogLevel         string = "ERROR" //default config
+	LogLevel         string = "ERROR"
 )
 
+//SMTPConfig : SMTPConfig Properties
 type SMTPConfig struct {
 	Host        string `json:"smtpServerHost"`
 	Port        int    `json:"smtpServerPort"`
@@ -39,12 +40,20 @@ type SMTPConfig struct {
 	TLS         bool   `json:"tls"`
 }
 
+//SMSConfig : Twilio SMS Config Properties
 type SMSConfig struct {
 	UserName   string `json:"twilioAccountId"`
 	Password   string `json:"twilioAuthToken"`
 	SenderName string `json:"smsSender"`
 }
 
+//WebhookConfig : Webhook Config Properties
+type WebhookConfig struct {
+	AppURL   string `json:"appURL"`
+	AppKey   string `json:"appKey"`
+}
+
+//KafkaConfig : Apache Kafka Config Properties
 type KafkaConfig struct {
 	BootstrapServers string `json:"bootstrapServers"`
 	KafkaTopic       string `json:"kafkaTopic"`
@@ -53,6 +62,7 @@ type KafkaConfig struct {
 	KafkaTimeout     int    `json:"kafkaTimeout"`
 }
 
+//DBConfig : MongoDB Config Properties
 type DBConfig struct {
 	MongoHost       string `json:"mongoHost"`
 	MongoPort       int    `json:"mongoPort"`
@@ -62,6 +72,7 @@ type DBConfig struct {
 	Collection      string `json:"collection"`
 }
 
+//Configuration : Configuration File
 type Configuration struct {
 	Workers         int               `json:"workers"`
 	LogFileLocation string            `json:"logFileLocation"`
@@ -70,9 +81,11 @@ type Configuration struct {
 	DbConfig        DBConfig          `json:"dbConfig"`
 	SmsConfig       SMSConfig         `json:"smsConfig"`
 	SmtpConfig      SMTPConfig        `json:"emailConfig"`
+	WebhookConfig   WebhookConfig     `json:"webhookConfig"`
 	Templates       map[string]string `json:"templates"`
 }
 
+//SetLogLevel : Set Logging Level
 func SetLogLevel(logLevel string) {
 	f, err := os.OpenFile(AppConfiguration.LogFileLocation, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
@@ -104,6 +117,7 @@ func SetLogLevel(logLevel string) {
 	}
 }
 
+//NewConfiguration : Loads App Config from File
 func NewConfiguration() {
 	var jsonConfig *os.File
 	dir, _ := filepath.Abs("../")
@@ -131,6 +145,7 @@ func NewConfiguration() {
 	return
 }
 
+//GetTemplate : Gets Template From Config File
 func (config *Configuration) GetTemplate(templateId string) string {
 	return AppConfiguration.Templates[templateId]
 }
