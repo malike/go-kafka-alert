@@ -56,7 +56,7 @@ func main() {
 						eventBatch = events[currentPointer:batchSize]
 					}
 					go service.EventProcessorForChannel(eventBatch)
-					currentPointer += batchSize
+					currentPointer = currentPointer + batchSize + 1
 				}
 			}
 			wg.Wait()
