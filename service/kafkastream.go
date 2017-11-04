@@ -11,6 +11,7 @@ import (
 
 var KafkaConsumer *kafka.Consumer
 
+//GetEventFromKafkaStream : Reads events from Kafka
 func GetEventFromKafkaStream() ([]db.Event, error) {
 	events := []db.Event{}
 	var err error
@@ -32,6 +33,7 @@ func GetEventFromKafkaStream() ([]db.Event, error) {
 	return events, err
 }
 
+//NewKafkaConsumer : New Kafka Consumer
 func NewKafkaConsumer() {
 	var err error
 	KafkaConsumer, err = kafka.NewConsumer(&kafka.ConfigMap{
@@ -51,6 +53,7 @@ func NewKafkaConsumer() {
 
 }
 
+//EventProcessorForChannel : Event Processor For Channel
 func EventProcessorForChannel(events []db.Event) {
 	if len(events) > 0 {
 		util.Info.Print("Processing " + strconv.Itoa(len(events)))
@@ -74,6 +77,7 @@ func EventProcessorForChannel(events []db.Event) {
 	}
 }
 
+//ProcessEvent : Process Event
 func ProcessEvent(eventForMessage EventForMessage) {
 	messages, err := eventForMessage.ParseTemplate()
 	if err != nil {

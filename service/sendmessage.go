@@ -4,6 +4,7 @@ import (
 	"go-kafka-alert/db"
 	"strings"
 )
+
 //EventForMessage : Interface to be Implemented For Delivery Channels
 type EventForMessage interface {
 	ParseTemplate() ([]db.Message, error)

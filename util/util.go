@@ -49,8 +49,8 @@ type SMSConfig struct {
 
 //WebhookConfig : Webhook Config Properties
 type WebhookConfig struct {
-	AppURL   string `json:"appURL"`
-	AppKey   string `json:"appKey"`
+	AppURL string `json:"appURL"`
+	AppKey string `json:"appKey"`
 }
 
 //KafkaConfig : Apache Kafka Config Properties
