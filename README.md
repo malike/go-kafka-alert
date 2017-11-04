@@ -1,6 +1,5 @@
 
 
-
 # Basic Overview
 
 A Go application that feeds of data from Apache Kafka to send SMS,EMAIL or connects via webhook.
