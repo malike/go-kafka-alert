@@ -19,6 +19,7 @@ type EventForEmail struct {
 	TriggeredEvent db.Event
 }
 
+//ParseTemplate : Template Parser Implementation for Email
 func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 	var messages []db.Message
 	channelSupported := CheckChannel(event.TriggeredEvent, "EMAIL")
@@ -52,6 +53,7 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 	return messages, nil
 }
 
+//SendMessage : Messaging Sending for Email
 func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 	if message.Content == "" {
 		util.Error.Println("Sending  Failed. Message body empty")

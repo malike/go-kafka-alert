@@ -14,6 +14,7 @@ type EventForSMS struct {
 	TriggeredEvent db.Event
 }
 
+//ParseTemplate : Parsing Template for SMS
 func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 	var messages []db.Message
 	channelSupported := CheckChannel(event.TriggeredEvent, "SMS")
@@ -48,6 +49,7 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 	return messages, nil
 }
 
+//SendMessage : Message Sending  for SMS
 func (event EventForSMS) SendMessage(message db.Message) db.MessageResponse {
 	var response = db.MessageResponse{}
 	if (db.Message{}) == message {
