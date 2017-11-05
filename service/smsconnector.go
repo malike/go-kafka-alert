@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+//EventForSMS : SMS implementation for SMS
 type EventForSMS struct {
 	TriggeredEvent db.Event
 }

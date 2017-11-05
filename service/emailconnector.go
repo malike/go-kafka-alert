@@ -15,6 +15,7 @@ var smtpDialer = gomail.NewDialer(util.AppConfiguration.SmtpConfig.Host,
 	util.AppConfiguration.SmtpConfig.Username,
 	util.AppConfiguration.SmtpConfig.Password)
 
+//EventForEmail : Email implementation for SMS
 type EventForEmail struct {
 	TriggeredEvent db.Event
 }
