@@ -11,14 +11,14 @@ A Go application that feeds of data from Apache Kafka to send SMS,EMAIL or conne
 It can  be used as is for just notification.By reacting to events pushed to Apache Kafka.
 
            type Event struct {
-                      EventId      string `json:"eventId"`
-                      Subject      string `json:"subject"`
-                      Channel      map[string]bool `json:"channel"`
-                      Recipient    []string `json:"recipient"`
-                      UnmappedData map[string]string `json:"unmappedData"`
-                      EventType    string `json:"eventType"`
-                      Description  string `json:"description"`
-                      DateCreated  time.Time `json:"dateCreated"`
+           	EventId      string            `json:"eventId"`
+           	Subject      string            `json:"subject"`
+           	Channel      map[string]bool   `json:"channel"`
+           	Recipient    []string          `json:"recipient"`
+           	UnmappedData map[string]string `json:"unmappedData"`
+           	EventType    string            `json:"eventType"`
+           	Description  string            `json:"description"`
+           	DateCreated  time.Time         `json:"dateCreated"`
            }
 
 An event pushed to Apache Kafka would be unmarshalled to the `Event` object. So structure your json string. The `unmappedData`
