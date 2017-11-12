@@ -1,12 +1,26 @@
+  - [Basic Overview](#basic-overview)
+  - [Use Cases](#use-cases)
+    - [Notifcation Service](#1-notification-service)
+    - [Custom ElasticSearch Watcher](#2-custom-watcher)
+    - [Scheduled Reports](#3-scheduled-reports)
+  - [Delivery Channels](#delivery-channels) 
+    - [SMS](#sms)
+    - [Email](#email)
+    - [API](#api)
+ - [Setup](#setup)   
+ - [Download](#download)   
+ - [Contribute](CONTRIBUTING.md)
+ - [Code of Conduct](CODE_OF_CONDUCT.md)
+ - [License](https://github.com/malike/go-kafka-alert/blob/master/LICENSE)
 
 
-# Basic Overview
+## Basic Overview
 
 A Go application that feeds of data from Apache Kafka to send SMS,EMAIL or connects via webhook.
 
-# Use Cases
+## Use Cases
 
-#### 1. **Notification Service** : 
+#### 1 **Notification Service** 
 
 It can  be used as is for just notification.By reacting to events pushed to Apache Kafka.
 
@@ -25,11 +39,11 @@ An event pushed to Apache Kafka would be unmarshalled to the `Event` object. So 
 data field can be used for _misc_ data.
 
 
-#### 2. **Custom Watcher** :
+#### 2 **Custom Watcher**
 
 Where it would work with [elasticsearch kafka watch]( https://malike.github.io/elasticsearch-kafka-watch/) to send notification once there's _hit_ in elasticsearch.
 
-#### 3. **Scheduled Reports** : 
+#### 3 **Scheduled Reports**
 
 Uses [elasticsearch report engine](http://malike.github.io/elasticsearch-report-engine) to send scheduled reports as PDF,HTML or CSV by email.
 
@@ -39,7 +53,7 @@ Uses [elasticsearch report engine](http://malike.github.io/elasticsearch-report-
    **ii. CSV/PDF Attached Reports**
    <br/>
 
-# Delivery Channels
+## Delivery Channels
 
 #### SMS
 
@@ -84,7 +98,7 @@ report.
 <br/>
 
 
-#### API (Webhook)
+#### API 
 
 
 | Use as  | Supported |
@@ -104,7 +118,7 @@ report.
                         "API": true 
                       }
 
-# Setup
+## Setup
 
 #### Configuration 
 
@@ -197,7 +211,7 @@ These are the messaging templates configured for all the alert types. Follow [th
 
 
       
-# Download
+## Download
 
 
 
@@ -206,16 +220,16 @@ These are the messaging templates configured for all the alert types. Follow [th
 | [0.1-Prelease Tag]()   |
 
 
-# Contribute
+## Contribute
 
 Contributions are always welcome!
 Please read the [contribution guidelines](CONTRIBUTING.md) first.
 
-# Code of Conduct
+## Code of Conduct
 
 Please read [this](CODE_OF_CONDUCT.md).
 
-# License
+## License
 
 [GNU General Public License v3.0](https://github.com/malike/go-kafka-alert/blob/master/LICENSE)
 
