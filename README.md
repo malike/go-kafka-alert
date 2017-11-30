@@ -8,6 +8,7 @@
     - [Email](#email)
     - [API](#api)
  - [Setup](#setup)   
+ - [Build](#build)   
  - [Download](#download)   
  - [Contribute](CONTRIBUTING.md)
  - [Code of Conduct](CODE_OF_CONDUCT.md)
@@ -209,8 +210,12 @@ These are the messaging templates configured for all the alert types. Follow [th
 
 <br/>
 
+## Setup
 
-      
+The project uses [Glide](https://github.com/Masterminds/glide) as vendor package management. 
+
+<br/>
+
 ## Download
 
 
