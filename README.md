@@ -210,10 +210,15 @@ These are the messaging templates configured for all the alert types. Follow [th
 
 <br/>
 
-## Setup
+## Build
 
-The project uses [Glide](https://github.com/Masterminds/glide) as vendor package management. 
+To compile source, clone repository and run `dep ensure`. The projects uses [dep](https://github.com/golang/dep) as a dependency management tool. 
 
+Because of [go kafka library](https://github.com/confluentinc/confluent-kafka-go) by Confluent, you'll need to also get `librdkafka` installed. 
+
+For Debian systems follow this [link](https://github.com/confluentinc/confluent-kafka-go/#installing-librdkafka).
+
+For OSx use `brew install librdkafka` .  
 <br/>
 
 ## Download
