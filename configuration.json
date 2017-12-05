@@ -1,7 +1,7 @@
 {
   "workers": 4,
   "logFileLocation": "/var/log/go_kafka_alert.log",
-  "log": true,
+  "log": false,
   "kafkaConfig": {
     "bootstrapServers": "localhost:2181",
     "kafkaTopic": "go-kafka-event-stream",

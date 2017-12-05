@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-var smtpDialer = gomail.NewDialer(util.AppConfiguration.SmtpConfig.Host,
+var smtpDialer = gomail.NewPlainDialer(util.AppConfiguration.SmtpConfig.Host,
 	util.AppConfiguration.SmtpConfig.Port,
 	util.AppConfiguration.SmtpConfig.Username,
 	util.AppConfiguration.SmtpConfig.Password)

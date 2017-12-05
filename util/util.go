@@ -87,34 +87,38 @@ type Configuration struct {
 
 //SetLogLevel : Set Logging Level
 func SetLogLevel(logLevel string) {
-	f, err := os.OpenFile(AppConfiguration.LogFileLocation, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		log.Fatalf("Error opening log file: %s", err.Error())
+	if AppConfiguration.Log {
+		f, err := os.OpenFile(AppConfiguration.LogFileLocation, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+		if err != nil {
+			log.Fatalf("Error opening log file: %s", err.Error())
+		}
+		if !AppConfiguration.Log {
+			initLog(ioutil.Discard, ioutil.Discard, ioutil.Discard, ioutil.Discard,
+				false)
+			return
+		}
+		switch strings.ToUpper(logLevel) {
+		case TRACE:
+			initLog(f, f, f, f, true)
+			return
+		case INFO:
+			initLog(ioutil.Discard, f, f, f, true)
+			return
+		case WARNING:
+			initLog(ioutil.Discard, ioutil.Discard, f, f, true)
+			return
+		case ERROR:
+			initLog(ioutil.Discard, ioutil.Discard, ioutil.Discard, f, true)
+			return
+		default:
+			initLog(ioutil.Discard, ioutil.Discard, ioutil.Discard, ioutil.Discard,
+				false)
+			f.Close()
+			return
+		}
 	}
-	if !AppConfiguration.Log {
-		initLog(ioutil.Discard, ioutil.Discard, ioutil.Discard, ioutil.Discard,
-			false)
-		return
-	}
-	switch strings.ToUpper(logLevel) {
-	case TRACE:
-		initLog(f, f, f, f, true)
-		return
-	case INFO:
-		initLog(ioutil.Discard, f, f, f, true)
-		return
-	case WARNING:
-		initLog(ioutil.Discard, ioutil.Discard, f, f, true)
-		return
-	case ERROR:
-		initLog(ioutil.Discard, ioutil.Discard, ioutil.Discard, f, true)
-		return
-	default:
-		initLog(ioutil.Discard, ioutil.Discard, ioutil.Discard, ioutil.Discard,
-			false)
-		f.Close()
-		return
-	}
+	initLog(ioutil.Discard, ioutil.Discard, ioutil.Discard, ioutil.Discard,
+		false)
 }
 
 //NewConfiguration : Loads App Config from File
