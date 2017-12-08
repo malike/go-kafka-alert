@@ -88,7 +88,7 @@ type Configuration struct {
 //SetLogLevel : Set Logging Level
 func SetLogLevel(logLevel string) {
 	if AppConfiguration.Log {
-		f, err := os.OpenFile(AppConfiguration.LogFileLocation, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+		f, err := os.OpenFile(AppConfiguration.LogFileLocation, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			log.Fatalf("Error opening log file: %s", err.Error())
 		}
