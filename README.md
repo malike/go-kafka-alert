@@ -1,7 +1,7 @@
   - [Basic Overview](#basic-overview)
   - [Use Cases](#use-cases)
     - [Notification Service](#1-notification-service)
-    - [Custom ElasticSearch Watcher](#2-custom-watcher)
+    - [Custom Elasticsearch Watcher](#2-custom-watcher)
     - [Scheduled Reports](#3-scheduled-reports)
   - [Delivery Channels](#delivery-channels) 
     - [SMS](#sms)
