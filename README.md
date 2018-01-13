@@ -1,7 +1,7 @@
   - [Basic Overview](#basic-overview)
   - [Use Cases](#use-cases)
     - [Notification Service](#1-notification-service)
-    - [Custom ElasticSearch Watcher](#2-custom-watcher)
+    - [Custom Elasticsearch Watcher](#2-custom-watcher)
     - [Scheduled Reports](#3-scheduled-reports)
   - [Delivery Channels](#delivery-channels) 
     - [SMS](#sms)
@@ -82,7 +82,7 @@ Connects via SMTP to send emails. To make sure your event is processed by the Em
       "EMAIL": true
     }
 
-[Elasticsearch Kafka Watch](https://malike.github.io/elasticsearch-kafka-watch/) would help use this a Custom ElasticSearch Watcher. It
+[Elasticsearch Kafka Watch](https://malike.github.io/elasticsearch-kafka-watch/) would help use this a Custom Elasticsearch Watcher. It
 would generate the right event for Apache Kafka.
 
 For scheduled reports the same plugin would help generate the event which would cause **go-kafka-alert** to react by emailing the
