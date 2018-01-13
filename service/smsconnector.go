@@ -41,6 +41,7 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 			message.Content = messageContent + " " + rep //temp
 			message.Recipient = rep
 			message.DateCreated = dateCreated
+			message.UnmappedData = event.TriggeredEvent.UnmappedData
 			message.MessageId = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
 			messages = append(messages, message)
 		} else {
@@ -53,10 +54,6 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 //SendMessage : Message Sending  for SMS
 func (event EventForSMS) SendMessage(message db.Message) db.MessageResponse {
 	var response = db.MessageResponse{}
-	if (db.Message{}) == message {
-		util.Error.Println("Sending  Failed. Message body empty")
-		return db.MessageResponse{Status: util.FAILED, Response: "MESSAGE EMPTY", TimeOfResponse: time.Now()}
-	}
 	if message.Content == "" {
 		util.Error.Println("Sending  Failed. Message body empty")
 		return db.MessageResponse{Status: util.FAILED, Response: "MESSAGE HAS NO CONTENT", TimeOfResponse: time.Now()}
