@@ -1,7 +1,7 @@
 package service
 
 import (
-	"go-kafka-alert/db"
+	"github.com/malike/go-kafka-alert/db"
 	"testing"
 	"time"
 )

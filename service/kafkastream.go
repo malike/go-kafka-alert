@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
-	"go-kafka-alert/db"
-	"go-kafka-alert/util"
+	"github.com/malike/go-kafka-alert/db"
+	"github.com/malike/go-kafka-alert/util"
 	"strconv"
 )
 

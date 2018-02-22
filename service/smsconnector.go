@@ -2,9 +2,9 @@ package service
 
 import (
 	"errors"
+	"github.com/malike/go-kafka-alert/db"
+	"github.com/malike/go-kafka-alert/util"
 	"github.com/sfreiberg/gotwilio"
-	"go-kafka-alert/db"
-	"go-kafka-alert/util"
 	"regexp"
 	"strconv"
 	"time"
