@@ -12,24 +12,36 @@ import (
 )
 
 const (
+	// nolint
 	SUCCESS = "SUCCESS"
-	FAILED  = "FAILED"
-	TRACE   = "TRACE"
-	ERROR   = "ERROR"
+	// nolint
+	FAILED = "FAILED"
+	// nolint
+	TRACE = "TRACE"
+	// nolint
+	ERROR = "ERROR"
+	// nolint
 	WARNING = "WARNING"
-	INFO    = "INFO"
+	// nolint
+	INFO = "INFO"
 )
 
 var (
+	// nolint
 	AppConfiguration *Configuration
-	Error            *log.Logger
-	Info             *log.Logger
-	Warning          *log.Logger
-	Trace            *log.Logger
-	LogLevel         string = "ERROR"
+	// nolint
+	Error *log.Logger
+	// nolint
+	Info *log.Logger
+	// nolint
+	Warning *log.Logger
+	// nolint
+	Trace *log.Logger
+	// nolint
+	LogLevel = "ERROR"
 )
 
-//SMTPConfig : SMTPConfig Properties
+// SMTPConfig represents SMTPConfig Properties
 type SMTPConfig struct {
 	Host        string `json:"smtpServerHost"`
 	Port        int    `json:"smtpServerPort"`
@@ -40,29 +52,29 @@ type SMTPConfig struct {
 	TLS         bool   `json:"tls"`
 }
 
-//SMSConfig : Twilio SMS Config Properties
+// SMSConfig represents Twilio SMS Config Properties
 type SMSConfig struct {
 	UserName   string `json:"twilioAccountId"`
 	Password   string `json:"twilioAuthToken"`
 	SenderName string `json:"smsSender"`
 }
 
-//WebhookConfig : Webhook Config Properties
+// WebhookConfig : Webhook Config Properties
 type WebhookConfig struct {
 	AppURL string `json:"appURL"`
 	AppKey string `json:"appKey"`
 }
 
-//KafkaConfig : Apache Kafka Config Properties
+// KafkaConfig represents Apache Kafka Config Properties
 type KafkaConfig struct {
 	BootstrapServers string `json:"bootstrapServers"`
 	KafkaTopic       string `json:"kafkaTopic"`
 	KafkaTopicConfig string `json:"kafkaTopicConfig"`
-	KafkaGroupId     string `json:"kafkaGroupId"`
+	KafkaGroupID     string `json:"kafkaGroupId"`
 	KafkaTimeout     int    `json:"kafkaTimeout"`
 }
 
-//DBConfig : MongoDB Config Properties
+// DBConfig represents MongoDB Config Properties
 type DBConfig struct {
 	MongoHost       string `json:"mongoHost"`
 	MongoPort       int    `json:"mongoPort"`
@@ -72,7 +84,7 @@ type DBConfig struct {
 	Collection      string `json:"collection"`
 }
 
-//Configuration : Configuration File
+// Configuration represents configuration File
 type Configuration struct {
 	Workers         int               `json:"workers"`
 	LogFileLocation string            `json:"logFileLocation"`
@@ -85,10 +97,10 @@ type Configuration struct {
 	Templates       map[string]string `json:"templates"`
 }
 
-//SetLogLevel : Set Logging Level
+// SetLogLevel sets Logging Level
 func SetLogLevel(logLevel string) {
 	if AppConfiguration.Log {
-		f, err := os.OpenFile(AppConfiguration.LogFileLocation, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+		f, err := os.OpenFile(AppConfiguration.LogFileLocation, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0600)
 		if err != nil {
 			log.Fatalf("Error opening log file: %s", err.Error())
 		}
@@ -113,7 +125,7 @@ func SetLogLevel(logLevel string) {
 		default:
 			initLog(ioutil.Discard, ioutil.Discard, ioutil.Discard, ioutil.Discard,
 				false)
-			f.Close()
+			f.Close() // nolint
 			return
 		}
 	}
@@ -121,13 +133,13 @@ func SetLogLevel(logLevel string) {
 		false)
 }
 
-//NewConfiguration : Loads App Config from File
+// NewConfiguration loads App Config from File
 func NewConfiguration() {
 	var jsonConfig *os.File
-	dir, _ := filepath.Abs("../")
+	dir, _ := filepath.Abs("../") // nolint
 	jsonConfig, err := os.Open(dir + "/configuration.json")
 	if err != nil {
-		dir, _ := filepath.Abs("./")
+		dir, _ := filepath.Abs("./") // nolint
 		jsonConfig, err = os.Open(dir + "/configuration.json")
 		if err != nil {
 			fmt.Println("Error reading configuration file " + err.Error())
@@ -149,7 +161,7 @@ func NewConfiguration() {
 	return
 }
 
-//GetTemplate : Gets Template From Config File
+// GetTemplate gets Template From Config File
 func (config *Configuration) GetTemplate(templateId string) string {
 	return AppConfiguration.Templates[templateId]
 }

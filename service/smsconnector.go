@@ -20,29 +20,29 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 	var messages []db.Message
 	channelSupported := CheckChannel(event.TriggeredEvent, "SMS")
 	if !channelSupported {
-		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventId + "']. SMS channel not supported.")
+		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventID + "']. SMS channel not supported.")
 		return messages, errors.New("SMS channel not supported")
 	}
 	numOfRecipient := len(event.TriggeredEvent.Recipient)
 	if numOfRecipient <= 0 {
-		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventId + "']. No recipient found.")
+		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventID + "']. No recipient found.")
 		return messages, errors.New("No recipients found")
 	}
 	var messageContent, _ = ParseTemplateForMessage(event.TriggeredEvent, "SMS")
 
-	//generate individual messages for each recipient
+	//generate indivIDual messages for each recipient
 	for _, rep := range event.TriggeredEvent.Recipient {
 		if validatePhone(rep) {
 			dateCreated := time.Now()
 			message := db.Message{}
-			message.AlertId = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
+			message.AlertID = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventID
 			message.Subject = event.TriggeredEvent.Subject
-			message.Reference = event.TriggeredEvent.EventId + "SMS"
+			message.Reference = event.TriggeredEvent.EventID + "SMS"
 			message.Content = messageContent + " " + rep //temp
 			message.Recipient = rep
 			message.DateCreated = dateCreated
 			message.UnmappedData = event.TriggeredEvent.UnmappedData
-			message.MessageId = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventId
+			message.MessageID = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventID
 			messages = append(messages, message)
 		} else {
 			util.Error.Println("Phone number not valid ['" + rep + "']")

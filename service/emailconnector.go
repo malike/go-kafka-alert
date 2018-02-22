@@ -25,13 +25,13 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 	var messages []db.Message
 	channelSupported := CheckChannel(event.TriggeredEvent, "EMAIL")
 	if !channelSupported {
-		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventId + "']. EMAIL channel not supported.")
+		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventID + "']. EMAIL channel not supported.")
 		return messages, errors.New("EMAIL channel not supported")
 	}
 	numOfRecipient := len(event.TriggeredEvent.Recipient)
 	if numOfRecipient <= 0 {
-		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventId + "']. No recipient found.")
-		return messages, errors.New("No recipients found")
+		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventID + "']. No recipient found.")
+		return messages, errors.New("no recipients found")
 	}
 	emailContent, _ := ParseTemplateForMessage(event.TriggeredEvent, "EMAIL")
 	//parse each mail separately because it may vary by recipient
@@ -41,12 +41,12 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 			message := db.Message{}
 			message.Recipient = em
 			message.Subject = event.TriggeredEvent.Subject
-			message.Reference = event.TriggeredEvent.EventId + "EMAIL"
+			message.Reference = event.TriggeredEvent.EventID + "EMAIL"
 			message.DateCreated = dateCreated
-			message.AlertId = event.TriggeredEvent.EventId + "_EMAIL_" + em
+			message.AlertID = event.TriggeredEvent.EventID + "_EMAIL_" + em
 			message.Content = emailContent
 			message.UnmappedData = event.TriggeredEvent.UnmappedData
-			message.MessageId = strconv.Itoa(dateCreated.Nanosecond()) + em + event.TriggeredEvent.EventId
+			message.MessageID = strconv.Itoa(dateCreated.Nanosecond()) + em + event.TriggeredEvent.EventID
 			messages = append(messages, message)
 		} else {
 			util.Error.Println("Email address not valid ['" + em + "']")

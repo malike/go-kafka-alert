@@ -21,7 +21,7 @@ func TestLoadConfigurationWithTemplates(t *testing.T) {
 		t.Error("Required configuration not loaded. No Templates found ")
 		t.FailNow()
 	}
-	t.Log(fmt.Print("Templates found '%d' ", len(AppConfiguration.Templates)))
+	t.Log(fmt.Printf("templates found '%d' ", len(AppConfiguration.Templates)))
 	for k, v := range AppConfiguration.Templates {
 		t.Log("Template ID '" + k + "' ==> " + v)
 	}
@@ -33,19 +33,19 @@ func TestConfiguration_GetTemplate(t *testing.T) {
 		t.Errorf("Required configuration not loaded. No Templates found ")
 		t.FailNow()
 	}
-	var randomTemplateId string
+	var randomTemplateID string
 	var randomTemplateContent string
 	for k, v := range AppConfiguration.Templates {
-		randomTemplateId = k
+		randomTemplateID = k
 		randomTemplateContent = v
 		break
 	}
-	templateContent := AppConfiguration.GetTemplate(randomTemplateId)
+	templateContent := AppConfiguration.GetTemplate(randomTemplateID)
 	if templateContent != randomTemplateContent {
 		t.Errorf("Could not fetch template")
 		t.FailNow()
 	}
-	t.Log("Temaplate ID '" + randomTemplateId + "' matched it's  content '" + randomTemplateContent + "'")
+	t.Log("Temaplate ID '" + randomTemplateID + "' matched it's  content '" + randomTemplateContent + "'")
 }
 
 func BenchmarkConfiguration_GetTemplate(b *testing.B) {

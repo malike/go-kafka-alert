@@ -47,7 +47,7 @@ func main() {
 
 				//..else share
 				currentPointer := 0
-				eventBatch := []db.Event{}
+				var eventBatch []db.Event
 				for i := 1; i <= util.AppConfiguration.Workers; i++ {
 					//slice events ..using batchSize
 					if i == util.AppConfiguration.Workers {

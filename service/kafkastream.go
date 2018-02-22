@@ -9,11 +9,12 @@ import (
 	"strconv"
 )
 
+// nolint
 var KafkaConsumer *kafka.Consumer
 
-//GetEventFromKafkaStream : Reads events from Kafka
+// GetEventFromKafkaStream : Reads events from Kafka
 func GetEventFromKafkaStream() ([]db.Event, error) {
-	events := []db.Event{}
+	var events []db.Event
 	var err error
 	ev := <-KafkaConsumer.Events()
 	switch e := ev.(type) {
@@ -33,12 +34,12 @@ func GetEventFromKafkaStream() ([]db.Event, error) {
 	return events, err
 }
 
-//NewKafkaConsumer : New Kafka Consumer
+// NewKafkaConsumer : New Kafka Consumer
 func NewKafkaConsumer() {
 	var err error
 	KafkaConsumer, err = kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers":               util.AppConfiguration.KafkaConfig.BootstrapServers,
-		"group.id":                        util.AppConfiguration.KafkaConfig.KafkaGroupId,
+		"group.id":                        util.AppConfiguration.KafkaConfig.KafkaGroupID,
 		"session.timeout.ms":              util.AppConfiguration.KafkaConfig.KafkaTimeout,
 		"go.events.channel.enable":        true,
 		"go.application.rebalance.enable": true,
@@ -53,23 +54,23 @@ func NewKafkaConsumer() {
 
 }
 
-//EventProcessorForChannel : Event Processor For Channel
+// EventProcessorForChannel : Event Processor For Channel
 func EventProcessorForChannel(events []db.Event) {
 	if len(events) > 0 {
 		util.Info.Print("Processing " + strconv.Itoa(len(events)))
 		for _, event := range events {
 			if CheckChannel(event, "SMS") {
-				util.Info.Print("Processing " + event.EventId + " for SMS")
+				util.Info.Print("Processing " + event.EventID + " for SMS")
 				smsChannel := EventForSMS{event}
 				ProcessEvent(smsChannel)
 			}
 			if CheckChannel(event, "EMAIL") {
-				util.Info.Print("Processing " + event.EventId + " for EMAIL")
+				util.Info.Print("Processing " + event.EventID + " for EMAIL")
 				emailChannel := EventForEmail{event}
 				ProcessEvent(emailChannel)
 			}
 			if CheckChannel(event, "API") {
-				util.Info.Print("Processing " + event.EventId + " for API")
+				util.Info.Print("Processing " + event.EventID + " for API")
 				apiChannel := EventForAPI{event}
 				ProcessEvent(apiChannel)
 			}
@@ -77,7 +78,7 @@ func EventProcessorForChannel(events []db.Event) {
 	}
 }
 
-//ProcessEvent : Process Event
+// ProcessEvent : Process Event
 func ProcessEvent(eventForMessage EventForMessage) {
 	messages, err := eventForMessage.ParseTemplate()
 	if err != nil {
@@ -89,7 +90,7 @@ func ProcessEvent(eventForMessage EventForMessage) {
 
 			response := eventForMessage.SendMessage(msg)
 			//index response
-			msg.UpdateResponse(msg.MessageId, response)
+			msg.UpdateResponse(msg.MessageID, response)
 
 		}
 	}

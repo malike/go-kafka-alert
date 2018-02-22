@@ -10,7 +10,7 @@ import (
 
 var fakeRecipient = "233201234567"
 var fakeEvent = db.Event{
-	EventId:   "eventid123456",
+	EventID:   "eventid123456",
 	EventType: "SUBSCRIPTION",
 	UnmappedData: map[string]string{
 		"Name":     "Malike",
@@ -127,7 +127,7 @@ func TestSendMessageWithNil(t *testing.T) {
 }
 
 func TestSendMessageWithContentEmpty(t *testing.T) {
-	msg := db.Message{AlertId: "1234", Content: "", DateCreated: time.Now(), Recipient: "+233201234567"}
+	msg := db.Message{AlertID: "1234", Content: "", DateCreated: time.Now(), Recipient: "+233201234567"}
 	smsEvent := EventForSMS{fakeEvent}
 	smsResponse := smsEvent.SendMessage(msg)
 	if smsResponse.Status == util.SUCCESS {

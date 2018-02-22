@@ -6,7 +6,7 @@ import (
 )
 
 var fakeTempEvent = db.Event{
-	EventId:     "eventid123456",
+	EventID:     "eventid123456",
 	EventType:   "SUBSCRIPTION",
 	Description: "Notification based on subscribing to a service",
 	UnmappedData: map[string]string{
