@@ -8,17 +8,14 @@ import (
 )
 
 const (
-	//MESSAGE_ID : messageId field in db
-	MESSAGE_ID = "messageId"
-	//MESSAGE_REFERENCE : reference field in db
-	MESSAGE_REFERENCE = "reference"
-	//MESSAGE_RESPONSE : response field in db
-	MESSAGE_RESPONSE = "messageResponse"
+	messageID       = "messageId"
+	messageRef      = "reference"
+	messageResponse = "messageResponse"
 )
 
 var db, _ = dialDB()
 
-//IndexMessage : Index Message
+// IndexMessage : Index Message
 func (message *Message) IndexMessage() error {
 	var er error
 	if er = db.C(util.AppConfiguration.DbConfig.Collection).Insert(message); er != nil {
@@ -28,28 +25,28 @@ func (message *Message) IndexMessage() error {
 }
 
 //FindMessage : Find Message by ID
-func (message Message) FindMessage(Id string) (Message, error) {
+func (message Message) FindMessage(ID string) (Message, error) {
 	var msg Message
 	var err error
-	if err := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_ID: Id}).One(&msg); err != nil {
-		util.Error.Println("Error finding message by Id : " + Id + err.Error())
+	if err := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{messageID: ID}).One(&msg); err != nil {
+		util.Error.Println("Error finding message by Id : " + ID + err.Error())
 	}
 	return msg, err
 }
 
-//RemoveMessage : Remove Message by ID
-func (message *Message) RemoveMessage(Id string) bool {
-	if err := db.C(util.AppConfiguration.DbConfig.Collection).Remove(bson.M{MESSAGE_ID: Id}); err != nil {
+// RemoveMessage : Remove Message by ID
+func (message *Message) RemoveMessage(ID string) bool {
+	if err := db.C(util.AppConfiguration.DbConfig.Collection).Remove(bson.M{messageID: ID}); err != nil {
 		return false
 	}
 	return true
 }
 
-//UpdateResponse : Update Message with Response
-func (message *Message) UpdateResponse(Id string, response MessageResponse) (Message, error) {
+// UpdateResponse : Update Message with Response
+func (message *Message) UpdateResponse(ID string, response MessageResponse) (Message, error) {
 	var msg Message
-	err := db.C(util.AppConfiguration.DbConfig.Collection).Update(bson.M{MESSAGE_ID: Id},
-		bson.M{"$set": bson.M{MESSAGE_RESPONSE: response}})
+	err := db.C(util.AppConfiguration.DbConfig.Collection).Update(bson.M{messageID: ID},
+		bson.M{"$set": bson.M{messageResponse: response}})
 	if err != nil {
 		util.Error.Println("Error updating message " + err.Error())
 		return msg, err
@@ -58,25 +55,25 @@ func (message *Message) UpdateResponse(Id string, response MessageResponse) (Mes
 	return msg, err
 }
 
-//FindAllMessagesByReference : Find messages by Reference
+// FindAllMessagesByReference : Find messages by Reference
 func FindAllMessagesByReference(reference string) ([]Message, error) {
 	var msgs []Message //add limit and sort
 	var err error
-	if err = db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_REFERENCE: reference}).All(&msgs); err != nil {
+	if err = db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{messageRef: reference}).All(&msgs); err != nil {
 		util.Error.Println("Error finding message by reference " + err.Error())
 	}
 	return msgs, err
 }
 
-//CountAllMessagesByReference : Count by Reference
+// CountAllMessagesByReference : Count by Reference
 func CountAllMessagesByReference(reference string) int {
-	size, _ := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{MESSAGE_REFERENCE: reference}).Count()
+	size, _ := db.C(util.AppConfiguration.DbConfig.Collection).Find(bson.M{messageRef: reference}).Count()
 	return size
 }
 
-//RemoveAllMessagesByReference : Remove Messages by Reference
+// RemoveAllMessagesByReference : Remove Messages by Reference
 func RemoveAllMessagesByReference(reference string) {
-	db.C(util.AppConfiguration.DbConfig.Collection).RemoveAll(bson.M{MESSAGE_REFERENCE: reference})
+	db.C(util.AppConfiguration.DbConfig.Collection).RemoveAll(bson.M{messageRef: reference})
 }
 
 func dialDB() (*mgo.Database, error) {
@@ -96,7 +93,7 @@ func dialDB() (*mgo.Database, error) {
 		return db, err
 	}
 	index := mgo.Index{
-		Key:        []string{MESSAGE_ID},
+		Key:        []string{messageID},
 		Unique:     true,
 		DropDups:   true,
 		Background: true,

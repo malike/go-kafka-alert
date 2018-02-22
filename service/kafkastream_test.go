@@ -7,7 +7,7 @@ import (
 )
 
 var fakeStreamEvent = db.Event{
-	EventId:     "KafkaStream123456",
+	EventID:     "KafkaStream123456",
 	DateCreated: time.Now(),
 	Description: "Subscrption Desc",
 	EventType:   "SUBSCRIPTION",
@@ -23,7 +23,7 @@ var fakeStreamEvent = db.Event{
 	Subject: "Test Subscription from Kafa Stream",
 }
 var fakeStreamEventService = db.Event{
-	EventId:     "KafkaStream123456",
+	EventID:     "KafkaStream123456",
 	DateCreated: time.Now(),
 	Description: "Metrics on Service A",
 	EventType:   "SERVICEHEALTH",
@@ -48,20 +48,20 @@ func MockGetEventFromKafkaStream() ([]db.Event, error) {
 }
 
 func TestEventProcessorForChannel(t *testing.T) {
-	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "EMAIL")
-	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "SMS")
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventID + "EMAIL")
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventID + "SMS")
 
 	fakeKafkaEvents, _ := MockGetEventFromKafkaStream()
 	EventProcessorForChannel(fakeKafkaEvents)
 
-	emailMsgs, _ := db.FindAllMessagesByReference(fakeStreamEvent.EventId + "EMAIL")
+	emailMsgs, _ := db.FindAllMessagesByReference(fakeStreamEvent.EventID + "EMAIL")
 
 	if CheckChannel(fakeKafkaEvents[0], "EMAIL") && len(emailMsgs) <= 0 {
 		t.Error("Error: Email channel not indexed")
 		t.FailNow()
 	}
 
-	smsMsgs, _ := db.FindAllMessagesByReference(fakeStreamEvent.EventId + "SMS")
+	smsMsgs, _ := db.FindAllMessagesByReference(fakeStreamEvent.EventID + "SMS")
 
 	if CheckChannel(fakeKafkaEvents[0], "SMS") && len(smsMsgs) <= 0 {
 		t.Error("Error: SMS channel not indexed")
@@ -70,11 +70,11 @@ func TestEventProcessorForChannel(t *testing.T) {
 }
 
 func TestProcessEventSMS(t *testing.T) {
-	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "SMS")
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventID + "SMS")
 
 	ProcessEvent(eventSMS)
 
-	smsMsgs, _ := db.FindAllMessagesByReference(fakeStreamEvent.EventId + "SMS")
+	smsMsgs, _ := db.FindAllMessagesByReference(fakeStreamEvent.EventID + "SMS")
 
 	if CheckChannel(eventSMS.TriggeredEvent, "SMS") && len(smsMsgs) <= 0 {
 		t.Error("Error: SMS channel not indexed")
@@ -83,11 +83,11 @@ func TestProcessEventSMS(t *testing.T) {
 
 func TestProcessEventEmail(t *testing.T) {
 
-	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "EMAIL")
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventID + "EMAIL")
 
 	ProcessEvent(eventEmail)
 
-	smsMsgs, _ := db.FindAllMessagesByReference(fakeStreamEvent.EventId + "EMAIL")
+	smsMsgs, _ := db.FindAllMessagesByReference(fakeStreamEvent.EventID + "EMAIL")
 
 	if CheckChannel(eventSMS.TriggeredEvent, "EMAIL") && len(smsMsgs) <= 0 {
 		t.Error("Error: EMAIL channel not indexed")
@@ -96,19 +96,21 @@ func TestProcessEventEmail(t *testing.T) {
 }
 
 func BenchmarkProcessEventForSMS(b *testing.B) {
-	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "SMS")
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventID + "SMS")
 	for i := 0; i < b.N; i++ {
 		ProcessEvent(eventSMS)
 	}
-	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "SMS")
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventID + "SMS")
 }
+
 func BenchmarkProcessEventForEmail(b *testing.B) {
-	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "EMAIL")
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventID + "EMAIL")
 	for i := 0; i < b.N; i++ {
 		ProcessEvent(eventEmail)
 	}
-	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "EMAIL")
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventID + "EMAIL")
 }
+
 func BenchmarkProcessEventForAPI(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		ProcessEvent(eventAPI)
@@ -116,8 +118,8 @@ func BenchmarkProcessEventForAPI(b *testing.B) {
 }
 
 func BenchmarkEventProcessorForChannel(b *testing.B) {
-	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "EMAIL")
-	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "SMS")
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventID + "EMAIL")
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventID + "SMS")
 
 	for i := 0; i < b.N; i++ {
 
@@ -125,7 +127,6 @@ func BenchmarkEventProcessorForChannel(b *testing.B) {
 		EventProcessorForChannel(fakeKafkaEvents)
 
 	}
-	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "EMAIL")
-	db.RemoveAllMessagesByReference(fakeStreamEvent.EventId + "SMS")
-
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventID + "EMAIL")
+	db.RemoveAllMessagesByReference(fakeStreamEvent.EventID + "SMS")
 }

@@ -10,7 +10,7 @@ import (
 
 var fakeEmailRecipient = "st.malike@gmail.com"
 var fakeEmailEvent = db.Event{
-	EventId:   "eventid123456",
+	EventID:   "eventid123456",
 	EventType: "SUBSCRIPTION",
 	UnmappedData: map[string]string{
 		"Name":     "Malike",
@@ -103,7 +103,7 @@ func TestSendMessageWithNilEmail(t *testing.T) {
 }
 
 func TestSendMessageWithContentEmptyEmail(t *testing.T) {
-	msg := db.Message{AlertId: "1234", Content: "", DateCreated: time.Now(), Recipient: "+233201234567"}
+	msg := db.Message{AlertID: "1234", Content: "", DateCreated: time.Now(), Recipient: "+233201234567"}
 	emailEvent := EventForEmail{fakeEmailEvent}
 	emResponse := emailEvent.SendMessage(msg)
 	if emResponse.Status != util.FAILED {

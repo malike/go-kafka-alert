@@ -5,8 +5,9 @@ import (
 	"time"
 )
 
+// Event struct
 type Event struct {
-	EventId      string            `json:"eventId"`
+	EventID      string            `json:"eventId"`
 	Subject      string            `json:"subject"`
 	Channel      map[string]bool   `json:"channel"`
 	Recipient    []string          `json:"recipient"`
@@ -16,11 +17,12 @@ type Event struct {
 	DateCreated  time.Time         `json:"dateCreated"`
 }
 
+// Message struct
 type Message struct {
-	_Id             bson.ObjectId     `bson:"_id,omitempty"`
-	MessageId       string            `bson:"messageId,omitempty"`
+	ID              bson.ObjectId     `bson:"_id,omitempty"`
+	MessageID       string            `bson:"messageId,omitempty"`
 	Reference       string            `bson:"reference,omitempty"`
-	AlertId         string            `bson:"alertId,omitempty"`
+	AlertID         string            `bson:"alertId,omitempty"`
 	UnmappedData    map[string]string `json:"unmappedData"`
 	Subject         string            `bson:"subject,omitempty"`
 	Content         string            `bson:"content,omitempty"`
@@ -30,6 +32,7 @@ type Message struct {
 	DateCreated     time.Time         `bson:"dateCreated,omitempty"`
 }
 
+// MessageResponse struct
 type MessageResponse struct {
 	Response       string    `bson:"response,omitempty"`
 	Status         string    `bson:"status,omitempty"`
