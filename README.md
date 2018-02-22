@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/malike/go-kafka-alert.svg?branch=master)](https://travis-ci.org/malike/go-kafka-alert)  
+  
   - [Basic Overview](#basic-overview)
   - [Use Cases](#use-cases)
     - [Notification Service](#1-notification-service)
