@@ -2,9 +2,9 @@ package service
 
 import (
 	"errors"
-	"github.com/smancke/mailck"
 	"github.com/malike/go-kafka-alert/db"
 	"github.com/malike/go-kafka-alert/util"
+	"github.com/smancke/mailck"
 	"gopkg.in/gomail.v2"
 	"strconv"
 	"time"
