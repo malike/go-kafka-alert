@@ -1,7 +1,7 @@
 package db
 
 import (
-	"go-kafka-alert/util"
+	"github.com/malike/go-kafka-alert/util"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"time"

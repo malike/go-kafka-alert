@@ -2,7 +2,7 @@ package service
 
 import (
 	"errors"
-	"go-kafka-alert/db"
+	"github.com/malike/go-kafka-alert/db"
 )
 
 type EventForAPI struct {

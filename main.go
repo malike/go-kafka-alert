@@ -2,9 +2,9 @@ package main
 
 import (
 	"flag"
-	"go-kafka-alert/db"
-	"go-kafka-alert/service"
-	"go-kafka-alert/util"
+	"github.com/malike/go-kafka-alert/db"
+	"github.com/malike/go-kafka-alert/service"
+	"github.com/malike/go-kafka-alert/util"
 	"os"
 	"strconv"
 	"sync"
