@@ -9,6 +9,16 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/malike/go-kafka-alert"
+  packages = [
+    "db",
+    "service",
+    "util"
+  ]
+  revision = "4f673c179a4990496b04d3616b66e7eb58fe8196"
+
+[[projects]]
+  branch = "master"
   name = "github.com/sfreiberg/gotwilio"
   packages = ["."]
   revision = "58125ef28e4b5d7ab5328593099ae8cac5fcf6a2"
@@ -46,6 +56,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "132f7785fe601b0876f25ccf406ddc1a33f24932a2b9625d3a6497382896d030"
+  inputs-digest = "995e160580df4ea6e6382c891138693a8d4bfeabb22fc3f7414e07298f65ffd9"
   solver-name = "gps-cdcl"
   solver-version = 1

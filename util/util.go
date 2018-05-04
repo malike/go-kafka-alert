@@ -12,32 +12,32 @@ import (
 )
 
 const (
-	// nolint
+	// SUCCESS Log Level
 	SUCCESS = "SUCCESS"
-	// nolint
+	// FAILED Log Level
 	FAILED = "FAILED"
-	// nolint
+	// TRACE Log Level
 	TRACE = "TRACE"
-	// nolint
+	// ERROR Log Level
 	ERROR = "ERROR"
-	// nolint
+	// WARNING Log Level
 	WARNING = "WARNING"
-	// nolint
+	// INFO Log Level
 	INFO = "INFO"
 )
 
 var (
-	// nolint
+	// AppConfiguration configuration
 	AppConfiguration *Configuration
-	// nolint
+	// Error Logger
 	Error *log.Logger
-	// nolint
+	// Info Logger
 	Info *log.Logger
-	// nolint
+	// Warning Logger
 	Warning *log.Logger
-	// nolint
+	// Trace Logger
 	Trace *log.Logger
-	// nolint
+	// LogLevel default value "ERROR"
 	LogLevel = "ERROR"
 )
 
@@ -92,7 +92,7 @@ type Configuration struct {
 	KafkaConfig     KafkaConfig       `json:"kafkaConfig"`
 	DbConfig        DBConfig          `json:"dbConfig"`
 	SmsConfig       SMSConfig         `json:"smsConfig"`
-	SmtpConfig      SMTPConfig        `json:"emailConfig"`
+	SMTPConfig      SMTPConfig        `json:"emailConfig"`
 	WebhookConfig   WebhookConfig     `json:"webhookConfig"`
 	Templates       map[string]string `json:"templates"`
 }
@@ -162,8 +162,8 @@ func NewConfiguration() {
 }
 
 // GetTemplate gets Template From Config File
-func (config *Configuration) GetTemplate(templateId string) string {
-	return AppConfiguration.Templates[templateId]
+func (config *Configuration) GetTemplate(templateID string) string {
+	return AppConfiguration.Templates[templateID]
 }
 
 func initLog(traceHandle io.Writer, infoHandle io.Writer,

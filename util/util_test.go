@@ -8,11 +8,11 @@ import (
 func TestLoadConfiguration(t *testing.T) {
 	NewConfiguration()
 	LogLevel = "INFO"
-	if AppConfiguration.SmtpConfig.EmailSender == "" {
+	if AppConfiguration.SMTPConfig.EmailSender == "" {
 		t.Errorf("Required configuration not loaded ")
 		t.FailNow()
 	}
-	t.Log("Email Sender available as " + AppConfiguration.SmtpConfig.EmailSender)
+	t.Log("Email Sender available as " + AppConfiguration.SMTPConfig.EmailSender)
 }
 
 func TestLoadConfigurationWithTemplates(t *testing.T) {
@@ -51,11 +51,11 @@ func TestConfiguration_GetTemplate(t *testing.T) {
 func BenchmarkConfiguration_GetTemplate(b *testing.B) {
 	NewConfiguration()
 	for i := 0; i < b.N; i++ {
-		var randomTemplateId string
+		var randomTemplateID string
 		for k := range AppConfiguration.Templates {
-			randomTemplateId = k
+			randomTemplateID = k
 			break
 		}
-		AppConfiguration.GetTemplate(randomTemplateId)
+		AppConfiguration.GetTemplate(randomTemplateID)
 	}
 }
