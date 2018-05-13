@@ -2,18 +2,19 @@ package service
 
 import (
 	"errors"
+	"strconv"
+	"time"
+
 	"github.com/malike/go-kafka-alert/db"
 	"github.com/malike/go-kafka-alert/util"
 	"github.com/smancke/mailck"
 	"gopkg.in/gomail.v2"
-	"strconv"
-	"time"
 )
 
-var smtpDialer = gomail.NewPlainDialer(util.AppConfiguration.SmtpConfig.Host,
-	util.AppConfiguration.SmtpConfig.Port,
-	util.AppConfiguration.SmtpConfig.Username,
-	util.AppConfiguration.SmtpConfig.Password)
+var smtpDialer = gomail.NewPlainDialer(util.AppConfiguration.SMTPConfig.Host,
+	util.AppConfiguration.SMTPConfig.Port,
+	util.AppConfiguration.SMTPConfig.Username,
+	util.AppConfiguration.SMTPConfig.Password)
 
 //EventForEmail : Email implementation for SMS
 type EventForEmail struct {
@@ -74,7 +75,7 @@ func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 		return emailResponse
 	}
 
-	m.SetHeader("From", util.AppConfiguration.SmtpConfig.EmailFrom)
+	m.SetHeader("From", util.AppConfiguration.SMTPConfig.EmailFrom)
 	m.SetAddressHeader("To", message.Recipient, message.Recipient)
 	m.SetHeader("Subject", message.Subject)
 	m.SetBody("text/html", message.Content)

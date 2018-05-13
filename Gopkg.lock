@@ -15,7 +15,13 @@
     "service",
     "util"
   ]
-  revision = "4f673c179a4990496b04d3616b66e7eb58fe8196"
+  revision = "18f78e8c9eaa1f0273be956ea52c1704334a0eb2"
+
+[[projects]]
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
@@ -25,15 +31,63 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/siebenmann/smtpd"
+  packages = ["."]
+  revision = "b93303610bbe1b2cc570daff2de7d77dfac329a0"
+
+[[projects]]
+  branch = "master"
   name = "github.com/smancke/mailck"
   packages = ["."]
   revision = "c6381616ee9962c52662b94ea34dbecb50246c36"
+
+[[projects]]
+  name = "github.com/stretchr/testify"
+  packages = ["assert"]
+  revision = "12b6f73e6084dad08a7c6e575284b177ecafbc71"
+  version = "v1.2.1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/tarent/lib-compose"
+  packages = ["logging"]
+  revision = "69430f91d1d6dca63dcc8bff8ab310b4872dbea8"
+
+[[projects]]
+  name = "github.com/tarent/logrus"
+  packages = ["."]
+  revision = "ba1b36c82c5e05c4f912a88eab0dcd91a171688f"
+  version = "v0.11.5"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/net"
+  packages = ["context"]
+  revision = "2491c5de3490fced2f6cff376127c667efeed857"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/sys"
+  packages = ["unix"]
+  revision = "d0faeb539838e250bd0a9db4182d48d4a1915181"
+
+[[projects]]
+  name = "gopkg.in/alecthomas/kingpin.v2"
+  packages = ["."]
+  revision = "947dcec5ba9c011838740e680966fd7087a71d0d"
+  version = "v2.2.6"
 
 [[projects]]
   branch = "v3"
   name = "gopkg.in/alexcesaro/quotedprintable.v3"
   packages = ["."]
   revision = "2caba252f4dc53eaf6b553000885530023f54623"
+
+[[projects]]
+  branch = "v1"
+  name = "gopkg.in/check.v1"
+  packages = ["."]
+  revision = "20d25e2804050c1cd24a7eea1e7a6447dd0e74ec"
 
 [[projects]]
   name = "gopkg.in/gomail.v2"
@@ -47,15 +101,29 @@
   packages = [
     ".",
     "bson",
+    "dbtest",
     "internal/json",
     "internal/sasl",
-    "internal/scram"
+    "internal/scram",
+    "txn"
   ]
   revision = "3f83fa5005286a7fe593b055f0d7771a7dce4655"
+
+[[projects]]
+  branch = "v2"
+  name = "gopkg.in/tomb.v2"
+  packages = ["."]
+  revision = "d5d1b5820637886def9eef33e03a27a9f166942c"
+
+[[projects]]
+  name = "gopkg.in/yaml.v2"
+  packages = ["."]
+  revision = "5420a8b6744d3b0345ab293f6fcba19c978f1183"
+  version = "v2.2.1"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "995e160580df4ea6e6382c891138693a8d4bfeabb22fc3f7414e07298f65ffd9"
+  inputs-digest = "71b4570e3eb346c123111ffef8e34cf87c92c22eb28286ce4cf2fe68d6508a04"
   solver-name = "gps-cdcl"
   solver-version = 1
