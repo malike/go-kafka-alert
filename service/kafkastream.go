@@ -3,13 +3,14 @@ package service
 import (
 	"encoding/json"
 	"errors"
+	"strconv"
+
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/malike/go-kafka-alert/db"
 	"github.com/malike/go-kafka-alert/util"
-	"strconv"
 )
 
-// nolint
+// KafkaConsumer instance
 var KafkaConsumer *kafka.Consumer
 
 // GetEventFromKafkaStream : Reads events from Kafka
@@ -17,6 +18,7 @@ func GetEventFromKafkaStream() ([]db.Event, error) {
 	var events []db.Event
 	var err error
 	ev := <-KafkaConsumer.Events()
+	util.Trace.Println("DEBUG : Recieved message " + ev.String())
 	switch e := ev.(type) {
 	case *kafka.Message:
 		err = json.Unmarshal([]byte(string(e.Value)), events)

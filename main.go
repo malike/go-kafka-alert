@@ -2,20 +2,22 @@ package main
 
 import (
 	"flag"
-	"github.com/malike/go-kafka-alert/db"
-	"github.com/malike/go-kafka-alert/service"
-	"github.com/malike/go-kafka-alert/util"
 	"os"
 	"strconv"
 	"sync"
+
+	"github.com/malike/go-kafka-alert/db"
+	"github.com/malike/go-kafka-alert/service"
+	"github.com/malike/go-kafka-alert/util"
 )
 
 func main() {
 
 	logLevel := flag.String("loglevel", "error", "Possible options warn,trace,error,info")
+	profile := flag.String("profile", "default", "Configuration profile")
 	flag.Parse()
 	util.LogLevel = *logLevel
-	util.NewConfiguration()
+	util.NewConfiguration(profile)
 	util.Trace.Println("Starting up Service with Log level '" + *logLevel + "'")
 	util.Trace.Println("Configuration file loaded successfully with '" +
 		strconv.Itoa(len(util.AppConfiguration.Templates)) + "' templates and " +

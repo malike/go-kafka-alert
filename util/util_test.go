@@ -5,8 +5,10 @@ import (
 	"testing"
 )
 
+var profile = "default"
+
 func TestLoadConfiguration(t *testing.T) {
-	NewConfiguration()
+	NewConfiguration(profile)
 	LogLevel = "INFO"
 	if AppConfiguration.SMTPConfig.EmailSender == "" {
 		t.Errorf("Required configuration not loaded ")
@@ -16,7 +18,7 @@ func TestLoadConfiguration(t *testing.T) {
 }
 
 func TestLoadConfigurationWithTemplates(t *testing.T) {
-	NewConfiguration()
+	NewConfiguration(profile)
 	if len(AppConfiguration.Templates) == 0 {
 		t.Error("Required configuration not loaded. No Templates found ")
 		t.FailNow()
@@ -28,7 +30,7 @@ func TestLoadConfigurationWithTemplates(t *testing.T) {
 }
 
 func TestConfiguration_GetTemplate(t *testing.T) {
-	NewConfiguration()
+	NewConfiguration(profile)
 	if len(AppConfiguration.Templates) == 0 {
 		t.Errorf("Required configuration not loaded. No Templates found ")
 		t.FailNow()
@@ -49,7 +51,7 @@ func TestConfiguration_GetTemplate(t *testing.T) {
 }
 
 func BenchmarkConfiguration_GetTemplate(b *testing.B) {
-	NewConfiguration()
+	NewConfiguration(profile)
 	for i := 0; i < b.N; i++ {
 		var randomTemplateID string
 		for k := range AppConfiguration.Templates {

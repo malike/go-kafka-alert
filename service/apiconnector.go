@@ -2,15 +2,16 @@ package service
 
 import (
 	"errors"
+
 	"github.com/malike/go-kafka-alert/db"
 )
 
-// nolint
+// EventForAPI struct
 type EventForAPI struct {
 	TriggeredEvent db.Event
 }
 
-// nolint
+// ParseTemplate for EventForAPI
 func (event EventForAPI) ParseTemplate() ([]db.Message, error) {
 	var message []db.Message
 	channelSupported := CheckChannel(event.TriggeredEvent, "API")
@@ -20,7 +21,7 @@ func (event EventForAPI) ParseTemplate() ([]db.Message, error) {
 	return message, nil
 }
 
-// nolint
+// SendMessage for EventForAPI
 func (event EventForAPI) SendMessage(message db.Message) db.MessageResponse {
 	return db.MessageResponse{}
 }
