@@ -2,12 +2,13 @@ package service
 
 import (
 	"errors"
-	"github.com/malike/go-kafka-alert/db"
-	"github.com/malike/go-kafka-alert/util"
-	"github.com/sfreiberg/gotwilio"
+	"go-kafka-alert/config"
+	"go-kafka-alert/db"
 	"regexp"
 	"strconv"
 	"time"
+
+	"github.com/sfreiberg/gotwilio"
 )
 
 //EventForSMS : SMS implementation for SMS
@@ -20,12 +21,12 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 	var messages []db.Message
 	channelSupported := CheckChannel(event.TriggeredEvent, "SMS")
 	if !channelSupported {
-		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventID + "']. SMS channel not supported.")
+		config.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventID + "']. SMS channel not supported.")
 		return messages, errors.New("SMS channel not supported")
 	}
 	numOfRecipient := len(event.TriggeredEvent.Recipient)
 	if numOfRecipient <= 0 {
-		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventID + "']. No recipient found.")
+		config.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventID + "']. No recipient found.")
 		return messages, errors.New("No recipients found")
 	}
 	var messageContent, _ = ParseTemplateForMessage(event.TriggeredEvent, "SMS")
@@ -45,7 +46,7 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 			message.MessageID = strconv.Itoa(dateCreated.Nanosecond()) + rep + event.TriggeredEvent.EventID
 			messages = append(messages, message)
 		} else {
-			util.Error.Println("Phone number not valid ['" + rep + "']")
+			config.Error.Println("Phone number not valid ['" + rep + "']")
 		}
 	}
 	return messages, nil
@@ -55,32 +56,32 @@ func (event EventForSMS) ParseTemplate() ([]db.Message, error) {
 func (event EventForSMS) SendMessage(message db.Message) db.MessageResponse {
 	var response = db.MessageResponse{}
 	if message.Content == "" {
-		util.Error.Println("Sending  Failed. Message body empty")
-		return db.MessageResponse{Status: util.FAILED, Response: "MESSAGE HAS NO CONTENT", TimeOfResponse: time.Now()}
+		config.Error.Println("Sending  Failed. Message body empty")
+		return db.MessageResponse{Status: config.FAILED, Response: "MESSAGE HAS NO CONTENT", TimeOfResponse: time.Now()}
 	}
-	if util.AppConfiguration.SmsConfig.UserName == "" || util.AppConfiguration.SmsConfig.Password == "" ||
-		util.AppConfiguration.SmsConfig.SenderName == "" {
-		util.Error.Println("Sending  Failed. SMS Config not available")
-		return db.MessageResponse{Status: util.FAILED, Response: "SMS Config not available", TimeOfResponse: time.Now()}
+	if config.AppConfiguration.SmsConfig.UserName == "" || config.AppConfiguration.SmsConfig.Password == "" ||
+		config.AppConfiguration.SmsConfig.SenderName == "" {
+		config.Error.Println("Sending  Failed. SMS Config not available")
+		return db.MessageResponse{Status: config.FAILED, Response: "SMS Config not available", TimeOfResponse: time.Now()}
 	}
-	twilio := gotwilio.NewTwilioClient(util.AppConfiguration.SmsConfig.UserName, util.AppConfiguration.SmsConfig.Password)
-	twilioSmsResponse, smsEx, _ := twilio.SendSMS(util.AppConfiguration.SmsConfig.SenderName, message.Recipient, message.Content, "", "")
+	twilio := gotwilio.NewTwilioClient(config.AppConfiguration.SmsConfig.UserName, config.AppConfiguration.SmsConfig.Password)
+	twilioSmsResponse, smsEx, _ := twilio.SendSMS(config.AppConfiguration.SmsConfig.SenderName, message.Recipient, message.Content, "", "")
 	if smsEx != nil {
 		response.Response = smsEx.Message
 		response.APIStatus = strconv.Itoa(smsEx.Status)
-		response.Status = util.SUCCESS
+		response.Status = config.SUCCESS
 		response.TimeOfResponse = time.Now()
-		util.Info.Println("SMS sent to  ['" + message.Recipient + "']")
+		config.Info.Println("SMS sent to  ['" + message.Recipient + "']")
 		return response
 	}
 	timeSent, err := twilioSmsResponse.DateSentAsTime()
 	if err != nil {
 		timeSent = time.Now()
-		util.Error.Println("Sending  Failed. " + err.Error())
+		config.Error.Println("Sending  Failed. " + err.Error())
 	}
 	response.Response = twilioSmsResponse.Body
 	response.APIStatus = strconv.Itoa(smsEx.Status)
-	response.Status = util.FAILED
+	response.Status = config.FAILED
 	response.TimeOfResponse = timeSent
 	return response
 }

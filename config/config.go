@@ -1,4 +1,4 @@
-package util
+package config
 
 import (
 	"encoding/json"
@@ -134,18 +134,18 @@ func SetLogLevel(logLevel string) {
 }
 
 // NewConfiguration loads App Config from File
-func NewConfiguration() {
+func NewConfiguration(profile string) {
 	var jsonConfig *os.File
-	dir, _ := filepath.Abs("../") // nolint
+	dir, _ := filepath.Abs("../")
 	jsonConfig, err := os.Open(dir + "/configuration.json")
-	if err != nil {
-		dir, _ := filepath.Abs("./") // nolint
-		jsonConfig, err = os.Open(dir + "/configuration.json")
-		if err != nil {
-			fmt.Println("Error reading configuration file " + err.Error())
-			return
-		}
-	}
+	// if err != nil {
+	// 	dir, _ := filepath.Abs("./")
+	// 	jsonConfig, err = os.Open(dir + "/configuration.json")
+	// 	if err != nil {
+	// 		fmt.Println("Error reading configuration file " + err.Error())
+	// 		return
+	// 	}
+	// }
 	defer jsonConfig.Close()
 	byteValue, err := ioutil.ReadAll(jsonConfig)
 	if err != nil {

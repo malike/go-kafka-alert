@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/malike/go-kafka-alert/db"
+	"go-kafka-alert/db"
 	"strings"
 )
 

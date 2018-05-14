@@ -2,8 +2,8 @@ package service
 
 import (
 	"fmt"
-	"github.com/malike/go-kafka-alert/db"
-	"github.com/malike/go-kafka-alert/util"
+	"go-kafka-alert/config"
+	"go-kafka-alert/db"
 	"testing"
 	"time"
 )
@@ -109,7 +109,7 @@ func TestSendMessage(t *testing.T) {
 		t.Error("Messages not generated")
 	}
 	smsResponse := smsEvent.SendMessage(msg[0])
-	if smsResponse.Status != util.SUCCESS {
+	if smsResponse.Status != config.SUCCESS {
 		t.Error(fmt.Printf("Message not sent , Expected 'SUCCESS'. Got '%s'. Error '%s'",
 			smsResponse.Status, smsResponse.Response))
 	}
@@ -120,7 +120,7 @@ func TestSendMessageWithNil(t *testing.T) {
 	msg := db.Message{}
 	smsEvent := EventForSMS{fakeEvent}
 	smsResponse := smsEvent.SendMessage(msg)
-	if smsResponse.Status != util.FAILED {
+	if smsResponse.Status != config.FAILED {
 		t.Error("Empty message was sent.")
 	}
 
@@ -130,7 +130,7 @@ func TestSendMessageWithContentEmpty(t *testing.T) {
 	msg := db.Message{AlertID: "1234", Content: "", DateCreated: time.Now(), Recipient: "+233201234567"}
 	smsEvent := EventForSMS{fakeEvent}
 	smsResponse := smsEvent.SendMessage(msg)
-	if smsResponse.Status == util.SUCCESS {
+	if smsResponse.Status == config.SUCCESS {
 		t.Error("Empty message should fail.")
 	}
 

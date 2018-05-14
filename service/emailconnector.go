@@ -5,16 +5,17 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/malike/go-kafka-alert/db"
-	"github.com/malike/go-kafka-alert/util"
+	"go-kafka-alert/config"
+	"go-kafka-alert/db"
+
 	"github.com/smancke/mailck"
 	"gopkg.in/gomail.v2"
 )
 
-var smtpDialer = gomail.NewPlainDialer(util.AppConfiguration.SMTPConfig.Host,
-	util.AppConfiguration.SMTPConfig.Port,
-	util.AppConfiguration.SMTPConfig.Username,
-	util.AppConfiguration.SMTPConfig.Password)
+var smtpDialer = gomail.NewPlainDialer(config.AppConfiguration.SMTPConfig.Host,
+	config.AppConfiguration.SMTPConfig.Port,
+	config.AppConfiguration.SMTPConfig.Username,
+	config.AppConfiguration.SMTPConfig.Password)
 
 //EventForEmail : Email implementation for SMS
 type EventForEmail struct {
@@ -26,12 +27,12 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 	var messages []db.Message
 	channelSupported := CheckChannel(event.TriggeredEvent, "EMAIL")
 	if !channelSupported {
-		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventID + "']. EMAIL channel not supported.")
+		config.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventID + "']. EMAIL channel not supported.")
 		return messages, errors.New("EMAIL channel not supported")
 	}
 	numOfRecipient := len(event.TriggeredEvent.Recipient)
 	if numOfRecipient <= 0 {
-		util.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventID + "']. No recipient found.")
+		config.Trace.Println("Dropping event ['" + event.TriggeredEvent.EventID + "']. No recipient found.")
 		return messages, errors.New("no recipients found")
 	}
 	emailContent, _ := ParseTemplateForMessage(event.TriggeredEvent, "EMAIL")
@@ -50,7 +51,7 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 			message.MessageID = strconv.Itoa(dateCreated.Nanosecond()) + em + event.TriggeredEvent.EventID
 			messages = append(messages, message)
 		} else {
-			util.Error.Println("Email address not valid ['" + em + "']")
+			config.Error.Println("Email address not valid ['" + em + "']")
 		}
 	}
 	return messages, nil
@@ -59,8 +60,8 @@ func (event EventForEmail) ParseTemplate() ([]db.Message, error) {
 //SendMessage : Messaging Sending for Email
 func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 	if message.Content == "" {
-		util.Error.Println("Sending  Failed. Message body empty")
-		return db.MessageResponse{Status: util.FAILED, Response: "MESSAGE EMPTY", TimeOfResponse: time.Now()}
+		config.Error.Println("Sending  Failed. Message body empty")
+		return db.MessageResponse{Status: config.FAILED, Response: "MESSAGE EMPTY", TimeOfResponse: time.Now()}
 	}
 
 	emailResponse := db.MessageResponse{}
@@ -68,14 +69,14 @@ func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 
 	s, err := smtpDialer.Dial()
 	if err != nil {
-		util.Error.Println("Error sending email " + err.Error())
+		config.Error.Println("Error sending email " + err.Error())
 		emailResponse.Response = err.Error()
-		emailResponse.Status = util.FAILED
+		emailResponse.Status = config.FAILED
 		emailResponse.TimeOfResponse = time.Now()
 		return emailResponse
 	}
 
-	m.SetHeader("From", util.AppConfiguration.SMTPConfig.EmailFrom)
+	m.SetHeader("From", config.AppConfiguration.SMTPConfig.EmailFrom)
 	m.SetAddressHeader("To", message.Recipient, message.Recipient)
 	m.SetHeader("Subject", message.Subject)
 	m.SetBody("text/html", message.Content)
@@ -86,14 +87,14 @@ func (event EventForEmail) SendMessage(message db.Message) db.MessageResponse {
 	er := gomail.Send(s, m)
 	if er != nil {
 		emailResponse.Response = er.Error()
-		emailResponse.Status = util.FAILED
+		emailResponse.Status = config.FAILED
 		emailResponse.TimeOfResponse = time.Now()
-		util.Error.Println("Error sending email " + err.Error())
+		config.Error.Println("Error sending email " + err.Error())
 	} else {
 		emailResponse.Response = "SENT"
-		emailResponse.Status = util.SUCCESS
+		emailResponse.Status = config.SUCCESS
 		emailResponse.TimeOfResponse = time.Now()
-		util.Info.Println("Email sent to  ['" + message.Recipient + "']")
+		config.Info.Println("Email sent to  ['" + message.Recipient + "']")
 	}
 	return emailResponse
 }

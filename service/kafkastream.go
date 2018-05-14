@@ -3,11 +3,11 @@ package service
 import (
 	"encoding/json"
 	"errors"
+	"go-kafka-alert/config"
+	"go-kafka-alert/db"
 	"strconv"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
-	"github.com/malike/go-kafka-alert/db"
-	"github.com/malike/go-kafka-alert/util"
 )
 
 // KafkaConsumer instance
@@ -18,7 +18,7 @@ func GetEventFromKafkaStream() ([]db.Event, error) {
 	var events []db.Event
 	var err error
 	ev := <-KafkaConsumer.Events()
-	util.Trace.Println("DEBUG : Recieved message " + ev.String())
+	config.Trace.Println("DEBUG : Recieved message " + ev.String())
 	switch e := ev.(type) {
 	case *kafka.Message:
 		err = json.Unmarshal([]byte(string(e.Value)), events)
@@ -30,7 +30,7 @@ func GetEventFromKafkaStream() ([]db.Event, error) {
 			}
 		}
 	case kafka.Error:
-		util.Error.Println("Error : " + e.Error())
+		config.Error.Println("Error : " + e.Error())
 		return events, errors.New("Error : " + e.Error())
 	}
 	return events, err
@@ -40,18 +40,18 @@ func GetEventFromKafkaStream() ([]db.Event, error) {
 func NewKafkaConsumer() {
 	var err error
 	KafkaConsumer, err = kafka.NewConsumer(&kafka.ConfigMap{
-		"bootstrap.servers":               util.AppConfiguration.KafkaConfig.BootstrapServers,
-		"group.id":                        util.AppConfiguration.KafkaConfig.KafkaGroupID,
-		"session.timeout.ms":              util.AppConfiguration.KafkaConfig.KafkaTimeout,
+		"bootstrap.servers":               config.AppConfiguration.KafkaConfig.BootstrapServers,
+		"group.id":                        config.AppConfiguration.KafkaConfig.KafkaGroupID,
+		"session.timeout.ms":              config.AppConfiguration.KafkaConfig.KafkaTimeout,
 		"go.events.channel.enable":        true,
 		"go.application.rebalance.enable": true,
-		"default.topic.config":            kafka.ConfigMap{"auto.offset.reset": util.AppConfiguration.KafkaConfig.KafkaTopicConfig}})
+		"default.topic.config":            kafka.ConfigMap{"auto.offset.reset": config.AppConfiguration.KafkaConfig.KafkaTopicConfig}})
 	if err != nil {
-		util.Error.Println("Error creating consumer : " + err.Error())
+		config.Error.Println("Error creating consumer : " + err.Error())
 		return
 	}
-	kafkaTopic := []string{util.AppConfiguration.KafkaConfig.KafkaTopic}
-	util.Trace.Println("Kafka Consumer created successfully. Listening on " + util.AppConfiguration.KafkaConfig.KafkaTopic)
+	kafkaTopic := []string{config.AppConfiguration.KafkaConfig.KafkaTopic}
+	config.Trace.Println("Kafka Consumer created successfully. Listening on " + config.AppConfiguration.KafkaConfig.KafkaTopic)
 	err = KafkaConsumer.SubscribeTopics(kafkaTopic, nil)
 
 }
@@ -59,20 +59,20 @@ func NewKafkaConsumer() {
 // EventProcessorForChannel : Event Processor For Channel
 func EventProcessorForChannel(events []db.Event) {
 	if len(events) > 0 {
-		util.Info.Print("Processing " + strconv.Itoa(len(events)))
+		config.Info.Print("Processing " + strconv.Itoa(len(events)))
 		for _, event := range events {
 			if CheckChannel(event, "SMS") {
-				util.Info.Print("Processing " + event.EventID + " for SMS")
+				config.Info.Print("Processing " + event.EventID + " for SMS")
 				smsChannel := EventForSMS{event}
 				ProcessEvent(smsChannel)
 			}
 			if CheckChannel(event, "EMAIL") {
-				util.Info.Print("Processing " + event.EventID + " for EMAIL")
+				config.Info.Print("Processing " + event.EventID + " for EMAIL")
 				emailChannel := EventForEmail{event}
 				ProcessEvent(emailChannel)
 			}
 			if CheckChannel(event, "API") {
-				util.Info.Print("Processing " + event.EventID + " for API")
+				config.Info.Print("Processing " + event.EventID + " for API")
 				apiChannel := EventForAPI{event}
 				ProcessEvent(apiChannel)
 			}
@@ -84,7 +84,7 @@ func EventProcessorForChannel(events []db.Event) {
 func ProcessEvent(eventForMessage EventForMessage) {
 	messages, err := eventForMessage.ParseTemplate()
 	if err != nil {
-		util.Info.Print("Error parsing template Error :" + err.Error() + "")
+		config.Info.Print("Error parsing template Error :" + err.Error() + "")
 	} else {
 		for _, msg := range messages {
 			//index message
