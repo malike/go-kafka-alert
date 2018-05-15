@@ -133,8 +133,9 @@ func SetLogLevel(logLevel string) {
 		false)
 }
 
-// NewConfiguration loads App Config from File
-func NewConfiguration(profile string) {
+// LoadConfiguration loads App Config from File
+func LoadConfiguration(profile string) (Configuration, error) {
+	var Config Configuration
 	var jsonConfig *os.File
 	dir, _ := filepath.Abs("../")
 	jsonConfig, err := os.Open(dir + "/configuration.json")
@@ -150,15 +151,15 @@ func NewConfiguration(profile string) {
 	byteValue, err := ioutil.ReadAll(jsonConfig)
 	if err != nil {
 		fmt.Println("Error reading configuration file " + err.Error())
-		return
+		return Config, err
 	}
 	er := json.Unmarshal(byteValue, &AppConfiguration)
 	if er != nil {
 		fmt.Println("Error parsing json configuration file ")
-		return
+		return Config, err
 	}
 	SetLogLevel(LogLevel)
-	return
+	return *AppConfiguration, nil
 }
 
 // GetTemplate gets Template From Config File

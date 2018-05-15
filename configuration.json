@@ -1,13 +1,13 @@
 {
   "workers": 4,
-  "logFileLocation": "/var/log/go_kafka_alert.log",
-  "log": false,
+  "logFileLocation": "/Users/cindarella/go/src/go-kafka-alert/go_kafka_alert.log",
+  "log": true,
   "kafkaConfig": {
-    "bootstrapServers": "localhost:2181",
+    "bootstrapServers": "localhost:9092",
     "kafkaTopic": "go-kafka-event-stream",
     "kafkaTopicConfig": "earliest",
     "kafkaGroupId": "consumerGroupOne",
-    "kafkaTimeout": 5000
+    "kafkaTimeout": 50000
   },
   "webhookConfig": {
     "appURL": "http://url.",

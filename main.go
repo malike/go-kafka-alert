@@ -17,7 +17,12 @@ func main() {
 	profile := flag.String("profile", "default", "Configuration profile")
 	flag.Parse()
 	config.LogLevel = *logLevel
-	config.NewConfiguration(*profile)
+	_, configErr := config.LoadConfiguration(*profile)
+	if configErr != nil {
+		config.Error.Println("Error loading config. Shutting down ")
+		os.Exit(1)
+	}
+	db.DialDB()
 	config.Trace.Println("Starting up Service with Log level '" + *logLevel + "'")
 	config.Trace.Println("Configuration file loaded successfully with '" +
 		strconv.Itoa(len(config.AppConfiguration.Templates)) + "' templates and " +
