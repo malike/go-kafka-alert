@@ -27,8 +27,6 @@ const (
 )
 
 var (
-	// AppConfiguration configuration
-	AppConfiguration *Configuration
 	// Error Logger
 	Error *log.Logger
 	// Info Logger
@@ -39,6 +37,10 @@ var (
 	Trace *log.Logger
 	// LogLevel default value "ERROR"
 	LogLevel = "ERROR"
+	// ConfigProfile config profile
+	ConfigProfile = "default"
+	// AppConfiguration configuration
+	AppConfiguration, _ = LoadConfiguration()
 )
 
 // SMTPConfig represents SMTPConfig Properties
@@ -97,14 +99,42 @@ type Configuration struct {
 	Templates       map[string]string `json:"templates"`
 }
 
-// SetLogLevel sets Logging Level
-func SetLogLevel(logLevel string) {
-	if AppConfiguration.Log {
-		f, err := os.OpenFile(AppConfiguration.LogFileLocation, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0600)
+// LoadConfiguration loads App Config from File
+func LoadConfiguration() (*Configuration, error) {
+	var AppConfiguration *Configuration
+	var jsonConfig *os.File
+	dir, _ := filepath.Abs("../")
+	jsonConfig, err := os.Open(dir + "/configuration.json")
+	if err != nil {
+		dir, _ := filepath.Abs("./")
+		jsonConfig, err = os.Open(dir + "/configuration.json")
+		if err != nil {
+			fmt.Println("Error reading configuration file " + err.Error())
+			return AppConfiguration, err
+		}
+	}
+	defer jsonConfig.Close()
+	byteValue, err := ioutil.ReadAll(jsonConfig)
+	if err != nil {
+		fmt.Println("Error reading configuration file " + err.Error())
+		return AppConfiguration, err
+	}
+	er := json.Unmarshal(byteValue, &AppConfiguration)
+	if er != nil {
+		fmt.Println("Error parsing json configuration file ")
+		return AppConfiguration, err
+	}
+	setLogLevel(LogLevel, AppConfiguration)
+	return AppConfiguration, nil
+}
+
+func setLogLevel(logLevel string, Config *Configuration) {
+	if Config.Log {
+		f, err := os.OpenFile(Config.LogFileLocation, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0600)
 		if err != nil {
 			log.Fatalf("Error opening log file: %s", err.Error())
 		}
-		if !AppConfiguration.Log {
+		if !Config.Log {
 			initLog(ioutil.Discard, ioutil.Discard, ioutil.Discard, ioutil.Discard,
 				false)
 			return
@@ -131,35 +161,6 @@ func SetLogLevel(logLevel string) {
 	}
 	initLog(ioutil.Discard, ioutil.Discard, ioutil.Discard, ioutil.Discard,
 		false)
-}
-
-// LoadConfiguration loads App Config from File
-func LoadConfiguration(profile string) (Configuration, error) {
-	var Config Configuration
-	var jsonConfig *os.File
-	dir, _ := filepath.Abs("../")
-	jsonConfig, err := os.Open(dir + "/configuration.json")
-	// if err != nil {
-	// 	dir, _ := filepath.Abs("./")
-	// 	jsonConfig, err = os.Open(dir + "/configuration.json")
-	// 	if err != nil {
-	// 		fmt.Println("Error reading configuration file " + err.Error())
-	// 		return
-	// 	}
-	// }
-	defer jsonConfig.Close()
-	byteValue, err := ioutil.ReadAll(jsonConfig)
-	if err != nil {
-		fmt.Println("Error reading configuration file " + err.Error())
-		return Config, err
-	}
-	er := json.Unmarshal(byteValue, &AppConfiguration)
-	if er != nil {
-		fmt.Println("Error parsing json configuration file ")
-		return Config, err
-	}
-	SetLogLevel(LogLevel)
-	return *AppConfiguration, nil
 }
 
 // GetTemplate gets Template From Config File

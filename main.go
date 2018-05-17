@@ -17,7 +17,8 @@ func main() {
 	profile := flag.String("profile", "default", "Configuration profile")
 	flag.Parse()
 	config.LogLevel = *logLevel
-	_, configErr := config.LoadConfiguration(*profile)
+	config.ConfigProfile = *profile
+	_, configErr := config.LoadConfiguration()
 	if configErr != nil {
 		config.Error.Println("Error loading config. Shutting down ")
 		os.Exit(1)

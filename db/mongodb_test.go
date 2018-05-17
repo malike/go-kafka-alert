@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"go-kafka-alert/config"
 	"strconv"
 	"testing"
 	"time"
@@ -26,6 +27,9 @@ var fakeMessageResponse = MessageResponse{
 }
 
 func TestIndexFindAndRemoveMessage(t *testing.T) {
+	config.ConfigProfile = "test"
+	config.LoadConfiguration()
+	DialDB()
 	err := msg.IndexMessage()
 	if err != nil {
 		t.Fatal("Error saving message " + err.Error())
@@ -43,6 +47,9 @@ func TestIndexFindAndRemoveMessage(t *testing.T) {
 }
 
 func TestUpdateResponseAndRemove(t *testing.T) {
+	config.ConfigProfile = "test"
+	config.LoadConfiguration()
+	DialDB()
 	err := msg.IndexMessage()
 	if err != nil {
 		t.Fatal("Error saving message " + err.Error())
@@ -62,6 +69,9 @@ func TestUpdateResponseAndRemove(t *testing.T) {
 }
 
 func TestFindAllMessagesByReferenceAndRemoveAll(t *testing.T) {
+	config.ConfigProfile = "test"
+	config.LoadConfiguration()
+	DialDB()
 	RemoveAllMessagesByReference("SaveMultipleTest")
 	for _, it := range messageIds {
 		msg.MessageID = it
@@ -77,6 +87,9 @@ func TestFindAllMessagesByReferenceAndRemoveAll(t *testing.T) {
 }
 
 func TestCountAllMessagesByReference(t *testing.T) {
+	config.ConfigProfile = "test"
+	config.LoadConfiguration()
+	DialDB()
 	RemoveAllMessagesByReference("CountByReferenceTest")
 	for _, it := range messageIds {
 		msg.MessageID = it
@@ -92,6 +105,9 @@ func TestCountAllMessagesByReference(t *testing.T) {
 }
 
 func BenchmarkMessage_IndexMessage(b *testing.B) {
+	config.ConfigProfile = "test"
+	config.LoadConfiguration()
+	DialDB()
 	RemoveAllMessagesByReference("BenchMarkTest")
 	for i := 0; i < b.N; i++ {
 		msg.MessageID = strconv.Itoa(i)
@@ -103,6 +119,9 @@ func BenchmarkMessage_IndexMessage(b *testing.B) {
 }
 
 func BenchmarkMessage_IndexAndUpdateMessage(b *testing.B) {
+	config.ConfigProfile = "test"
+	config.LoadConfiguration()
+	DialDB()
 	RemoveAllMessagesByReference("BenchMarkTestIndexUpdate")
 	for i := 0; i < b.N; i++ {
 		msg.MessageID = strconv.Itoa(i)

@@ -12,7 +12,8 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
-var smtpDialer = gomail.NewPlainDialer(config.AppConfiguration.SMTPConfig.Host,
+var smtpDialer = gomail.NewPlainDialer(
+	config.AppConfiguration.SMTPConfig.Host,
 	config.AppConfiguration.SMTPConfig.Port,
 	config.AppConfiguration.SMTPConfig.Username,
 	config.AppConfiguration.SMTPConfig.Password)

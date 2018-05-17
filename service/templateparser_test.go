@@ -43,7 +43,7 @@ func TestParseTemplateForMessage(t *testing.T) {
 		t.Error("Invalid template parsed")
 		t.FailNow()
 	}
-	t.Log("Parsed Template == '" + parsed)
+	// t.Log("Parsed Template == '" + parsed)
 }
 
 func BenchmarkParseTemplateForMessage(b *testing.B) {

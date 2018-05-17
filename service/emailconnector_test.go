@@ -23,6 +23,8 @@ var fakeEmailEvent = db.Event{
 }
 
 func TestParseTemplateInvalidChannelEmail(t *testing.T) {
+	config.ConfigProfile = "test"
+	config.LoadConfiguration()
 	fakeEmailEvent.Channel = map[string]bool{
 		"SMS": true,
 	}
@@ -33,6 +35,8 @@ func TestParseTemplateInvalidChannelEmail(t *testing.T) {
 }
 
 func TestParseTemplateForAllMessagesEmail(t *testing.T) {
+	config.ConfigProfile = "test"
+	config.LoadConfiguration()
 	fakeEmailEvent.Recipient = []string{
 		fakeEmailRecipient,
 		"st.malike@yahoo.com",
@@ -52,6 +56,8 @@ func TestParseTemplateForAllMessagesEmail(t *testing.T) {
 }
 
 func TestParseTemplateAllMessagesExceptInvalidRecipientsEmail(t *testing.T) {
+	config.ConfigProfile = "test"
+	config.LoadConfiguration()
 	fakeEmailEvent.Recipient = []string{
 		fakeEmailRecipient,
 		"st.malike@malike.com",
@@ -99,7 +105,6 @@ func TestSendMessageWithNilEmail(t *testing.T) {
 	if response.Status != config.FAILED {
 		t.Error("Empty message was sent.")
 	}
-
 }
 
 func TestSendMessageWithContentEmptyEmail(t *testing.T) {
