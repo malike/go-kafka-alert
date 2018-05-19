@@ -25,8 +25,9 @@ A Go application that feeds of data from Apache Kafka to send SMS,EMAIL or conne
 
 #### 1 **Notification Service** 
 
-It can  be used as is for just notification.By reacting to events pushed to Apache Kafka.
+It can  be used as is for just notification. By reacting to events pushed to Apache Kafka.
 
+```go
            type Event struct {
            	EventId      string            `json:"eventId"`
            	Subject      string            `json:"subject"`
@@ -37,9 +38,26 @@ It can  be used as is for just notification.By reacting to events pushed to Apac
            	Description  string            `json:"description"`
            	DateCreated  time.Time         `json:"dateCreated"`
            }
+```
 
-An event pushed to Apache Kafka would be unmarshalled to the `Event` object. So structure your json string. The `unmappedData`
-data field can be used for _misc_ data.
+An event pushed to Apache Kafka would be unmarshalled to the `Event` object. So structure your json string. The `unmappedData` data field can be used for _misc_ data.
+
+Sample :
+
+```json
+
+  {
+    "eventId":"12345",
+    "subject":"Signup For Service",
+    "channel":{"EMAIL":true},
+    "recipient":["st.malike@gmail.com"],
+    "eventType":"SUBSCRIPTION",
+    "description":"Signp Notification",
+    "UnmappedData":{"Name":"Malike St","ItemName":"Sample Subscription"}
+  }
+
+```
+
 
 
 #### 2 **Custom Watcher**
@@ -61,11 +79,13 @@ Uses [elasticsearch report engine](http://malike.github.io/elasticsearch-report-
 #### SMS
 
 Connects via Twilio to send sms messages. To make sure your event is processed by the SMS delivery gateway when using this for a **Notification Service** the _channel_ field in your event written to Apache Kafka should be something like this:
-                      
+ 
+ ```json                     
                       "channel": {
                         "SMS": true 
                       }   
-  
+ ```
+
 But when using this as a **Custom Watcher**, you don't need to worry about the format since it would be formatted for you by [elasticsearch kafka watch]( https://malike.github.io/elasticsearch-kafka-watch/)
 
 The *SMS* channel is not supported when using this for **Scheduled Reports**.
@@ -80,9 +100,11 @@ The *SMS* channel is not supported when using this for **Scheduled Reports**.
 
 Connects via SMTP to send emails. To make sure your event is processed by the Email delivery channel when using this for a **Notification Service** the _channel_ field in your event written to Apache Kafka should be something like this:
 
+```json
     "channel": {
       "EMAIL": true
     }
+```
 
 [Elasticsearch Kafka Watch](https://malike.github.io/elasticsearch-kafka-watch/) would help use this a Custom Elasticsearch Watcher. It
 would generate the right event for Apache Kafka.
@@ -127,15 +149,16 @@ report.
 
 The app is meant to be a light-weight application.  Find a [sample configuration](https://github.com/malike/go-kafka-alert/blob/master/configuration.json) file,which is kept in memory, to get app running:
 
+```json
 
            {
              "workers": 4,
              "logFileLocation": "/var/log/go_kafka_alert.log",
              "log": true,
              "kafkaConfig": {
-               "bootstrapServers": "localhost:2181",
+               "bootstrapServers": "localhost:9092",
                "kafkaTopic": "go-kafka-event-stream",
-               "kafkaTopicConfig": "earliest",
+               "kafkaTopicConfig": "latest",
                "kafkaGroupId": "consumerGroupOne",
                "kafkaTimeout": 5000
              },
@@ -177,6 +200,7 @@ The app is meant to be a light-weight application.  Find a [sample configuration
                "REPORTEMBEDED_EMAIL": "{{.UnmappedData.Content}}"
              }
            }
+```
 
 <br/>
 

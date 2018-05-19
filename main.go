@@ -7,7 +7,6 @@ import (
 	"go-kafka-alert/service"
 	"os"
 	"strconv"
-	"sync"
 )
 
 func main() {
@@ -39,15 +38,11 @@ func main() {
 		events, _ := service.GetEventFromKafkaStream()
 
 		if len(events) > 0 {
-			var wg sync.WaitGroup
 
-			//if event is enough for one worker, let it handle it
 			if len(events) <= config.AppConfiguration.Workers {
 				config.Info.Println("Distributing " + strconv.Itoa(len(events)) + " worker of the month")
-				wg.Add(1)
 				go service.EventProcessorForChannel(events)
 			} else {
-				wg.Add(config.AppConfiguration.Workers)
 				batchSize := len(events) / config.AppConfiguration.Workers
 				config.Info.Println("Distributing '" + strconv.Itoa(len(events)) + "' events for '" +
 					strconv.Itoa(config.AppConfiguration.Workers) +
@@ -67,8 +62,6 @@ func main() {
 					currentPointer = currentPointer + batchSize + 1
 				}
 			}
-			defer wg.Wait()
-			defer wg.Done()
 		}
 	}
 }

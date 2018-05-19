@@ -1,6 +1,6 @@
 {
   "workers": 4,
-  "logFileLocation": "/Users/cindarella/go/src/go-kafka-alert/go_kafka_alert.log",
+  "logFileLocation": "/var/log/go_kafka_alert.log",
   "log": true,
   "kafkaConfig": {
     "bootstrapServers": "localhost:9092",
