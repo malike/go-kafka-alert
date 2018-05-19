@@ -11,35 +11,47 @@ import (
 )
 
 // KafkaConsumer instance
-var KafkaConsumer *kafka.Consumer
+var KafkaConsumer = NewKafkaConsumer()
 
 // GetEventFromKafkaStream : Reads events from Kafka
 func GetEventFromKafkaStream() ([]db.Event, error) {
+	var event db.Event
 	var events []db.Event
 	var err error
 	ev := <-KafkaConsumer.Events()
-	config.Trace.Println("DEBUG : Recieved message " + ev.String())
 	switch e := ev.(type) {
+	case kafka.AssignedPartitions:
+		config.Trace.Println(e.String())
+		KafkaConsumer.Assign(e.Partitions)
+	case kafka.RevokedPartitions:
+		config.Trace.Println(e.String())
+		KafkaConsumer.Unassign()
 	case *kafka.Message:
-		err = json.Unmarshal([]byte(string(e.Value)), events)
+		kafkaMessage := string(e.Value)
+		config.Trace.Println("DEBUG : Recieved message " + kafkaMessage)
+		err = json.Unmarshal([]byte(kafkaMessage), &event)
+		if len(event.EventType) > 0 {
+			events = append(events, event)
+		}
 		if err != nil {
-			event := db.Event{}
-			json.Unmarshal([]byte(string(e.Value)), event)
-			if len(event.EventType) > 0 {
-				events = append(events, event)
-			}
+			json.Unmarshal([]byte(kafkaMessage), &events)
+		}
+		if len(events) == 0 {
+			config.Error.Println("Error Casting JSON " + kafkaMessage)
 		}
 	case kafka.Error:
-		config.Error.Println("Error : " + e.Error())
+		config.Error.Println("Error : os.Stderr " + e.Error())
 		return events, errors.New("Error : " + e.Error())
+	case kafka.PartitionEOF:
+		config.Trace.Println("Reached " + e.String())
 	}
 	return events, err
 }
 
 // NewKafkaConsumer : New Kafka Consumer
-func NewKafkaConsumer() {
-	var err error
-	KafkaConsumer, err = kafka.NewConsumer(&kafka.ConfigMap{
+func NewKafkaConsumer() *kafka.Consumer {
+	// var err error
+	var KafkaConsumer, err = kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers":               config.AppConfiguration.KafkaConfig.BootstrapServers,
 		"group.id":                        config.AppConfiguration.KafkaConfig.KafkaGroupID,
 		"session.timeout.ms":              config.AppConfiguration.KafkaConfig.KafkaTimeout,
@@ -48,12 +60,12 @@ func NewKafkaConsumer() {
 		"default.topic.config":            kafka.ConfigMap{"auto.offset.reset": config.AppConfiguration.KafkaConfig.KafkaTopicConfig}})
 	if err != nil {
 		config.Error.Println("Error creating consumer : " + err.Error())
-		return
+		return nil
 	}
 	kafkaTopic := []string{config.AppConfiguration.KafkaConfig.KafkaTopic}
 	config.Trace.Println("Kafka Consumer created successfully. Listening on " + config.AppConfiguration.KafkaConfig.KafkaTopic)
 	err = KafkaConsumer.SubscribeTopics(kafkaTopic, nil)
-
+	return KafkaConsumer
 }
 
 // EventProcessorForChannel : Event Processor For Channel

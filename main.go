@@ -2,13 +2,12 @@ package main
 
 import (
 	"flag"
-	"os"
-	"strconv"
-	"sync"
-
 	"go-kafka-alert/config"
 	"go-kafka-alert/db"
 	"go-kafka-alert/service"
+	"os"
+	"strconv"
+	"sync"
 )
 
 func main() {
@@ -35,7 +34,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	for {
+	run := true
+	for run {
 		events, _ := service.GetEventFromKafkaStream()
 
 		if len(events) > 0 {
@@ -67,8 +67,8 @@ func main() {
 					currentPointer = currentPointer + batchSize + 1
 				}
 			}
-			wg.Wait()
-			wg.Done()
+			defer wg.Wait()
+			defer wg.Done()
 		}
 	}
 }

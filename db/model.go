@@ -1,20 +1,21 @@
 package db
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"time"
+
+	"gopkg.in/mgo.v2/bson"
 )
 
 // Event struct
 type Event struct {
-	EventID      string            `json:"eventId"`
+	EventID      string            `json:"eventId,omitempty"`
 	Subject      string            `json:"subject"`
 	Channel      map[string]bool   `json:"channel"`
 	Recipient    []string          `json:"recipient"`
 	UnmappedData map[string]string `json:"unmappedData"`
 	EventType    string            `json:"eventType"`
 	Description  string            `json:"description"`
-	DateCreated  time.Time         `json:"dateCreated"`
+	DateCreated  time.Time         `json:"dateCreated,omitempty"`
 }
 
 // Message struct

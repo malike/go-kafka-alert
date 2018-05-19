@@ -5,7 +5,7 @@
   "kafkaConfig": {
     "bootstrapServers": "localhost:9092",
     "kafkaTopic": "go-kafka-event-stream",
-    "kafkaTopicConfig": "earliest",
+    "kafkaTopicConfig": "latest",
     "kafkaGroupId": "consumerGroupOne",
     "kafkaTimeout": 50000
   },
