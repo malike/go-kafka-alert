@@ -38,7 +38,7 @@ var (
 	// LogLevel default value "ERROR"
 	LogLevel = "ERROR"
 	// ConfigProfile config profile
-	ConfigProfile = "default"
+	ConfigProfile string
 	// AppConfiguration configuration
 	AppConfiguration, _ = LoadConfiguration()
 )
@@ -100,8 +100,29 @@ type Configuration struct {
 }
 
 // LoadConfiguration loads App Config from File
-func LoadConfiguration() (*Configuration, error) {
-	var AppConfiguration *Configuration
+func LoadConfiguration() (Configuration, error) {
+	var err error
+	var AppConfiguration Configuration
+	if len(ConfigProfile) > 0 {
+		fmt.Println("Loading configuration ['" + ConfigProfile + "'] from server.")
+		AppConfiguration, err = loadConfigFromServer(AppConfiguration)
+	} else {
+		fmt.Println("Loading configuration file.")
+		AppConfiguration, err = loadConfigFromFile(AppConfiguration)
+	}
+	if err != nil {
+		fmt.Println("Error loading configuration. ")
+		os.Exit(1)
+	}
+	setLogLevel(LogLevel, &AppConfiguration)
+	return AppConfiguration, nil
+}
+
+func loadConfigFromServer(configuration Configuration) (Configuration, error) {
+	return configuration, nil
+}
+
+func loadConfigFromFile(configuration Configuration) (Configuration, error) {
 	var jsonConfig *os.File
 	dir, _ := filepath.Abs("../")
 	jsonConfig, err := os.Open(dir + "/configuration.json")
@@ -110,22 +131,21 @@ func LoadConfiguration() (*Configuration, error) {
 		jsonConfig, err = os.Open(dir + "/configuration.json")
 		if err != nil {
 			fmt.Println("Error reading configuration file " + err.Error())
-			return AppConfiguration, err
+			return configuration, err
 		}
 	}
 	defer jsonConfig.Close()
 	byteValue, err := ioutil.ReadAll(jsonConfig)
 	if err != nil {
 		fmt.Println("Error reading configuration file " + err.Error())
-		return AppConfiguration, err
+		return configuration, err
 	}
-	er := json.Unmarshal(byteValue, &AppConfiguration)
+	er := json.Unmarshal(byteValue, &configuration)
 	if er != nil {
 		fmt.Println("Error parsing json configuration file ")
-		return AppConfiguration, err
+		return configuration, err
 	}
-	setLogLevel(LogLevel, AppConfiguration)
-	return AppConfiguration, nil
+	return configuration, nil
 }
 
 func setLogLevel(logLevel string, Config *Configuration) {
