@@ -2,10 +2,12 @@ package service
 
 import (
 	"fmt"
-	"go-kafka-alert/config"
-	"go-kafka-alert/db"
 	"testing"
 	"time"
+
+	"github.com/malike/go-kafka-alert/db"
+
+	"github.com/malike/go-kafka-alert/config"
 )
 
 var fakeRecipient = "233201234567"

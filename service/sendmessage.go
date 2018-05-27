@@ -1,8 +1,9 @@
 package service
 
 import (
-	"go-kafka-alert/db"
 	"strings"
+
+	"github.com/malike/go-kafka-alert/db"
 )
 
 //EventForMessage : Interface to be Implemented For Delivery Channels

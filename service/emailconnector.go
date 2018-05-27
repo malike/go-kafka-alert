@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"time"
 
-	"go-kafka-alert/config"
-	"go-kafka-alert/db"
+	"github.com/malike/go-kafka-alert/config"
+	"github.com/malike/go-kafka-alert/db"
 
 	"github.com/smancke/mailck"
 	"gopkg.in/gomail.v2"

@@ -2,11 +2,14 @@ package main
 
 import (
 	"flag"
-	"go-kafka-alert/config"
-	"go-kafka-alert/db"
-	"go-kafka-alert/service"
 	"os"
 	"strconv"
+
+	"github.com/malike/go-kafka-alert/service"
+
+	"github.com/malike/go-kafka-alert/db"
+
+	"github.com/malike/go-kafka-alert/config"
 )
 
 func main() {

@@ -1,9 +1,9 @@
 package db
 
 import (
-	"go-kafka-alert/config"
 	"time"
 
+	"github.com/malike/go-kafka-alert/config"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )

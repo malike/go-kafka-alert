@@ -2,9 +2,10 @@ package service
 
 import (
 	"bytes"
-	"go-kafka-alert/config"
-	"go-kafka-alert/db"
 	"text/template"
+
+	"github.com/malike/go-kafka-alert/config"
+	"github.com/malike/go-kafka-alert/db"
 )
 
 //ParseTemplateForMessage : Parses Template

@@ -2,10 +2,11 @@ package db
 
 import (
 	"fmt"
-	"go-kafka-alert/config"
 	"strconv"
 	"testing"
 	"time"
+
+	"github.com/malike/go-kafka-alert/config"
 )
 
 var msg = Message{

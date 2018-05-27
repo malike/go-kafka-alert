@@ -1,8 +1,9 @@
 package service
 
 import (
-	"go-kafka-alert/db"
 	"testing"
+
+	"github.com/malike/go-kafka-alert/db"
 )
 
 var fakeTempEvent = db.Event{

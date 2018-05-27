@@ -3,9 +3,11 @@ package service
 import (
 	"encoding/json"
 	"errors"
-	"go-kafka-alert/config"
-	"go-kafka-alert/db"
 	"strconv"
+
+	"github.com/malike/go-kafka-alert/config"
+
+	"github.com/malike/go-kafka-alert/db"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 )
