@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
@@ -111,7 +112,7 @@ func LoadConfiguration() (Configuration, error) {
 		AppConfiguration, err = loadConfigFromFile(AppConfiguration)
 	}
 	if err != nil {
-		fmt.Println("Error loading configuration. ")
+		fmt.Println("Error loading configuration. " + err.Error())
 		os.Exit(1)
 	}
 	setLogLevel(LogLevel, &AppConfiguration)
@@ -119,6 +120,22 @@ func LoadConfiguration() (Configuration, error) {
 }
 
 func loadConfigFromServer(configuration Configuration) (Configuration, error) {
+	configFileResponse, err := http.Get(ConfigProfile)
+	if err != nil {
+		fmt.Println("Error download file [\"" + ConfigProfile + "\"] " + err.Error())
+		return configuration, err
+	}
+	defer configFileResponse.Body.Close()
+	byteValue, err := ioutil.ReadAll(configFileResponse.Body)
+	if err != nil {
+		fmt.Println("Error reading configuration from Config Server " + err.Error())
+		return configuration, err
+	}
+	er := json.Unmarshal(byteValue, &configuration)
+	if er != nil {
+		fmt.Println("Error parsing json configuration file ")
+		return configuration, err
+	}
 	return configuration, nil
 }
 

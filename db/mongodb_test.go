@@ -28,7 +28,6 @@ var fakeMessageResponse = MessageResponse{
 }
 
 func TestIndexFindAndRemoveMessage(t *testing.T) {
-	config.ConfigProfile = "test"
 	config.LoadConfiguration()
 	DialDB()
 	err := msg.IndexMessage()
@@ -48,7 +47,6 @@ func TestIndexFindAndRemoveMessage(t *testing.T) {
 }
 
 func TestUpdateResponseAndRemove(t *testing.T) {
-	config.ConfigProfile = "test"
 	config.LoadConfiguration()
 	DialDB()
 	err := msg.IndexMessage()
@@ -70,7 +68,6 @@ func TestUpdateResponseAndRemove(t *testing.T) {
 }
 
 func TestFindAllMessagesByReferenceAndRemoveAll(t *testing.T) {
-	config.ConfigProfile = "test"
 	config.LoadConfiguration()
 	DialDB()
 	RemoveAllMessagesByReference("SaveMultipleTest")
@@ -88,7 +85,6 @@ func TestFindAllMessagesByReferenceAndRemoveAll(t *testing.T) {
 }
 
 func TestCountAllMessagesByReference(t *testing.T) {
-	config.ConfigProfile = "test"
 	config.LoadConfiguration()
 	DialDB()
 	RemoveAllMessagesByReference("CountByReferenceTest")
@@ -106,7 +102,6 @@ func TestCountAllMessagesByReference(t *testing.T) {
 }
 
 func BenchmarkMessage_IndexMessage(b *testing.B) {
-	config.ConfigProfile = "test"
 	config.LoadConfiguration()
 	DialDB()
 	RemoveAllMessagesByReference("BenchMarkTest")
@@ -120,7 +115,6 @@ func BenchmarkMessage_IndexMessage(b *testing.B) {
 }
 
 func BenchmarkMessage_IndexAndUpdateMessage(b *testing.B) {
-	config.ConfigProfile = "test"
 	config.LoadConfiguration()
 	DialDB()
 	RemoveAllMessagesByReference("BenchMarkTestIndexUpdate")

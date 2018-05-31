@@ -15,7 +15,7 @@ import (
 func main() {
 
 	logLevel := flag.String("loglevel", "error", "Possible options warn,trace,error,info")
-	profile := flag.String("profile", "", "Configuration profile")
+	profile := flag.String("profile", "", "Configuration profile URL")
 	flag.Parse()
 	config.LogLevel = *logLevel
 	config.ConfigProfile = *profile

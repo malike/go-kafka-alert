@@ -5,8 +5,6 @@ import (
 	"testing"
 )
 
-var profile = "default"
-
 func TestLoadConfiguration(t *testing.T) {
 	LogLevel = "INFO"
 	if AppConfiguration.SMTPConfig.EmailSender == "" {

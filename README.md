@@ -147,6 +147,14 @@ report.
 
 #### Configuration 
 
+There are two ways to load the configuration file :
+
+**1. Spring Cloud Config**
+
+[Spring Cloud Config]()
+
+**2. File System**
+
 The app is meant to be a light-weight application.  Find a [sample configuration](https://github.com/malike/go-kafka-alert/blob/master/configuration.json) file,which is kept in memory, to get app running:
 
 ```json
