@@ -122,7 +122,7 @@ func LoadConfiguration() (Configuration, error) {
 func loadConfigFromServer(configuration Configuration) (Configuration, error) {
 	configFileResponse, err := http.Get(ConfigProfile)
 	if err != nil {
-		fmt.Println("Error download file [\"" + ConfigProfile + "\"] " + err.Error())
+		fmt.Println("Error downloading file [\"" + ConfigProfile + "\"] " + err.Error())
 		return configuration, err
 	}
 	defer configFileResponse.Body.Close()
