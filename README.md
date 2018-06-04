@@ -153,7 +153,7 @@ There are two ways to load the configuration file :
 
 This is a sample [Spring Cloud Config Server](https://github.com/malike/centralized-configuration-mangement/tree/master/config-server) with configruations loaded from [here](https://github.com/malike/centralized-configuration). If you want to read more on the _`whys`_ and the _`hows`_ of loading configuration files from Config Servers
 
-[Read more](https://malike.github.io/Configuration-Managment-For-Microservices)
+[Read more](https://malike.github.io/Configuration-Management-For-Microservices-And-Distributed-Systems)
 
 Sample configuration to start app with UAT configuration
 
