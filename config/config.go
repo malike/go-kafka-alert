@@ -40,6 +40,10 @@ var (
 	LogLevel = "ERROR"
 	// ConfigProfile config profile
 	ConfigProfile string
+	//ApplicationName application name
+	ApplicationName string
+	//ConfigServer base url
+	ConfigServer string
 	// AppConfiguration configuration
 	AppConfiguration, _ = LoadConfiguration()
 )
@@ -120,9 +124,10 @@ func LoadConfiguration() (Configuration, error) {
 }
 
 func loadConfigFromServer(configuration Configuration) (Configuration, error) {
-	configFileResponse, err := http.Get(ConfigProfile)
+	configFile := ConfigServer + ApplicationName + "-" + ConfigProfile + ".json"
+	configFileResponse, err := http.Get(configFile)
 	if err != nil {
-		fmt.Println("Error downloading file [\"" + ConfigProfile + "\"] " + err.Error())
+		fmt.Println("Error downloading file [\"" + ConfigProfile + "\" for \"" + ApplicationName + "\"] " + err.Error())
 		return configuration, err
 	}
 	defer configFileResponse.Body.Close()

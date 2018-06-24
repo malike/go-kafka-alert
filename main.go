@@ -15,10 +15,14 @@ import (
 func main() {
 
 	logLevel := flag.String("loglevel", "error", "Possible options warn,trace,error,info")
+	name := flag.String("name", "go-kafka-alert", "Application name")
+	configServer := flag.String("config", "http://localhost:8888", "Config server base url")
 	profile := flag.String("profile", "", "Configuration profile URL")
 	flag.Parse()
 	config.LogLevel = *logLevel
 	config.ConfigProfile = *profile
+	config.ApplicationName = *name
+	config.ConfigServer = *configServer
 	_, configErr := config.LoadConfiguration()
 	if configErr != nil {
 		config.Error.Println("Error loading config. Shutting down ")
