@@ -16,10 +16,10 @@ var profile = "uat"
 
 func main() {
 
+	profile = flag.String("profile", "uat", "Configuration profile URL")
 	logLevel := flag.String("loglevel", "error", "Possible options warn,trace,error,info")
 	name := flag.String("name", "go-kafka-alert", "Application name")
 	configServer := flag.String("config", "http://localhost:8888", "Config server base url")
-	profile = flag.String("profile", "uat", "Configuration profile URL")
 	flag.Parse()
 	config.LogLevel = *logLevel
 	config.ConfigProfile = *profile
