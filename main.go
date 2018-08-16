@@ -12,14 +12,15 @@ import (
 	"github.com/malike/go-kafka-alert/config"
 )
 
-var profile = "uat"
+var profile = ""
+var configServer = "http://localhost:8888"
 
 func main() {
 
-	profile = flag.String("profile", "uat", "Configuration profile URL")
 	logLevel := flag.String("loglevel", "error", "Possible options warn,trace,error,info")
 	name := flag.String("name", "go-kafka-alert", "Application name")
-	configServer := flag.String("config", "http://localhost:8888", "Config server base url")
+	profile = flag.String("profile", "", "Configuration profile URL")
+	configServer = flag.String("config", "http://localhost:8888", "Config server base url")
 	flag.Parse()
 	config.LogLevel = *logLevel
 	config.ConfigProfile = *profile

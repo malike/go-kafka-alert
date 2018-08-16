@@ -158,8 +158,9 @@ This is a sample [Spring Cloud Config Server](https://github.com/malike/centrali
 Sample configuration to start app with UAT configuration
 
   ```shell
-      go-kafka-alert -loglevel=trace -profile=http://localhost:8888/go-kafka-alert-uat.json
+      go-kafka-alert -loglevel=trace -profile=uat
   ```
+  This would load the uat configuration profile `http://localhost:8888/go-kafka-alert-uat.json` from the config server.
 
 **2. File System**
 
@@ -260,7 +261,15 @@ Because of [go kafka library](https://github.com/confluentinc/confluent-kafka-go
 
 For Debian systems follow this [link](https://github.com/confluentinc/confluent-kafka-go/#installing-librdkafka).
 
-For OSx use `brew install librdkafka` .  
+For OSx use `brew install librdkafka` . 
+
+You can use `[ldflags](https://blog.cloudflare.com/setting-go-variables-at-compile-time/)` to package the go build with the default parameters.
+Required parameters are :
+
+`profile` : Configuration profile if configuration would be loaded from  [Spring Cloud Config Server](https://github.com/malike/centralized-configuration-mangement/tree/master/config-server)
+
+`configServer` : Base url of config server. Eg `http://localhost:8888`.
+
 <br/>
 
 ## Download
