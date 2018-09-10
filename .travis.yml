@@ -1,3 +1,5 @@
+sudo: required
+
 language: go
 
 go:
@@ -5,3 +7,22 @@ go:
 
 services:
   - mongodb
+  - docker
+
+branches:
+  only:
+    - master  
+
+
+env:
+  global:
+  - secure: "G+OPOJitJXaU9PdgV9kWbtgapH3MSfNRnOwcKn3ePnaNYLq22qYDhlwXETTxeMibvw1HfISbgiC9s3nPzWxEbpJHKtJTbTQyC460NhvK/XOoAwogQnFuVd39X0nDL2EDD6NNL87eo76dZ9CXcCthin9CD4x3IEgbq4EDFkOhq6TA//er2L9CHq4cqNvyfu6TO0iZ755pkT8UaaKZi7DSSdwlDvti4Kf0+yHjsEhzI64hzZOF7VmeISWLClRFpphssFIRtt1CUVJXXronjPEQst/On7z3CHj6rH8LXLJ5cv3Qj5PlneMfFUuI/xYlSTO+w7FHkvU25B4bjPIWa/ierzA9KIQ8prfRqeHmhmR+n0kldoo/21YSyUGBf3DRSbJ0+CylyEe3At4k3xcd0r41YSR7LWnCxXwCpKrG/9sYFEQnpXpBQtsR7Ytl4Q3vYwBkfVug64xGLjCNAnB8lejaW/EDBqKknjfEKhQcUOnhV5OAdzw1Rx2tqSSb6e1e4rjtinsk5gEJNqahp4EnpYMh5Bvr7+i4PdXJY1F5Ev8bX6edqVXhhoL+ez+m49mXuf8uXvf3jtOmRAMa/I8sxxUoTjU8BY/BRzMLbg3i/YOM7TVpRFIw+nSWl+RcGNCwr5jScS2v8HtmqHkUFZbYJcsJnMbSdqGX8TtlMSTdeWgL/Ws="
+  - secure: "SFpW2iJ3Rm9UbMOzkRNpivmtpWRcEB8jW8RkNlshv9BlElM585OQEXS78aQxm0HiYkDT1RauA/EAxx00kzSK2MCAtKD3/gN4xAl03DshNf0LpAqxQ1NLBUBTVd99VQMcW63bp+eopIgpEKOfNS2DyN3K6A+nEh4wMCGuhCwe5CINsVaGfTAvp4/UiG9F10DbjsIAsJRULdBYLaRUt9C20d5od7tbZ4U7f2I23OgoUSE6h96l5882za6iBPoKZw54YYg7LpebruaVxo75YH9mobdl71ES1hbJv9k3fvyuggHXj6Eff3MNRXL07LuCNhJCKaBEUV1Uc8k0+lp9Fe/uoHbeFkABtUW8ZyBKFUrXsR1Qgt9RoE1NPgBYy5JqIIAFqRuatLTeSaJDOy9D7R0NohsjkPVXw+s1c9/iIDccOZcBsyMZ/5pzn52KQ3YE4Foh/kYlB5yFNEUsfBgPWd4sPNztTs/0fG6DhuMCx+1Jp+Ybu3KkEidEHAjLnthV6Iol4qIjf0+xH/EZ0+DBWrNsnNrb/d25X7C9FDgOu4Qkip7a/PYUBa7qfbsH3aJZBSpSJ61VQWADOtO3IKGMFnUDUQuS43SgjTGiSK8aFPS97X+gsOSuqcot7zaaMzSvM4eqzISqUOah/d4Ilbh4SenaiAZ1SxZOOlXlDYkRzFgmBTI="
+  
+
+before_install:
+  - chmod +x ./.travis/pushimage.sh
+
+
+after_success: 
+  - bash ./.travis/pushimage.sh go-kafka-alert  
