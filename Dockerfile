@@ -1,4 +1,4 @@
-FROM golang:1.9-alpine
+FROM golang:1.9-alpine as builder
 
 ADD https://github.com/golang/dep/releases/download/v0.4.1/dep-linux-amd64 /usr/bin/dep
 RUN apk update && apk upgrade && \
