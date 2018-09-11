@@ -8,9 +8,9 @@ RUN chmod +x /usr/bin/dep
 
 WORKDIR $GOPATH/src/github.com/malike/go-kafka-alert
 COPY Gopkg.toml Gopkg.lock ./
+COPY configuration.json ./
 RUN dep ensure --vendor-only
 COPY . ./
-COPY $GOPATH/src/github.com/malike/go-kafka-alert/configuration.json ./
 RUN GOOS=linux go build -a -o /go-kafka-alert .
 
 FROM scratch
