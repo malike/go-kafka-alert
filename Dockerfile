@@ -16,7 +16,7 @@ WORKDIR $GOPATH/src/github.com/malike/go-kafka-alert
 COPY Gopkg.toml Gopkg.lock ./
 RUN dep ensure --vendor-only
 COPY . ./
-RUN go build -o ./go-kafka-alert .
+RUN go build -o /go-kafka-alert .
 
 FROM scratch
 COPY --from=builder /go-kafka-alert ./
