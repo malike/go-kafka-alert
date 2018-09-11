@@ -1,4 +1,4 @@
-FROM golang:1.10.1-alpine3.7
+FROM golang:1.10.1-alpine3.8
 RUN apk add --no-cache  --repository http://dl-3.alpinelinux.org/alpine/edge/community/ \
       bash              \
       gcc				\
@@ -16,7 +16,7 @@ WORKDIR $GOPATH/src/github.com/malike/go-kafka-alert
 COPY Gopkg.toml Gopkg.lock ./
 RUN dep ensure --vendor-only
 COPY . ./
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix nocgo -o /go-kafka-alert .
+RUN go build -o ./go-kafka-alert .
 
 FROM scratch
 COPY --from=builder /go-kafka-alert ./
