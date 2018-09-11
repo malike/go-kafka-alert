@@ -14,6 +14,6 @@ RUN GOOS=linux go build -a -o /go-kafka-alert .
 
 FROM scratch
 COPY --from=builder /go-kafka-alert ./
-COPY --from=builder /configuration.json ./
+COPY $GOPATH/src/github.com/malike/go-kafka-alert/configuration.json ./
 ENTRYPOINT ["./go-kafka-alert"]
 # CMD [ "profile", "config" ]

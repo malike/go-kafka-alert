@@ -9,9 +9,9 @@ services:
   - mongodb
   - docker
   
-branches:
-  only:
-    - master  
+# branches:
+#   only:
+#     - master  
 
 
 env:
