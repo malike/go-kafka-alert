@@ -1,4 +1,4 @@
-FROM golang:1.10.1-alpine3.8
+FROM golang:1.11-alpine3.7
 RUN apk add --no-cache  --repository http://dl-3.alpinelinux.org/alpine/edge/community/ \
       bash              \
       gcc				\
