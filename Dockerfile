@@ -10,10 +10,11 @@ WORKDIR $GOPATH/src/github.com/malike/go-kafka-alert
 COPY Gopkg.toml Gopkg.lock ./
 RUN dep ensure --vendor-only
 COPY . ./
+COPY $GOPATH/src/github.com/malike/go-kafka-alert/configuration.json ./
 RUN GOOS=linux go build -a -o /go-kafka-alert .
 
 FROM scratch
 COPY --from=builder /go-kafka-alert ./
-COPY $GOPATH/src/github.com/malike/go-kafka-alert/configuration.json ./
+COPY --from=builder /configuration.json ./
 ENTRYPOINT ["./go-kafka-alert"]
 # CMD [ "profile", "config" ]
